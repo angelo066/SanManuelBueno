@@ -1,0 +1,23 @@
+{
+  "name": "SanManuelBueno",
+  "version": "1.0.0",
+  "description": "Plantilla básica para juegos en Phaser. Hace falta un servidor web para que se ejecute. Por ejemplo:",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angelo066/SanManuelBueno.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angelo066/SanManuelBueno/issues"
+  },
+  "homepage": "https://github.com/angelo066/SanManuelBueno#readme",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}
