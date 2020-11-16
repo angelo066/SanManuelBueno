@@ -2,15 +2,12 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: "main" });
   }
-
-
-
   //para cargar los recursos
   preload() {
-    this.load.image ('player', 'ruta');
+    //this.load.image ('player', 'ruta');
 
     //si tenemos un spriteSheet
-    this.load.image('spriteSheet', 'spriteSheeeet.png', {fW: 64, fH: 64});
+    //this.load.image('spriteSheet', 'spriteSheeeet.png', {fW: 64, fH: 64});
 
     //para deshacerme de ella image.destroy();
   }
@@ -19,11 +16,11 @@ export default class Game extends Phaser.Scene {
     //creacion de objeto      //pos x //pos Y creo, o el tamaño..
 
     // add es una factoria, un objeto que crea objetos
-    player  = scene.add.sprite(100, 200, 'player'); // si esto se hace en el preload igual hace KaBoom
+    //player  = scene.add.sprite(100, 200, 'player'); // si esto se hace en el preload igual hace KaBoom
 
-    this.scene.anims.create... //no alcance a copiar srroy esta al final de la clase de Entidades de Phaser
+    //this.scene.anims.create//no alcance a copiar srroy esta al final de la clase de Entidades de Phaser
 
-    this.add.text(10, 10, "Unamuno viene a por ti, a consolarte.", { fontColor: 0xffff00 });
+    this.add.text(10, 10, "Unamuno viene a por ti, no te olvides.", { fontColor: 0xffffff });
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta) {}

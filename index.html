@@ -2,38 +2,71 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="./WebMedia/brands/icon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0" />
-    <link rel="stylesheet" href="game.css" />
+    <link rel="stylesheet" href="./css/game.css" />
     <script src="phaser.js"></script>
-
-    <title>¡Juego con Phaser!</title>
+    <style>
+      body{
+        background-image: url('./WebMedia/brands/bgindex.png');
+       background-repeat: no-repeat;
+       background-attachment: fixed;
+       background-size: cover;
+      }
+    </style>
+    <title>El Buen Mártir</title>
   </head>
 
   <body>
-    <h1>Juego con Phaser</h1>
-    <script type="module">
-      import Game from "./game.js";
+      <div class = "header">
+        <img src = "./WebMedia/brands/logo.png" alt = "logo">
+      </div>
+    <main>
+      <div id="phaser-game">
+        <script type="module">
+          import Game from "./js/game.js";
 
-      var config = {
-        type: Phaser.AUTO,
-        width: 1400,
-        height: 800,
-        pixelArt: true,
-        input: {
-          gamepad: true,
-        },
-        scale: {
-          mode: Phaser.Scale.FIT,
-          autoCenter: Phaser.Scale.CENTER_BOTH,
-        },
-        scene: [Game],
-        physics: {
-          default: "arcade",
-          arcade: { gravity: { y: 400 }, debug: false },
-        },
-      };
-      new Phaser.Game(config);
-    </script>
+          const config = {
+            type: Phaser.AUTO,
+            width: 1400,
+            height: 800,
+            pixelArt: true,
+            input: {
+              gamepad: true,
+            },
+            scale: {
+              mode: Phaser.Scale.FIT,
+              autoCenter: Phaser.Scale.CENTER_BOTH,
+            },
+            scene: [Game],
+            physics: {
+              default: "arcade",
+              arcade: { gravity: { y: 400 }, debug: false },
+            },
+            parent: 'phaser-game'
+          };
+          new Phaser.Game(config);
+        </script>
+      </div>
+    </main>
+    <footer id ="footer" class = "footer">
+      <div class="footer-container">
+        <div class = "footer-studio-logo">
+          <img src = "./WebMedia/brands/studio.png" alt = "studio">
+        </div>
+        <div class ="footer-github-logo">
+          <a href = "https://github.com/angelo066/SanManuelBueno">
+            <img src = "https://www.flaticon.es/svg/static/icons/svg/25/25231.svg" alt= "github"
+              width="60" height="60">
+          </a>
+        </div>
+        <div class ="footer-twitter-logo">
+          <a href = "https://twitter.com/Unamuno18375287">
+            <img src = "https://i.pinimg.com/originals/af/39/ef/af39ef6aaf3d71f34bb6984446f32636.png" alt= "github"
+              width="60" height="60">
+          </a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
