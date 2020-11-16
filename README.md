@@ -1,4 +1,4 @@
-<img src="./WebMedia/labels/mini_studio.png" align="right"/>
+<img align="right" src="./WebMedia/labels/mini_studio.png"/>
 
 ![GameIcon](./WebMedia/labels/title.png)
 > Basado en la obra de Unamuno, San Manuel Bueno Mártir
@@ -15,7 +15,11 @@ unas mecánicas propias introducidas de forma progresiva y sutil, además de las
 
 >Teaser Trailer
 [![Teaser](./WebMedia/trailers/teaser.png)](https://drive.google.com/file/d/1JmyDCmapWm0sfnqwGIjEvYbEb4sLw6AI/view?usp=sharing)
-
+<div>
+	<a href = "https://angelo066.github.io/SanManuelBueno/">
+		<img align="center" src="./WebMedia/labels/play.png">
+	</a>
+</div>
 
 ![Desarroladores](./WebMedia/labels/developers.png)
 
