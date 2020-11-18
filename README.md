@@ -1,37 +1,34 @@
-<img align="right" src="./WebMedia/labels/mini_studio.png"/>
+<img align="right" src="./src/WebMedia/labels/mini_studio.png"/>
 
-![GameIcon](./WebMedia/labels/title.png)
-> Basado en la obra de Unamuno, San Manuel Bueno Mártir
+![GameIcon](./src/WebMedia/labels/title.png)
+> Based on Unamuno's work, San Manuel Bueno Mártir
 
+![Sinopsis](./src/WebMedia/labels/en/sinopsis.png)
+El Buen Mártir is a browser game strongly inspired by the work of Miguel de Unamuno, a story of melancholy seen from the point of view of its creator
+and an original 2D design focused on puzzles. Each level is a unique, hand-crafted blend of puzzles, design, art, and architecture, all driven by its 
+mechanics introduced progressively and subtly, as well as the peculiar rules of the world through its parts.
 
-![Sinopsis](./WebMedia/labels/sinopsis.png)
-
-El Buen Mártir es un juego para navegador inspirado en la obra de Miguel de Unamuno, una historia de melancolia vista desde el punto de vista de su creador
-y un original diseño 2D centrado en puzzles. Cada nivel es una mezcla única y artesanal de puzzles, diseño, arte y arquitectura, todo ello impulsado por 
-unas mecánicas propias introducidas de forma progresiva y sutil, además de las peculiares reglas del mundo a través de sus partes.
-
-
-![Trailer](./WebMedia/labels/trailer.png)
+![Trailer](./src/WebMedia/labels/es/trailer.png)
 
 >Teaser Trailer
-[![Teaser](./WebMedia/trailers/teaser.png)](https://drive.google.com/file/d/1JmyDCmapWm0sfnqwGIjEvYbEb4sLw6AI/view?usp=sharing)
+[![Teaser](./src/WebMedia/trailers/teaser.png)](https://drive.google.com/file/d/1JmyDCmapWm0sfnqwGIjEvYbEb4sLw6AI/view?usp=sharing)
 <div>
 	<a href = "https://angelo066.github.io/SanManuelBueno/">
-		<img align="center" src="./WebMedia/labels/play.png">
+		<p align = "center">
+			<img src="./src/WebMedia/labels/en/play.png">
+		</p>
 	</a>
 </div>
 
-![Desarroladores](./WebMedia/labels/developers.png)
-
-
-![logoStudio](./WebMedia/labels/studio.png)
-> Miembros
+![Desarroladores](./src/WebMedia/labels/en/developer.png)
+![logoStudio](./src/WebMedia/labels/studio.png)
+> Members
 - Ángel López Benítez([angelo066](https://github.com/angelo066))
 - Juan Diego Mendoza Reyes ([Juandiem](https://github.com/Juandiem))
 - Iván Prado Echegaray ([IvanPradoEchegaray](https://github.com/IvanPradoEchegaray))
 - José Daniel Rave Robayo ([JosedaMachine](https://github.com/JosedaMachine))
 
-![Licencia](./WebMedia/labels/license.png)
+![Licencia](./src/WebMedia/labels/en/license.png)
 
-![Mit](./WebMedia/brands/license.png), Copyrigth(c) 2019 Carlos León
+![Mit](./src/WebMedia/brands/license.png), Copyrigth(c) 2019 Carlos León
 

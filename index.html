@@ -2,13 +2,13 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="./WebMedia/brands/icon.png" type="image/png" />
+    <link rel="shortcut icon" href="./src/WebMedia/brands/icon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0" />
-    <link rel="stylesheet" href="./css/game.css" />
-    <script src="./game/js/phaser.js"></script>
+    <link rel="stylesheet" href="./src/css/game.css" />
+    <script src="./src/js/phaser.js"></script>
     <style>
       body{
-        background-image: url('./WebMedia/brands/bgindex.png');
+        background-image: url('./src/WebMedia/brands/bgindex.png');
        background-repeat: no-repeat;
        background-attachment: fixed;
        background-size: cover;
@@ -19,17 +19,18 @@
 
   <body>
       <div class = "header">
-        <img src = "./WebMedia/brands/logo.png" alt = "logo">
+        <img src = "./src/WebMedia/brands/logo.png" alt = "logo">
       </div>
     <main>
-      <div id="phaser-game">
+      <canvas id="phaser-game" style="border: 2px solid rgb(0,0,0)" ></canvas>
         <script type="module">
-          import Game from "./game/js/game.js";
+          import Game from "./src/js/game.js";
 
-          const config = {
-            type: Phaser.AUTO,
-            width: 1400,
-            height: 800,
+          let config = {
+            type: Phaser.CANVAS,
+            canvas: document.getElementById("phaser-game"),
+            width: 1920,
+            height: 1080,
             pixelArt: true,
             input: {
               gamepad: true,
@@ -43,16 +44,14 @@
               default: "arcade",
               arcade: { gravity: { y: 400 }, debug: false },
             },
-            parent: 'phaser-game'
           };
           new Phaser.Game(config);
         </script>
-      </div>
     </main>
     <footer id ="footer" class = "footer">
       <div class="footer-container">
         <div class = "footer-studio-logo">
-          <img src = "./WebMedia/brands/studio.png" alt = "studio">
+          <img src = "./src/WebMedia/brands/studio.png" alt = "studio">
         </div>
         <div class ="footer-github-logo">
           <a href = "https://github.com/angelo066/SanManuelBueno">
