@@ -22,7 +22,7 @@
         <img src = "./src/WebMedia/brands/logo.png" alt = "logo">
       </div>
     <main>
-      <canvas id="phaser-game" style="border: 2px solid rgb(0,0,0)" ></canvas>
+      <canvas id="phaser-game" style="border: 2px solid rgb(0, 0, 0)" ></canvas>
         <script type="module">
           import Game from "./src/js/game.js";
 
@@ -42,7 +42,7 @@
             scene: [Game],
             physics: {
               default: "arcade",
-              arcade: { gravity: { y: 400 }, debug: false },
+              arcade: { gravity: { y: 0 }, debug: false },
             },
           };
           new Phaser.Game(config);
