@@ -9,9 +9,9 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.scene.physics.add.existing(this);
         this.speed = 300;
         this.jumpSpeed = 400;
+        //para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
         this.cursors = this.scene.input.keyboard.createCursorKeys();
-        //para que no se salga de los bordes las pantalla
         
     }
     preUpdate()
@@ -30,9 +30,13 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setVelocityX(0);
       }
 
-      if(this.cursors.up.isDown /*&& this.body.touching.down*/)
+      if(this.cursors.up.isDown && this.body.touching.down)
       {
-        this.body.setVelocityY(-jumpSpeed);
+        this.body.setVelocityY(-this.jumpSpeed);
+      }
+      else if(this.cursors.down.isDown )
+      {
+        this.body.setVelocityY(this.jumpSpeed*2);
       }
     }
 }

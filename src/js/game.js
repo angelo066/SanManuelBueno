@@ -21,28 +21,30 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    this.load.image('platform', 'src/assets/Plataformas/plataforma.png');
+    this.load.image('platform', 'src/assets/Plataformas/platform.png');
+    this.load.image('background', 'src/assets/BG/bg.png');
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
     player = new Player(this, 30, 40);
+    platforms = this.physics.add.staticGroup();
 
     //#region VIDEO
     let video = this.add.video(this.canvas.width/2,this.canvas.height/2,'logo_anim');
     video.play(false);  //No loop
     video.on('complete', function(video){     
       console.log("The audio has ended");
-      this.add.text(this.canvas.width/2 -200 , this.canvas.height/2,"Unamuno is coming for u",{fontSize:32});
+      
+      this.add.image(this.canvas.width/2,this.canvas.height/2, 'background');
+      this.add.text(this.canvas.width/2 -200 , 0,"Unamuno is coming for u",{fontSize:32});
       player = new Player(this, this.canvas.width/2, this.canvas.height/2);
+      platforms.create(this.canvas.width/2, this.canvas.height-99, 'platform').refreshBody();
+
+      this.physics.add.collider(player, platforms);
+
     },this);
     //#endregion 
-    
-    //Esto son las plataformas
-    platforms = this.physics.add.staticGroup();
-    platforms.create(900, 968, 'platform').setScale(4).refreshBody();
-
-    this.physics.add.collider(player, platforms);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta) 
