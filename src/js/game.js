@@ -1,57 +1,54 @@
+import Player from './player.js'
+
+let player;
+let platforms;
 export default class Game extends Phaser.Scene {
-  constructor() {
+  constructor() 
+  {
     super({ key: "main" });
   }
   //para cargar los recursos
-  preload() {
+  preload() 
+  {
     this.canvas = this.sys.game.canvas; //Canvas de la escena
     this.load.video('logo_anim','./src/assets/video/logo_anim.mp4','canplay',false,true);
+    this.load.spritesheet({
+      key:'player', 
+      url:'src/assets/sprites/unamuno/Run.png',
+      frameConfig:{
+        frameWidth:127, 
+        frameHeight:208
+      }
+    });
+
+    this.load.image('platform', 'src/assets/Plataformas/platform.png');
+    this.load.image('background', 'src/assets/BG/bg.png');
   }
 //coloca objetos apartir de los assets dentro de la escena
-  create() {
-      let video = this.add.video(this.canvas.width/2,this.canvas.height/2,'logo_anim');
-      video.play(false);
-      video.on('complete',function(video){  //Cuando termina el video
-        this.add.text(this.canvas.width/2 -200 , this.canvas.height/2,"Unamuno is coming for u",{fontSize:32});
-      },this);
-    }
+  create() 
+  {
+    player = new Player(this, 30, 40);
+    platforms = this.physics.add.staticGroup();
+
+    //#region VIDEO
+    let video = this.add.video(this.canvas.width/2,this.canvas.height/2,'logo_anim');
+    video.play(false);  //No loop
+    video.on('complete', function(video){     
+      console.log("The audio has ended");
+      
+      this.add.image(this.canvas.width/2,this.canvas.height/2, 'background');
+      this.add.text(this.canvas.width/2 -200 , 0,"Unamuno is coming for u",{fontSize:32});
+      player = new Player(this, this.canvas.width/2, this.canvas.height/2);
+      platforms.create(this.canvas.width/2, this.canvas.height-99, 'platform').refreshBody();
+
+      this.physics.add.collider(player, platforms);
+
+    },this);
+    //#endregion 
+  }
 //actualiza los eventos. El delta es para calcular las fisicas
-  update(time, delta) {}
+  update(time, delta) 
+  {
+    
+  }
 }
-
-//this.load.image ('player', 'ruta');
-
-//si tenemos un spriteSheet
-//this.load.image('spriteSheet', 'spriteSheeeet.png', {fW: 64, fH: 64});
-
-//para deshacerme de ella image.destroy();
-//creacion de objeto      //pos x //pos Y creo, o el tamaño..
-
-    // add es una factoria, un objeto que crea objetos
-    //player  = scene.add.sprite(100, 200, 'player'); // si esto se hace en el preload igual hace KaBoom
-
-    //this.scene.anims.create//no alcance a copiar srroy esta al final de la clase de Entidades de Phaser
-
-    //this.add.text(15, 15, "Unamuno viene a por ti, no lo olvides.", { fontColor: 0xffffff });
-  
-  //usando this. accedemos a todos los metodos que nos permite "jugar" con las escenas
-
-  //Para crear jueguitos: (pasar muchos parametros hetereogeneos mediante un objeto)
-  // new Phaser.Game({
-  //   type: Phaser.AUTO, //asumiendo que AUTO es algo...un objeto
-  //   //Phaser crea un canvas pero nosotros podemos crear un mas personalizado
-  //   canvas: document.getElementById('juego'),
-  //   width: 800,
-  //   height: 400,
-  //   scene : [ClaseEscenaInicial, ClaseEscenaInicial] 
-  // })
-
-  //<script>canvas: document.getElementById('juego').focus()</script>
-  // El foco es la zona de la pagina en la que recibe los eventos. Si selecciono la barra de busqueda, escribo un espacio
-  //Si estoy en YT y presiono space, se detiene el video. You got it?
-
-  //nunca poner URLS absolutas(con el https y mas mierdas), solo la parte relativa(despues del dominio)
-
-  //Nunca \ <- esa barra al principio
-
-  // ./carpetaLegal = carpetaLegal 
