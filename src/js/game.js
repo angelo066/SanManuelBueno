@@ -34,7 +34,7 @@ export default class Game extends Phaser.Scene {
     let video = this.add.video(this.canvas.width/2,this.canvas.height/2,'logo_anim');
     video.play(false);  //No loop
     video.on('complete', function(video){     
-      console.log("The audio has ended");
+      console.log("The video has ended");
       
       this.add.image(this.canvas.width/2,this.canvas.height/2, 'background');
       this.add.text(this.canvas.width/2 -200 , 0,"Unamuno is coming for u",{fontSize:32});
@@ -42,7 +42,6 @@ export default class Game extends Phaser.Scene {
       platforms.create(this.canvas.width/2, this.canvas.height-99, 'platform').refreshBody();
 
       this.physics.add.collider(player, platforms);
-
     },this);
     //#endregion 
   }

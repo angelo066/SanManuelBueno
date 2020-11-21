@@ -12,7 +12,14 @@ export default class Player extends Phaser.GameObjects.Sprite{
         //para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
         this.cursors = this.scene.input.keyboard.createCursorKeys();
-        
+
+       
+        // this.anims.create({
+        //   key: 'left',
+        //   frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+        //   frameRate: 10,
+        //   repeat: -1 //esto indica que se vuelva a repetir la animacion al finalizar
+        //   });
     }
     preUpdate()
     {
@@ -20,6 +27,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
       if(this.cursors.left.isDown)
       {
         this.body.setVelocityX(-this.speed);
+        // this.body.anims.play('left', true);
       }
       else if(this.cursors.right.isDown)
       {
