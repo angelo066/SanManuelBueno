@@ -1,3 +1,5 @@
+import Game from "./game.js";
+
 let speed;
 let jumpSpeed;
 
@@ -11,23 +13,15 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.jumpSpeed = 400;
         //para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
+        // this._events.setCollideWorldBounds(true);
         this.cursors = this.scene.input.keyboard.createCursorKeys();
-
-       
-        // this.anims.create({
-        //   key: 'left',
-        //   frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
-        //   frameRate: 10,
-        //   repeat: -1 //esto indica que se vuelva a repetir la animacion al finalizar
-        //   });
+        
     }
     preUpdate()
     {
-
       if(this.cursors.left.isDown)
       {
         this.body.setVelocityX(-this.speed);
-        // this.body.anims.play('left', true);
       }
       else if(this.cursors.right.isDown)
       {
@@ -46,5 +40,19 @@ export default class Player extends Phaser.GameObjects.Sprite{
       {
         this.body.setVelocityY(this.jumpSpeed*2);
       }
+
+
+      if(this.x>1850.5){
+        this.x=65;
+      }
+      else if(this.x < 64){
+        this.x=1850.5;
+      }
     }
+
+    // get x(){return this.x;}
+    
+
+
+    // set x(x){this.x = x;}
 }
