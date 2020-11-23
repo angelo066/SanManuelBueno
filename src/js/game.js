@@ -1,4 +1,5 @@
 import Player from './player.js'
+import Word from './word.js';
 
 let player;
 let platforms;
@@ -9,65 +10,85 @@ export default class Game extends Phaser.Scene {
   }
   //para cargar los recursos
   preload() 
-  {    
-    this.canvas = this.sys.game.canvas; //Canvas de la escena
+  {
     this.load.video('logo_anim','./src/assets/video/logo_anim.mp4','canplay',false,true);
     this.load.spritesheet({
-      key:'player', 
-      url:'src/assets/sprites/unamuno/Run.png',
+      key:'player_run', 
+      url:'src/assets/sprites/unamuno/run.png',
       frameConfig:{
-        frameWidth:127,
-        frameHeight:208
+        frameWidth:120,
+        frameHeight:200
+      }
+    });
+    this.load.spritesheet({
+      key:'player_jump', 
+      url:'src/assets/sprites/unamuno/jump.png',
+      frameConfig:{
+        frameWidth:120,
+        frameHeight:200
+      }
+    });
+    this.load.spritesheet({
+      key:'letters', 
+      url:'src/assets/sprites/tipo1a.png',
+      frameConfig:{
+        frameWidth:120,
+        frameHeight:120
+      }
+    });
+    this.load.spritesheet({
+      key:'strikedletters', 
+      url:'src/assets/sprites/tipo1b.png',
+      frameConfig:{
+        frameWidth:120,
+        frameHeight:120
       }
     });
 
-    this.load.image('platform', 'src/assets/Plataformas/platform.png');
-    this.load.image('background', 'src/assets/BG/bg.png');
-    this.load.image('background2', 'src/assets/BG/BackGorund2.png');
-    this.load.image('background3', 'src/assets/BG/BackGround3.png');
+    this.load.image('platform', 'src/assets/platforms/grass.png');
+    this.load.image('background', 'src/assets/bg/lake.png');
+    this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
+    this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
+
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {                         
-    platforms = this.physics.add.staticGroup();
-    
     //#region VIDEO
-    let video = this.add.video(this.canvas.width/2,this.canvas.height/2,'logo_anim');
+    /*let video = this.add.video(this.game.config.width/2,this.game.config.height/2,'logo_anim');
     video.play(false);  //No loop
     
-    video.on('complete', function(video){     
-      console.log("The video has ended");
-      
-      this.add.image(this.canvas.width/2,this.canvas.height/2, 'background');
-      this.add.text(this.canvas.width/2 -200 , 0,"Unamuno is coming for u",{fontSize:32});
-
-                                    //X               //Y   
-      player = new Player(this, this.canvas.width/2, this.canvas.height/2);
-      platforms.create(this.canvas.width/2, this.canvas.height-99, 'platform').refreshBody();
-      this.physics.add.collider(player, platforms);
-
-    },this);
+    video.on('complete', function(video){
+      video.destroy();
+    },this);*/
     
     //#endregion 
-    // console.log(player._events.collideWorldBounds);
-    // player.checkWorldBounds = true;
-    // player._events.setcollideWorldBounds.add(function(){
-    //   console.log("Out of Bounds");
-    //   player.SetPos(0,40);
-    // },this
-    // );
+    
+    platforms = this.physics.add.staticGroup();
+    this.add.image(this.game.config.width/2,this.game.config.height/2, 'background');
+    this.brote = this.add.image(this.game.config.width/2, this.game.config.height - 120, 'brote');
+    this.brote.setScale(0.4,0.4);
+    this.player = new Player(this, this.game.config.width/8, this.game.config.height - 220);
+    platforms.create(this.game.config.width/2, this.game.config.height-60, 'platform').refreshBody();
+    this.physics.add.collider(this.player, platforms);
+    this.word = new Word({
+      scene: this,
+      x: this.game.config.width*2 /3,
+      y: this.game.config.height/3,
+      word: 'Logan'
+    });
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-    // console.log(player);
-    // if(player.getx()>1850.5){
-    //   player.setx(65);
-    // }
-    // else if(player.getx() < 64){
-    //   player.setx(1850.5);
-    // }
-
+    let complete = false;
+    let sol = 'nogal';
+    if(this.word.word === sol && !complete){
+      this.nogal = this.add.image(this.game.config.width/2, this.game.config.height/2 + 35, 'nogal');
+      this.nogal.setScale(2.2,2.2);
+      this.brote.destroy();
+      complete = true;
+    }
   }
 
 }

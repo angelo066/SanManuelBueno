@@ -27,6 +27,8 @@ export default class Word extends Letter{
             this.container.add(this.letter);
             i++;
           });
+          //Tecla de activacion de tachar
+          this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
           //Modo quitar letra = true y modo intercambiar letras = false
           this.strikeMode = false;
           //Input de raton
@@ -38,8 +40,9 @@ export default class Word extends Letter{
           });
     }
 
-    handleInput(strikeModeKey){
-        if (Phaser.Input.Keyboard.JustDown(strikeModeKey)){
+    preUpdate(){
+        
+        if (Phaser.Input.Keyboard.JustDown(this.keycode)){
             this.strikeMode = !this.strikeMode;
             this.letter_selected = null;
           }
@@ -57,7 +60,7 @@ export default class Word extends Letter{
     
     deleteLetter(gameObject){
         if (!gameObject.strikethrough){
-            gameObject.setTexture('strikeletters',gameObject.frame.name);
+            gameObject.setTexture('strikedletters',gameObject.frame.name);
             gameObject.strikethrough = true;
         }
         else {
