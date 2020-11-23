@@ -19,19 +19,21 @@ export default class Player extends Phaser.GameObjects.Sprite{
         //animaciones
         this.scene.anims.create({
           key:'run',
-          frames: this.scene.anims.generateFrameNames('player_run',{start: 0, end: 34}),
-          frameRate: 20,
+          frames: this.scene.anims.generateFrameNumbers('player_run',{start: 0, end: 39}),
+          frameRate: 60,
           repeat: -1
         });
         this.scene.anims.create({
           key:'jump',
-          frames: this.scene.anims.generateFrameNames('player_jump',{start: 0, end: 24}),
-          frameRate: 20,
+          frames: this.scene.anims.generateFrameNumbers('player_jump',{start: 0, end: 24}),
+          frameRate: 24,
           repeat: -1
         });
     }
-    preUpdate()
+    preUpdate(time,delta)
     {
+      super.preUpdate(time,delta);
+
       if(this.cursors.left.isDown)
       {
         this.body.setVelocityX(-this.speed);
@@ -45,6 +47,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
       else 
       {
         this.body.setVelocityX(0);
+        this.anims.stop();
       }
 
       if(this.cursors.up.isDown && this.body.touching.down)
@@ -52,10 +55,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setVelocityY(-this.jumpSpeed);
       }
       if(this.body.touching.down){
-        this.play('run');
+        this.anims.play('run',true);
       }
       else{
-        this.play('jump');
+        this.anims.play('jump',true);
       }
     }
   }

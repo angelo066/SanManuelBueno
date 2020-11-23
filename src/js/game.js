@@ -53,17 +53,7 @@ export default class Game extends Phaser.Scene {
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
-  {                         
-    //#region VIDEO
-    /*let video = this.add.video(this.game.config.width/2,this.game.config.height/2,'logo_anim');
-    video.play(false);  //No loop
-    
-    video.on('complete', function(video){
-      video.destroy();
-    },this);*/
-    
-    //#endregion 
-    
+  {    
     platforms = this.physics.add.staticGroup();
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background');
     this.brote = this.add.image(this.game.config.width/2, this.game.config.height - 120, 'brote');
@@ -76,7 +66,18 @@ export default class Game extends Phaser.Scene {
       x: this.game.config.width*2 /3,
       y: this.game.config.height/3,
       word: 'Logan'
-    });
+    });                    
+    //#region VIDEO
+    let video = this.add.video(this.game.config.width/2,this.game.config.height/2,'logo_anim');
+    video.play(false);  //No loop
+    
+    video.on('complete', function(video){
+      video.destroy();
+    },this);
+    
+    //#endregion 
+    
+    
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)

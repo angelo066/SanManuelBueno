@@ -20,6 +20,9 @@ mechanics introduced progressively and subtly, as well as the peculiar rules of 
 	</a>
 </div>
 
+![GDD](./src/WebMedia/labels/en/gdd.png)
+[Game Design Document(WIP)](https://drive.google.com/file/d/1s9nX9cytcLNmPD6Ch-pfDBtSYY2wt9WI/view?usp=sharing)
+
 ![Desarroladores](./src/WebMedia/labels/en/developer.png)
 ![logoStudio](./src/WebMedia/labels/studio.png)
 > Members
