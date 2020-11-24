@@ -3,6 +3,7 @@ import Word from './word.js';
 
 let player;
 let platforms;
+let sol = 'nogal';
 export default class Game extends Phaser.Scene {
   constructor() 
   {
@@ -54,19 +55,24 @@ export default class Game extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {    
-    platforms = this.physics.add.staticGroup();
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background');
-    this.brote = this.add.image(this.game.config.width/2, this.game.config.height - 120, 'brote');
-    this.brote.setScale(0.4,0.4);
+    this.nogal = this.add.image(this.game.config.width/2, this.game.config.height - 120, 'brote');
+    this.nogal.setScale(0.4,0.4);
+
     this.player = new Player(this, this.game.config.width/8, this.game.config.height - 220);
+
+    platforms = this.physics.add.staticGroup();
     platforms.create(this.game.config.width/2, this.game.config.height-60, 'platform').refreshBody();
+
     this.physics.add.collider(this.player, platforms);
+
     this.word = new Word({
       scene: this,
-      x: this.game.config.width*2 /3,
-      y: this.game.config.height/3,
+      x: this.game.config.width*2.2 /3,
+      y: this.game.config.height/4.5,
       word: 'Logan'
-    });                    
+    });    
+                    
     //#region VIDEO
     let video = this.add.video(this.game.config.width/2,this.game.config.height/2,'logo_anim');
     video.play(false);  //No loop
@@ -76,20 +82,21 @@ export default class Game extends Phaser.Scene {
     },this);
     
     //#endregion 
-    
-    
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
     let complete = false;
-    let sol = 'nogal';
+    
     if(this.word.word === sol && !complete){
       this.nogal = this.add.image(this.game.config.width/2, this.game.config.height/2 + 35, 'nogal');
       this.nogal.setScale(2.2,2.2);
-      this.brote.destroy();
       complete = true;
     }
+
+    this.player.checkPos(this.game.config.width);
+
+    
   }
 
 }

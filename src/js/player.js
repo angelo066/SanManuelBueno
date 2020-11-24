@@ -19,7 +19,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         //animaciones
         this.scene.anims.create({
           key:'run',
-          frames: this.scene.anims.generateFrameNumbers('player_run',{start: 0, end: 39}),
+          frames: this.scene.anims.generateFrameNumbers('player_run',{start: 0, end: 40}),
           frameRate: 60,
           repeat: -1
         });
@@ -61,4 +61,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.anims.play('jump',true);
       }
     }
+
+    checkPos(width)
+      {
+        if(this.body.x >= width - this.body.width)
+          this.body.x = 0;
+      }
   }
