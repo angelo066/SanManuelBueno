@@ -10,6 +10,7 @@ export default class Word extends Letter{
         this.scene.add.existing(this.container);
         //Palabra
         this.word = word;   
+        this.mode;
         //Letra seleccionada para intercambio
         this.letter_selected = null; 
         console.log(this.word);
@@ -42,8 +43,14 @@ export default class Word extends Letter{
 
     preUpdate(){
         
-        if (Phaser.Input.Keyboard.JustDown(this.keycode)){
+        if (Phaser.Input.Keyboard.JustDown(this.keycode))
+        {
             this.strikeMode = !this.strikeMode;
+            
+            if(this.strikeMode === true)
+                this.mode = this.scene.add.text(25, 25, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
+            else this.mode.destroy();
+
             this.letter_selected = null;
           }
     }
