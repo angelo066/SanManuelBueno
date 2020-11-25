@@ -24,8 +24,8 @@
     <main>
       <canvas id="phaser-game" style="border: 2px solid rgb(0, 0, 0)" ></canvas>
         <script type="module">
-          import Game from "./src/js/game.js";
-
+          import MenuScene from "./src/js/menuScene.js";
+          import GameScene from "./src/js/gameScene.js";
           let config = {
             type: Phaser.CANVAS,
             canvas: document.getElementById("phaser-game"),
@@ -39,7 +39,7 @@
               mode: Phaser.Scale.FIT,
               autoCenter: Phaser.Scale.CENTER_BOTH,
             },
-            scene: [Game],
+            scene: [MenuScene,GameScene],
             physics: {
               default: "arcade",
               arcade: { gravity: { y: 500 }, debug: false },

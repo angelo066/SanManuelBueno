@@ -10,7 +10,6 @@ export default class Word extends Letter{
         this.scene.add.existing(this.container);
         //Palabra
         this.word = word;   
-        this.mode;
         //Letra seleccionada para intercambio
         this.letter_selected = null; 
         console.log(this.word);
@@ -43,14 +42,16 @@ export default class Word extends Letter{
 
     preUpdate(){
         
-        if (Phaser.Input.Keyboard.JustDown(this.keycode))
-        {
+        if (Phaser.Input.Keyboard.JustDown(this.keycode)){
             this.strikeMode = !this.strikeMode;
-            
-            if(this.strikeMode === true)
-                this.mode = this.scene.add.text(25, 25, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
-            else this.mode.destroy();
-
+            //Feedback visual de que el modo tachar esta activo
+			if(this.strikeMode === true){
+                this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
+                this.mode.setOrigin(0);
+                this.mode.setScrollFactor(0);
+            }
+            else 
+				this.mode.destroy();
             this.letter_selected = null;
           }
     }
@@ -91,5 +92,9 @@ export default class Word extends Letter{
                 this.word = this.word + String.fromCharCode(e.frame.name + 97);
         });
         console.log(this.word);
+    }
+
+    destroyWord(){
+        this.container.destroy();
     }
 }

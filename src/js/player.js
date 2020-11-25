@@ -1,4 +1,4 @@
-import Game from "./game.js";
+import Game from "./gameScene.js";
 
 let speed;
 let jumpSpeed;
@@ -11,60 +11,62 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.scene.physics.add.existing(this);
         this.speed = 300;
         this.jumpSpeed = 600;
-        this.body.setGravityY(600);
-        //para que no se salga de los bordes las pantalla
+        this.body.setGravityY(900);
+        //Para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
-        this.body.setSize(80, 90, true);
+        this.body.setSize(100,170, true);
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         //animaciones
         this.scene.anims.create({
+          key:'idle',
+          frames: [{key: 'player_run', frame: 28}],
+          frameRate: 24
+        })
+        this.scene.anims.create({
           key:'run',
-          frames: this.scene.anims.generateFrameNumbers('player_run',{start: 0, end: 40}),
+          frames: this.scene.anims.generateFrameNumbers('player_run',{start: 0, end: 39}),
           frameRate: 60,
           repeat: -1
         });
         this.scene.anims.create({
           key:'jump',
-          frames: this.scene.anims.generateFrameNumbers('player_jump',{start: 0, end: 24}),
-          frameRate: 24,
-          repeat: -1
+          frames: [{key: 'player_jump', frame: 0}],
+          frameRate: 24
         });
     }
     preUpdate(time,delta)
     {
       super.preUpdate(time,delta);
-
       if(this.cursors.left.isDown)
       {
         this.body.setVelocityX(-this.speed);
         this.flipX = true;
+        if(this.body.touching.down)
+          this.anims.play('run',true);
+        else
+          this.anims.play('jump', true);
       }
       else if(this.cursors.right.isDown)
       {
         this.body.setVelocityX(this.speed);
         this.flipX = false;
+        if(this.body.touching.down)
+          this.anims.play('run',true);
+        else
+          this.anims.play('jump', true);
       }
-      else 
-      {
+      else
         this.body.setVelocityX(0);
-        this.anims.stop();
-      }
-
-      if(this.cursors.up.isDown && this.body.touching.down)
-      {
+      
+      if(this.cursors.up.isDown && this.body.touching.down){
         this.body.setVelocityY(-this.jumpSpeed);
       }
-      if(this.body.touching.down){
-        this.anims.play('run',true);
-      }
-      else{
-        this.anims.play('jump',true);
-      }
-    }
 
-    checkPos(width)
-      {
-        if(this.body.x >= width - this.body.width)
-          this.body.x = 0;
-      }
+      if(this.body.velocity.x === 0 && this.body.touching.down)
+        this.anims.play('idle', true);
+    }
+    checkPos(width) { 
+      if(this.body.x >= width - this.body.width) 
+      this.body.x = 0; 
+    }
   }
