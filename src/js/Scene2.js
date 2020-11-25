@@ -56,7 +56,7 @@ export default class Scene2 extends Phaser.Scene {
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background2').setScale(2.13,2.13);
     //Platform and player
     platforms = this.physics.add.staticGroup();
-    this.player = new Player(this, this.game.config.width/8, this.game.config.height/2);
+    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
     platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
     platforms.children.iterate(function (child) { //Caja de colision
         child.body.setSize(0,100);
@@ -102,5 +102,4 @@ export default class Scene2 extends Phaser.Scene {
     //Sale por un lado y entra por el otro
     this.player.checkPos(this.game.config.width);
   }
-
 }

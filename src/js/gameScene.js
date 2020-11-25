@@ -1,5 +1,6 @@
 import Player from './player.js'
 import Word from './word.js';
+import SceneManager from './SceneManager.js';
 
 let platforms;
 export default class GameScene extends Phaser.Scene {
@@ -53,12 +54,14 @@ export default class GameScene extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    //Scene Manager
+    this.sceneManager = new SceneManager({scene: this, actualScene: this.key});
     //BG
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background').setScale(0.75,0.75);
     //Platform and player
     platforms = this.physics.add.staticGroup();
-    this.player = new Player(this, this.game.config.width/8, this.game.config.height/2);
+    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
     platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
     platforms.children.iterate(function (child) { //Caja de colision
         child.body.setSize(0,100);
@@ -106,8 +109,9 @@ export default class GameScene extends Phaser.Scene {
       console.log("lag");
       this.complete = true;
     }
-    //Sale por un lado y entra por el otro
-    this.player.checkPos(this.game.config.width);
+    //Sale por un lado y carga la siguiente escena
+    if(this.player.checkPos(this.game.config.width)){
+      this.sceneManager.loadNextScene();
+    }
   }
-
 }
