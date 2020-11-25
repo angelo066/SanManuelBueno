@@ -65,8 +65,12 @@ export default class Player extends Phaser.GameObjects.Sprite{
       if(this.body.velocity.x === 0 && this.body.touching.down)
         this.anims.play('idle', true);
     }
+
     checkPos(width) { 
       if(this.body.x >= width - this.body.width) 
-      this.body.x = 0; 
+      {
+        this.scene.scene.start('menu');
+        this.body.x = 0; 
+      }
     }
   }

@@ -9,6 +9,4 @@ export default class Letter extends Phaser.GameObjects.Sprite{
         this.draggable = true;
         this.setInteractive();
     }
-
-
 }

@@ -2,7 +2,7 @@
 export default class MenuScene extends Phaser.Scene {
     constructor() 
     {
-      super({ key: "menu" });
+      super({ key: 'menu' });
     }
 
     preload(){
@@ -37,12 +37,16 @@ export default class MenuScene extends Phaser.Scene {
                 rotate: {start: 0, end: 360},
                 frequency: 400
             });
+
             this.cameras.main.fadeIn(2000, 0, 0, 0);
+
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, () => {
                 this.title = this.add.image(this.game.config.width/2,this.game.config.height*0.4,'title').setScale(0.6).setAlpha(0);
                 this.press = this.add.image(this.game.config.width/2,this.game.config.height*0.7,'press').setScale(1.3).setAlpha(0);
+
                 let timeline = this.tweens.createTimeline();
                 timeline.add({ targets: this.title, alpha: { value: 1, duration: 3000 }});
+
                 //Parapadeo de input
                 timeline.add({
                     targets: this.press,
@@ -50,14 +54,18 @@ export default class MenuScene extends Phaser.Scene {
                     yoyo: true,
                     loop: -1
                 });
+
                 timeline.play();
+
                 //Si recibe input pasa a la siguiente escena cuando termine de fundir a negro
                 this.input.keyboard.on('keydown', ()=> {this.cameras.main.fadeOut(1000, 0, 0, 0)});
+                
                 this.input.on('pointerdown', ()=> {this.cameras.main.fadeOut(1000, 0, 0, 0)});
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
                     this.scene.start('game')
                 })
             });
+
         },this);
     //#endregion 
     }
