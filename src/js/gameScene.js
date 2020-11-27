@@ -10,7 +10,6 @@ export default class GameScene extends SceneManager {
   //para cargar los recursos
   preload() 
   {
-    
     this.load.spritesheet({
       key:'player_run', 
       url:'src/assets/sprites/unamuno/run.png',
