@@ -69,8 +69,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     checkPos(width) { 
       if(this.body.x >= width - this.body.width) 
       {
-        this.scene.scene.start('menu');
-        this.body.x = 0; 
+        return true;
       }
     }
   }

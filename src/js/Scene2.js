@@ -1,16 +1,15 @@
 import Player from './player.js'
 import Word from './word.js';
-import SceneManager from './SceneManager.js';
 
 let platforms;
-export default class GameScene extends Phaser.Scene {
+export default class Scene2 extends Phaser.Scene {
   constructor() {
-    super({key: 'game'});
+    super({key: 'scene2'});
   }
   //para cargar los recursos
   preload() 
   {
-    
+
     this.load.spritesheet({
       key:'player_run', 
       url:'src/assets/sprites/unamuno/run.png',
@@ -45,20 +44,16 @@ export default class GameScene extends Phaser.Scene {
     });
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
-    this.load.image('background', 'src/assets/bg/lake.png');
-    this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
-    this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
+    this.load.image('background2', 'src/assets/bg/BackGround3.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
 
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    //Scene Manager
-    this.sceneManager = new SceneManager({scene: this, actualScene: this.key});
     //BG
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
-    this.add.image(this.game.config.width/2,this.game.config.height/2, 'background').setScale(0.75,0.75);
+    this.add.image(this.game.config.width/2,this.game.config.height/2, 'background2').setScale(2.13,2.13);
     //Platform and player
     platforms = this.physics.add.staticGroup();
     this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
@@ -68,14 +63,12 @@ export default class GameScene extends Phaser.Scene {
         child.setOffset(0, 40);
     });
     //arbol y palabra
-    this.brote = this.add.image(this.game.config.width-400, this.game.config.height - 120, 'brote');
-    this.brote.setScale(0.4,0.4);
     this.physics.add.collider(this.player, platforms);
     this.word = new Word({
       scene: this,
-      x: this.game.config.width*2 /3,
+      x: this.game.config.width* 0.4,
       y: this.game.config.height/3,
-      word: 'Logan'
+      word: 'MisMuertos'
     });
     //Particles
     let leaves = this.add.particles('leaves');
@@ -102,16 +95,11 @@ export default class GameScene extends Phaser.Scene {
   {
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1); 
     if(this.word.word === 'nogal' && !this.complete){
-      this.brote.setTexture('nogal');
-      this.brote.setScale(2.2,2.2);
-      this.brote.setPosition(this.brote.x, this.game.config.height - 500);
       this.word.destroyWord();
       console.log("lag");
       this.complete = true;
     }
-    //Sale por un lado y carga la siguiente escena
-    if(this.player.checkPos(this.game.config.width)){
-      this.sceneManager.loadNextScene();
-    }
+    //Sale por un lado y entra por el otro
+    this.player.checkPos(this.game.config.width);
   }
 }
