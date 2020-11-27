@@ -1,7 +1,6 @@
-
-export default class MenuScene extends Phaser.Scene {
-    constructor() 
-    {
+import SceneManager from './SceneManager.js'
+export default class MenuScene extends SceneManager {
+    constructor() {
       super({ key: 'menu' });
     }
 
@@ -62,7 +61,7 @@ export default class MenuScene extends Phaser.Scene {
                 
                 this.input.on('pointerdown', ()=> {this.cameras.main.fadeOut(1000, 0, 0, 0)});
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-                    this.scene.start('game')
+                    this.loadNextScene();
                 })
             });
 

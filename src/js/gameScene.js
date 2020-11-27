@@ -1,9 +1,9 @@
+import SceneManager from './SceneManager.js'
 import Player from './player.js'
 import Word from './word.js';
-import SceneManager from './SceneManager.js';
 
 let platforms;
-export default class GameScene extends Phaser.Scene {
+export default class GameScene extends SceneManager {
   constructor() {
     super({key: 'game'});
   }
@@ -54,8 +54,6 @@ export default class GameScene extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    //Scene Manager
-    this.sceneManager = new SceneManager({scene: this, actualScene: this.key});
     //BG
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background').setScale(0.75,0.75);
@@ -111,7 +109,7 @@ export default class GameScene extends Phaser.Scene {
     }
     //Sale por un lado y carga la siguiente escena
     if(this.player.checkPos(this.game.config.width)){
-      this.sceneManager.loadNextScene();
+      this.loadNextScene();
     }
   }
 }

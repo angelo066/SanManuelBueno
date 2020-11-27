@@ -1,8 +1,9 @@
+import SceneManager from './SceneManager.js'
 import Player from './player.js'
 import Word from './word.js';
 
 let platforms;
-export default class Scene2 extends Phaser.Scene {
+export default class Scene2 extends SceneManager {
   constructor() {
     super({key: 'scene2'});
   }
@@ -93,13 +94,10 @@ export default class Scene2 extends Phaser.Scene {
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-    this.sky.setTilePosition(this.sky.tilePositionX + 0.1); 
-    if(this.word.word === 'nogal' && !this.complete){
-      this.word.destroyWord();
-      console.log("lag");
-      this.complete = true;
-    }
     //Sale por un lado y entra por el otro
     this.player.checkPos(this.game.config.width);
+    if(this.player.checkPos(this.game.config.width)){
+        this.loadNextScene();
+    }
   }
 }
