@@ -1,8 +1,3 @@
-import Game from "./gameScene.js";
-
-let speed;
-let jumpSpeed;
-
 export default class Player extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y)
     {

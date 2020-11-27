@@ -1,9 +1,8 @@
-import SceneManager from './SceneManager.js'
-import Player from './player.js'
+import BaseScene from './BaseScene.js';
+import Player from './player.js';
 import Word from './word.js';
 
-let platforms;
-export default class GameScene extends SceneManager {
+export default class GameScene extends BaseScene {
   constructor() {
     super({key: 'game'});
   }
@@ -57,17 +56,17 @@ export default class GameScene extends SceneManager {
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background').setScale(0.75,0.75);
     //Platform and player
-    platforms = this.physics.add.staticGroup();
+    this.platforms = this.physics.add.staticGroup();
     this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
-    platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
-    platforms.children.iterate(function (child) { //Caja de colision
+    this.platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
+    this.platforms.children.iterate(function (child) { //Caja de colision
         child.body.setSize(0,100);
         child.setOffset(0, 40);
     });
     //arbol y palabra
     this.brote = this.add.image(this.game.config.width-400, this.game.config.height - 120, 'brote');
     this.brote.setScale(0.4,0.4);
-    this.physics.add.collider(this.player, platforms);
+    this.physics.add.collider(this.player, this.platforms);
     this.word = new Word({
       scene: this,
       x: this.game.config.width*2 /3,
@@ -108,7 +107,7 @@ export default class GameScene extends SceneManager {
     }
     //Sale por un lado y carga la siguiente escena
     if(this.player.checkPos(this.game.config.width)){
-      this.loadNextScene();
+      this.scene.start('scene2');
     }
   }
 }

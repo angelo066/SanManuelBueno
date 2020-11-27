@@ -1,5 +1,5 @@
-import SceneManager from './SceneManager.js'
-export default class MenuScene extends SceneManager {
+import BaseScene from './BaseScene.js'
+export default class MenuScene extends BaseScene {
     constructor() {
       super({ key: 'menu' });
     }
@@ -64,7 +64,7 @@ export default class MenuScene extends SceneManager {
                 this.input.on('pointerdown', ()=> {this.cameras.main.fadeOut(1000, 0, 0, 0)});
 
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-                    this.loadNextScene();
+                    this.scene.start('game');
                 })
             });
 

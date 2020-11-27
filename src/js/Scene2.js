@@ -1,9 +1,9 @@
-import SceneManager from './SceneManager.js'
-import Player from './player.js'
+import BaseScene from './BaseScene.js';
+import Player from './player.js';
 import Word from './word.js';
 
 let platforms;
-export default class Scene2 extends SceneManager {
+export default class Scene2 extends BaseScene {
   constructor() {
     super({key: 'scene2'});
   }
@@ -97,7 +97,7 @@ export default class Scene2 extends SceneManager {
     //Sale por un lado y entra por el otro
     this.player.checkPos(this.game.config.width);
     if(this.player.checkPos(this.game.config.width)){
-        this.loadNextScene();
+      this.scene.start('menu');
     }
   }
 }
