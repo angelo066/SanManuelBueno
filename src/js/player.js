@@ -1,3 +1,5 @@
+import Inventory from "./inventory.js";
+
 export default class Player extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y)
     {
@@ -7,6 +9,23 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.speed = 300;
         this.jumpSpeed = 600;
         this.body.setGravityY(900);
+
+        //Inventario
+        if(this.invent == null){
+          this.invent=new Inventory({
+            scene:scene,
+            L:{},
+            N:0
+          })
+        }
+        else {
+          this.invent=new Inventory({
+            scene:scene,
+            L:this.invent.Letters,
+            N:this.invent.NumElems
+          })
+        }
+        this.invent.EscribeInventario();
         //Para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
         this.body.setSize(100,170, true);
