@@ -25,7 +25,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
             N:this.invent.NumElems
           })
         }
-        this.invent.EscribeInventario();
         //Para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
         this.body.setSize(100,170, true);
@@ -85,5 +84,9 @@ export default class Player extends Phaser.GameObjects.Sprite{
       {
         return true;
       }
+    }
+
+    AddLetter(letrita){
+      this.invent.AddLetter(letrita);
     }
   }
