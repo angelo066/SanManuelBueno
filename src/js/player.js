@@ -75,9 +75,12 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setVelocityY(-this.jumpSpeed);
       }
 
-      if(this.body.velocity.x === 0 && this.body.touching.down)
+      if(this.body.velocity.x === 0 && this.body.touching.down){
         this.anims.play('idle', true);
+      }
     }
+
+    
 
     checkPos(width) { 
       if(this.body.x >= width - this.body.width) 
@@ -87,6 +90,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
     }
 
     AddLetter(letrita){
-      this.invent.AddLetter(letrita);
+      letrita.destroy(); //esto las desactiva a la que colisione con player
+      this.invent.AddLetter(letrita.key);
+      this.invent.EscribeInventario();
     }
   }

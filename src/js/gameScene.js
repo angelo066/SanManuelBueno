@@ -84,6 +84,8 @@ export default class GameScene extends BaseScene {
     });
     this.letraPaProbar.scene.physics.add.existing(this.letraPaProbar);
     this.letraPaProbar.body.allowGravity = false;
+    this.physics.add.overlap(this.player, this.letraPaProbar, this.player.AddLetter(this.letraPaProbar), null, this);
+
     //Particles
     let leaves = this.add.particles('leaves');
     leaves.createEmitter({
