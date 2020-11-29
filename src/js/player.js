@@ -1,3 +1,5 @@
+import Inventory from "./inventory.js";
+
 export default class Player extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y)
     {
@@ -7,6 +9,22 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.speed = 300;
         this.jumpSpeed = 600;
         this.body.setGravityY(900);
+
+        //Inventario
+        if(this.invent == null){
+          this.invent=new Inventory({
+            scene:scene,
+            L:{},
+            N:0
+          })
+        }
+        else {
+          this.invent=new Inventory({
+            scene:scene,
+            L:this.invent.Letters,
+            N:this.invent.NumElems
+          })
+        }
         //Para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
         this.body.setSize(100,170, true);
@@ -57,14 +75,23 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.body.setVelocityY(-this.jumpSpeed);
       }
 
-      if(this.body.velocity.x === 0 && this.body.touching.down)
+      if(this.body.velocity.x === 0 && this.body.touching.down){
         this.anims.play('idle', true);
+      }
     }
+
+    
 
     checkPos(width) { 
       if(this.body.x >= width - this.body.width) 
       {
         return true;
       }
+    }
+
+    AddLetter(letrita){
+      letrita.destroy(); //esto las desactiva a la que colisione con player
+      this.invent.AddLetter(letrita.key);
+      this.invent.EscribeInventario();
     }
   }

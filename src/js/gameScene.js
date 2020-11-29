@@ -1,6 +1,7 @@
 import BaseScene from './BaseScene.js';
 import Player from './player.js';
 import Word from './word.js';
+import Letter from './letter.js';
 
 export default class GameScene extends BaseScene {
   constructor() {
@@ -73,6 +74,17 @@ export default class GameScene extends BaseScene {
       y: this.game.config.height/3,
       word: 'Logan'
     });
+    //Letrica pa probar a recogerlas porque soy maricón
+    this.letraPaProbar=new Letter({
+      scene:this,
+      x:this.game.config.width / 2,
+      y: (this.game.config.height*80) / 100,
+      key: 'letters',
+    });
+    this.letraPaProbar.scene.physics.add.existing(this.letraPaProbar);
+    this.letraPaProbar.body.allowGravity = false;
+    this.physics.add.overlap(this.player, this.letraPaProbar, this.player.AddLetter(this.letraPaProbar), null, this);
+
     //Particles
     let leaves = this.add.particles('leaves');
     leaves.createEmitter({
