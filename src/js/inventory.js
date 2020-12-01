@@ -4,23 +4,22 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         let {scene, L, N} = data;
         super (scene, L, N);
         this.scene.add.existing(this);
-        this.Letters=L;
+        this.Letters=L;                             
         this.NumElems=N;
     }
 
-    AddLetter(letrita){
+    addLet(letrita){
         this.Letters[this.NumElems]=letrita;
         this.NumElems++;
     }
-
-    
+   
     EscribeInventario(){
         console.log("numero de elementos:" + this.NumElems)
         for(let i=0; i<this.NumElems;i++){
             console.log(this.Letters)
         }
-        this.AddLetter('M');
-        this.AddLetter('T');
+        this.addLetter('M');
+        this.addLetter('T');
         console.log("numero de elementos:" + this.NumElems)
         for(let i=0; i<this.NumElems;i++){
             console.log(this.Letters)

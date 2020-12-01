@@ -76,15 +76,15 @@ export default class GameScene extends BaseScene {
       word: 'Logan'
     });
     //Letrica pa probar a recogerlas porque soy maricón
-    this.letraPaProbar=new Letter({
+    this.letraPaProbar=new Word({
       scene:this,
       x:this.game.config.width / 2,
       y: (this.game.config.height*80) / 100,
-      key: 'letters',
+      word: 'P'
     });
     this.letraPaProbar.scene.physics.add.existing(this.letraPaProbar);
     this.letraPaProbar.body.allowGravity = false;
-    this.physics.add.overlap(this.player, this.letraPaProbar, this.player.AddLetter(this.letraPaProbar), null, this);
+    this.physics.add.overlap(this.player, this.letraPaProbar, this.player.addLetter(this.letraPaProbar), null, this);
 
     //Particles
     let leaves = this.add.particles('leaves');
