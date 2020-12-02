@@ -10,21 +10,30 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.jumpSpeed = 600;
         this.body.setGravityY(900);
 
+        this.invent=new Inventory({
+           scene:scene,
+           L:{},
+           N:0,
+          });
+          
         //Inventario
-        if(this.invent == null){
-          this.invent=new Inventory({
-            scene:scene,
-            L:{},
-            N:0
-          })
-        }
-        else {
-          this.invent=new Inventory({
-            scene:scene,
-            L:this.invent.Letters,
-            N:this.invent.NumElems
-          })
-        }
+        // if(this.invent == null){
+        //   this.invent=new Inventory({
+        //     scene:scene,
+        //     L:{},
+        //     N:0
+        //   })
+        //   console.log(this.invent)
+        // }
+        // else {
+        //   this.invent=new Inventory({
+        //     scene:scene,
+        //     L:this.invent.Letters,
+        //     N:this.invent.NumElems
+        //   })
+        //   console.log("HOLA BUENAS TARDES")
+        // }
+
         //Para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();
         this.body.setSize(100,170, true);
@@ -47,6 +56,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
           frameRate: 24
         });
     }
+
     preUpdate(time,delta)
     {
       super.preUpdate(time,delta);
@@ -80,18 +90,17 @@ export default class Player extends Phaser.GameObjects.Sprite{
       }
     }
 
-    
+    addLetter(letrita){
+      //letrita.container.destroy();
+      console.log(this.invent)
+      this.invent.addLet(letrita.word);
+      this.invent.EscribeInventario();
+    }
 
     checkPos(width) { 
       if(this.body.x >= width - this.body.width) 
       {
         return true;
       }
-    }
-
-    AddLetter(letrita){
-      letrita.destroy(); //esto las desactiva a la que colisione con player
-      this.invent.AddLetter(letrita.key);
-      this.invent.EscribeInventario();
     }
   }
