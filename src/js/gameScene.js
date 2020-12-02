@@ -83,7 +83,7 @@ export default class GameScene extends BaseScene {
     });
     this.letraPaProbar.scene.physics.add.existing(this.letraPaProbar);
     this.letraPaProbar.body.allowGravity = false;
-    this.physics.add.overlap(this.player, this.letraPaProbar, this.player.addLetter(this.letraPaProbar), null, this);
+    this.physics.add.overlap(this.player, this.letraPaProbar, this.player.AddLetter, null, this.player);
 
     //Particles
     let leaves = this.add.particles('leaves');
@@ -118,8 +118,8 @@ export default class GameScene extends BaseScene {
       this.complete = true;
     }
     //Sale por un lado y carga la siguiente escena
-    if(this.player.checkPos(this.game.config.width)){
-      this.scene.start('scene2');
-    }
+    // if(this.player.checkPos(this.game.config.width)){
+    //   this.scene.start('scene2');
+    // }
   }
 }

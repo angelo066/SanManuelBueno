@@ -103,4 +103,17 @@ export default class Player extends Phaser.GameObjects.Sprite{
         return true;
       }
     }
+
+    AddLetter(player, letrita)
+    {
+      console.log(this.invent);
+      console.log(letrita);
+
+      this.invent.AddLetter(letrita.word);
+
+      letrita.destroy();
+      letrita.destroyWord();
+
+      this.invent.EscribeInventario();
+    }
   }
