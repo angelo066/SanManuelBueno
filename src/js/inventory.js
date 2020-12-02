@@ -8,7 +8,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         this.NumElems=N;
     }
 
-    addLet(letrita){
+    AddLetter(letrita){
         this.Letters[this.NumElems]=letrita;
         this.NumElems++;
     }
