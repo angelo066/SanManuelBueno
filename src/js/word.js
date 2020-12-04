@@ -2,7 +2,7 @@ import Letter from "./letter.js";
 
 export default class Word extends Letter{
     constructor(data){
-        let {scene, x, y, word} = data;
+        let {scene, x, y, word, interactive, letter} = data;
         super(data);
         this.scene.add.existing(this);
         //gameObject padre de las letras
@@ -15,29 +15,41 @@ export default class Word extends Letter{
         console.log(this.word);
         //Crea los sprites de letras y los hace hijos de palabra
         let i = 0;
+        let letterKey = 'letters';
         word.split('').forEach(l=>{
             l = l.toLowerCase();
+            //Si la palabra no es interactiva(solo es para dar una letr al jugador)
+            if(!interactive){
+                //La letra que recibe el jugador mantiene el sprite, las otras son diferentes
+                if(letter === l){ letterKey = 'letters'; }
+                else{ letterKey = 'crackedLetters'; }
+            }
             this.letter = new Letter({
                 scene: scene,
                 x: 80 * i,
                 y: 0,
-                key: 'letters',
-                frame: l.charCodeAt()-97
+                key: letterKey,
+                frame: l.charCodeAt()-97,
+                word: word,
+                interactive: interactive
             });
             this.container.add(this.letter);
+            if(letter === l){this.container.sendToBack(this.letter);}
             i++;
-          });
-          //Tecla de activacion de tachar
-          this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
-          //Modo quitar letra = true y modo intercambiar letras = false
-          this.strikeMode = false;
-          //Input de raton
-          this.scene.input.on('gameobjectdown',(pointer, gameObject)=>{
-              if(this.strikeMode)
-                this.deleteLetter(gameObject);
-            else
-                this.selectLetter(gameObject);
-          });
+        });
+        //Tecla de activacion de tachar
+        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+        //Modo quitar letra = true y modo intercambiar letras = false
+        this.strikeMode = false;
+        //Input de raton
+        if(interactive){
+            this.scene.input.on('gameobjectdown',(pointer, gameObject)=>{
+                if(this.strikeMode)
+                    this.deleteLetter(gameObject);
+                else
+                    this.selectLetter(gameObject);
+            });
+        }
     }
 
     preUpdate(){
@@ -55,7 +67,7 @@ export default class Word extends Letter{
             this.letter_selected = null;
           }
     }
-
+    //Seleccion de letra
     selectLetter(gameObject){
         if (this.letter_selected === null){
             this.letter_selected = gameObject;
@@ -65,7 +77,7 @@ export default class Word extends Letter{
         }
         this.newWord();
     }
-    
+    //tachar letra
     deleteLetter(gameObject){
         if (!gameObject.strikethrough){
             gameObject.setTexture('strikedletters',gameObject.frame.name);
@@ -77,14 +89,14 @@ export default class Word extends Letter{
         }
         this.newWord();
     }
-
+    //Cambiar la posicion de las letras
     swapLetters(gameObject){
         let temp = [this.letter_selected.texture,this.letter_selected.frame.name];
         this.letter_selected.setTexture(gameObject.texture,gameObject.frame.name);
         gameObject.setTexture(temp[0], temp[1]);
         this.letter_selected = null;
     }
-
+    //Nueva palabra al cambiar letras
     newWord(){
         this.word = '';
         this.container.list.forEach(e=>{
@@ -93,8 +105,16 @@ export default class Word extends Letter{
         });
         console.log(this.word);
     }
-
+    //Destruir ultima letra agrietada
+    destroyCrackedLetter(){
+        if(this.container.getIndex(this.container.last) !== 0){
+            //Añadir animacion de destruir letra agrietada aqui
+            this.container.remove(this.container.last, true);
+        }
+    }
+    //Destruir todas las letras y su contenedor
     destroyWord(){
         this.container.destroy();
     }
+
 }

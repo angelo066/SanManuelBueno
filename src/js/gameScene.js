@@ -1,7 +1,7 @@
 import BaseScene from './BaseScene.js';
 import Player from './player.js';
-import Word from './word.js';
-import Letter from './letter.js';
+import PuzzleObjectWord from './puzzleObjectWord.js';
+import PuzzleObjectLetter from './puzzleObjectLetter.js';
 
 export default class GameScene extends BaseScene {
   constructor() {
@@ -26,17 +26,25 @@ export default class GameScene extends BaseScene {
         frameHeight:200
       }
     });
-    this.load.spritesheet({
+    this.load.spritesheet({//Letras normales
       key:'letters', 
-      url:'src/assets/sprites/letters/tipo1a.png',
+      url:'src/assets/sprites/letters/normaltipo.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
       }
     });
-    this.load.spritesheet({
+    this.load.spritesheet({//Letras tachadas
       key:'strikedletters', 
-      url:'src/assets/sprites/letters/tipo1b.png',
+      url:'src/assets/sprites/letters/strikedtipo.png',
+      frameConfig:{
+        frameWidth:120,
+        frameHeight:120
+      }
+    });
+    this.load.spritesheet({//Letras agrietadas
+      key:'crackedletters', 
+      url:'src/assets/sprites/letters/crackedtipo.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
