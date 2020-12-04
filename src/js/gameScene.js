@@ -2,6 +2,7 @@ import BaseScene from './BaseScene.js';
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
+import Word from './word.js';
 
 export default class GameScene extends BaseScene {
   constructor() {
