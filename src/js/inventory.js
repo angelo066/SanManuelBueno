@@ -7,11 +7,13 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         this.Letters=L;
         this.NumElems=N;
 
-        // this.body;
-        // this.body.
-
-        // this.invent = this.add.image(this.game.config.width-400, this.game.config.height - 120, 'inventory');
-        // this.invent.setScale(0.4,0.4);
+        // this.setScale(0.5);
+        //CArlos soy maricon
+        this.setVisible(true);
+        console.log(this.scale);
+        this.setScale(0.5);
+        console.log(this.scale);
+      
     }
 
     AddLetter(letrita){

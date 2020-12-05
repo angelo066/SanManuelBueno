@@ -10,7 +10,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.jumpSpeed = 600;
         this.body.setGravityY(900);
 
-        this.invent= new Inventory({
+        this.invent = new Inventory({
           scene:scene,
           L:{},
           N:0
