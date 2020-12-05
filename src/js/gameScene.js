@@ -51,6 +51,7 @@ export default class GameScene extends BaseScene {
         frameHeight:120
       }
     });
+    this.load.image('inventory', 'src/assets/inventory/pergamino.png')
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
     this.load.image('background', 'src/assets/bg/lake.png');
@@ -65,39 +66,70 @@ export default class GameScene extends BaseScene {
     //BG
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background').setScale(0.75,0.75);
-    //Platform and player
-    this.platforms = this.physics.add.staticGroup();
+
+    //Player
     this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
+
+    console.log(this.game.config.width/8);
+    console.log(this.game.config.height*0.8);
+    //#region Plataformas
+    this.platforms = this.physics.add.staticGroup();
     this.platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
     this.platforms.children.iterate(function (child) { //Caja de colision
         child.body.setSize(0,100);
         child.setOffset(0, 40);
     });
-    //arbol y palabra
+    this.physics.add.collider(this.player, this.platforms);
+    //#endregion
+
+    //Árbol
     this.brote = this.add.image(this.game.config.width-400, this.game.config.height - 120, 'brote');
     this.brote.setScale(0.4,0.4);
-    this.physics.add.collider(this.player, this.platforms);
-    this.word = new Word({
-      scene: this,
-      x: this.game.config.width*2 /3,
-      y: this.game.config.height/3,
-      word: 'Logan'
-    });
-    //Letrica pa probar a recogerlas porque soy maricón
-    this.letraPaProbar=new Word({
-      scene:this,
-      x:this.game.config.width / 2,
-      y: (this.game.config.height*80) / 100,
-      word: 'P'
-    });
-    this.letraPaProbar.scene.physics.add.existing(this.letraPaProbar);
-    this.letraPaProbar.body.allowGravity = false;
-    this.physics.add.overlap(this.player, this.letraPaProbar, this.player.AddLetter, null, this.player);
+    
+    //Palabras
+    this.palabra = this.createWords('Logan', this.game.config.width*2 /3, this.game.config.height/3, false);
 
+    this.test = this.createWords('P', this.game.config.width / 2, (this.game.config.height*80) / 100, true);
+
+    //Particulas
+    this.createParticles('leaves'); 
+   
+    this.FadeIn();
+  }
+//actualiza los eventos. El delta es para calcular las fisicas
+  update(time, delta)
+  {
+    this.sky.setTilePosition(this.sky.tilePositionX + 0.1); 
+    if(this.palabra.word === 'nogal' && !this.complete){
+      this.brote.setTexture('nogal');
+      this.brote.setScale(2.2,2.2);
+      this.brote.setPosition(this.brote.x, this.game.config.height - 500);
+      this.palabra.destroyWord();
+      console.log("lag");
+      this.complete = true;
+    }
+    //Sale por un lado y carga la siguiente escena
+    // if(this.player.checkPos(this.game.config.width)){
+    //   this.scene.start('scene2');
+    // }
+  }
+
+  FadeIn()
+  {
+    //Camara
+    this.cameras.main.fadeIn(2000, 0, 0, 0);
+    this.cameras.main.setBounds(0,0,this.sky.displayWidth, this.sky.displayHeight);
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.setZoom(1.3);
+    this.complete = false;
+  }
+
+  createParticles(particleSprite)
+  {
     //Particles
-    let leaves = this.add.particles('leaves');
+    let leaves = this.add.particles(particleSprite);
     leaves.createEmitter({
-        frames: [{key: 'leaves', frame: 0}],
+        frames: [{key: particleSprite, frame: 0}],
         x: -50,
         y: { min: 100, max: this.game.config.height*0.5},
         speedX: { min: 100, max: 300 },
@@ -107,28 +139,24 @@ export default class GameScene extends BaseScene {
         rotate: {start: 0, end: 360},
         frequency: 600
     });
-    //Camara
-    this.cameras.main.fadeIn(2000, 0, 0, 0);
-    this.cameras.main.setBounds(0,0,this.sky.displayWidth, this.sky.displayHeight);
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.setZoom(1.3);
-    this.complete = false;
   }
-//actualiza los eventos. El delta es para calcular las fisicas
-  update(time, delta)
+
+  createWords(palabra, posX, posY, isPhysic)
   {
-    this.sky.setTilePosition(this.sky.tilePositionX + 0.1); 
-    if(this.word.word === 'nogal' && !this.complete){
-      this.brote.setTexture('nogal');
-      this.brote.setScale(2.2,2.2);
-      this.brote.setPosition(this.brote.x, this.game.config.height - 500);
-      this.word.destroyWord();
-      console.log("lag");
-      this.complete = true;
+    this.word=new Word({
+      scene:this,
+      x: posX,
+      y: posY,
+      word: palabra
+    });
+
+    if(isPhysic)
+    {
+      this.word.scene.physics.add.existing(this.word);
+      this.word.body.allowGravity = false;
+      this.physics.add.overlap(this.player, this.word, this.player.AddLetter, null, this.player);
     }
-    //Sale por un lado y carga la siguiente escena
-    // if(this.player.checkPos(this.game.config.width)){
-    //   this.scene.start('scene2');
-    // }
+
+    return this.word;
   }
 }

@@ -10,29 +10,11 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.jumpSpeed = 600;
         this.body.setGravityY(900);
 
-        this.invent=new Inventory({
-           scene:scene,
-           L:{},
-           N:0,
-          });
-          
-        //Inventario
-        // if(this.invent == null){
-        //   this.invent=new Inventory({
-        //     scene:scene,
-        //     L:{},
-        //     N:0
-        //   })
-        //   console.log(this.invent)
-        // }
-        // else {
-        //   this.invent=new Inventory({
-        //     scene:scene,
-        //     L:this.invent.Letters,
-        //     N:this.invent.NumElems
-        //   })
-        //   console.log("HOLA BUENAS TARDES")
-        // }
+        this.invent= new Inventory({
+          scene:scene,
+          L:{},
+          N:0
+        })
 
         //Para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();

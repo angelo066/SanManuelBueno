@@ -12,7 +12,7 @@ export default class Word extends Letter{
         this.word = word;   
         //Letra seleccionada para intercambio
         this.letter_selected = null; 
-        console.log(this.word);
+        // console.log(this.word);
         //Crea los sprites de letras y los hace hijos de palabra
         let i = 0;
         let letterKey = 'letters';
