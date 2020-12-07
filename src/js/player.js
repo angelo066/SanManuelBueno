@@ -12,9 +12,11 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
         this.invent = new Inventory({
           scene:scene,
+          x: this.scene.game.config.width/8,
+          y: this.scene.game.config.height*0.96,
           L:{},
-          N:0
         })
+
 
         //Para que no se salga de los bordes las pantalla
         this.body.setCollideWorldBounds();

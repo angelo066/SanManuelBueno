@@ -67,18 +67,18 @@ export default class GameScene extends BaseScene {
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background').setScale(0.75,0.75);
 
-    //Player
-    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
-
-    console.log(this.game.config.width/8);
-    console.log(this.game.config.height*0.8);
     //#region Plataformas
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
+
     this.platforms.children.iterate(function (child) { //Caja de colision
         child.body.setSize(0,100);
         child.setOffset(0, 40);
     });
+
+    //Player
+    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
+
     this.physics.add.collider(this.player, this.platforms);
     //#endregion
 

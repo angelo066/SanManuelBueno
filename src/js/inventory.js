@@ -1,18 +1,13 @@
 export default class Inventory extends Phaser.GameObjects.Sprite{
     constructor(data){
             //Letras   //Número de elemtos
-        let {scene, L, N} = data;
-        super (scene, L, N, 'inventory');
+        let {scene,x, y, L} = data;
+        super (scene,x, y,'inventory');
         this.scene.add.existing(this);
         this.Letters=L;
-        this.NumElems=N;
+        this.NumElems = 0;
 
-        // this.setScale(0.5);
-        //CArlos soy maricon
-        this.setVisible(true);
-        console.log(this.scale);
-        this.setScale(0.5);
-        console.log(this.scale);
+        this.setScale(0.04);
       
     }
 
