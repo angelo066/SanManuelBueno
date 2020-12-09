@@ -121,6 +121,7 @@ export default class GameScene extends BaseScene {
     this.cameras.main.setBounds(0,0,this.sky.displayWidth, this.sky.displayHeight);
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setZoom(1.3);
+    
     this.complete = false;
   }
 

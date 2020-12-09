@@ -14,7 +14,7 @@ export default class Word extends Letter{
         this.letter_selected = null; 
         // console.log(this.word);
         //Crea los sprites de letras y los hace hijos de palabra
-        let i = 0;
+        this.i = 0;
         let letterKey = 'letters';
         word.split('').forEach(l=>{
             l = l.toLowerCase();
@@ -26,16 +26,15 @@ export default class Word extends Letter{
             }
             this.letter = new Letter({
                 scene: scene,
-                x: 80 * i,
+                x: 20 * this.i,
                 y: 0,
                 key: letterKey,
                 frame: l.charCodeAt()-97,
-                word: word,
                 interactive: interactive
             });
             this.container.add(this.letter);
             if(letter === l){this.container.sendToBack(this.letter);}
-            i++;
+            this.i++;
         });
         //Tecla de activacion de tachar
         this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
@@ -115,6 +114,24 @@ export default class Word extends Letter{
     //Destruir todas las letras y su contenedor
     destroyWord(){
         this.container.destroy();
+    }
+
+
+    AddLetter(l)
+    {
+        l = l.toLowerCase();
+
+        let letter = new Letter({
+            scene: this.scene,
+            x: 80 * this.i,
+            y: 0,
+            key: 'letters',
+            frame: l.charCodeAt()-97,
+            interactive: false
+        });
+
+        this.container.add(letter);
+
     }
 
 }

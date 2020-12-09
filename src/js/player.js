@@ -12,10 +12,12 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
         this.invent = new Inventory({
           scene:scene,
-          x: this.scene.game.config.width/8,
-          y: this.scene.game.config.height*0.96,
+          x: this.scene.cameras.main.centerX - 500,
+          y: this.scene.cameras.main.height - 175,//this.scene.cameras.main.centerY + 200,
           L:{},
         })
+        console.log(this.scene.cameras.main.centerX - 500);
+        this.invent.setScrollFactor(0);
 
 
         //Para que no se salga de los bordes las pantalla
@@ -98,6 +100,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
       letrita.destroy();
       letrita.destroyWord();
 
-      this.invent.EscribeInventario();
+      // this.invent.EscribeInventario();
     }
   }
