@@ -63,6 +63,18 @@ export default class Scene2 extends BaseScene {
         child.body.setSize(0,100);
         child.setOffset(0, 40);
     });
+
+    //Caseta
+    walls=this.physics.add.staticGroup();
+    walls.create(this.game.config.width - 80, this.game.height - 30, 'left wall').setScale(0.75,0.75).refreshBody();
+    walls.create(this.game.config.width - 60, this.game.height - 30, 'right wall').setScale(0.75,0.75).refreshBody();
+    walls.create(this.game.config.width - 70, this.game.height - 20, 'ceiling').setScale(0.75,0.75).refreshBody();
+
+    walls.children.iterate(function(child){
+      child.body.setSize(0,50);
+      child.setOffset(0, 40);
+    });
+    
     //arbol y palabra
     this.physics.add.collider(this.player, platforms);
     this.word = new Word({
