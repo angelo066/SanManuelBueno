@@ -5,12 +5,11 @@ import Word from './word.js';
 let platforms;
 export default class Scene2 extends BaseScene {
   constructor() {
-    super({key: 'scene2'});
+    super({key: 'Level2'});
   }
   //para cargar los recursos
   preload() 
   {
-
     this.load.spritesheet({
       key:'player_run', 
       url:'src/assets/sprites/unamuno/run.png',
@@ -47,6 +46,7 @@ export default class Scene2 extends BaseScene {
     this.load.image('ground', 'src/assets/platforms/grass.png');
     this.load.image('background2', 'src/assets/bg/BackGround3.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
+    this.load.image('Wall', 'src/assets/platforms/Sonic.png');
 
   }
 //coloca objetos apartir de los assets dentro de la escena
@@ -65,16 +65,16 @@ export default class Scene2 extends BaseScene {
     });
 
     //Caseta
-    walls=this.physics.add.staticGroup();
-    walls.create(this.game.config.width - 80, this.game.height - 30, 'left wall').setScale(0.75,0.75).refreshBody();
-    walls.create(this.game.config.width - 60, this.game.height - 30, 'right wall').setScale(0.75,0.75).refreshBody();
-    walls.create(this.game.config.width - 70, this.game.height - 20, 'ceiling').setScale(0.75,0.75).refreshBody();
+    this.walls=this.physics.add.staticGroup();
+    this.walls.create(this.game.config.width/2, this.game.height*0.8, 'Wall').setScale(0.75,0.75).refreshBody();
+    // this.walls.create(this.game.config.width - 60, this.game.height - 30, 'ground').setScale(0.75,0.75).refreshBody();
+    // this.walls.create(this.game.config.width - 70, this.game.height - 20, 'ground').setScale(0.75,0.75).refreshBody();
 
-    walls.children.iterate(function(child){
+    this.walls.children.iterate(function(child){
       child.body.setSize(0,50);
       child.setOffset(0, 40);
     });
-    
+
     //arbol y palabra
     this.physics.add.collider(this.player, platforms);
     this.word = new Word({

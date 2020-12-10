@@ -77,7 +77,7 @@ export default class GameScene extends BaseScene {
     });
 
     //Player
-    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
+    this.player = new Player(this, this.game.config.width-100, this.game.config.height*0.8);
 
     this.physics.add.collider(this.player, this.platforms);
     //#endregion
@@ -109,9 +109,9 @@ export default class GameScene extends BaseScene {
       this.complete = true;
     }
     //Sale por un lado y carga la siguiente escena
-    // if(this.player.checkPos(this.game.config.width)){
-    //   this.scene.start('scene2');
-    // }
+    if(this.player.checkPos(this.game.config.width)){
+      this.scene.start('Level2');
+    }
   }
 
   FadeIn()
