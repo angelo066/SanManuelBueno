@@ -47,6 +47,8 @@ export default class Scene2 extends BaseScene {
     this.load.image('background2', 'src/assets/bg/BackGround3.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
     this.load.image('Wall', 'src/assets/platforms/Sonic.png');
+    this.load.image('Roof', 'src/assets/caseta/Roof.png');
+    this.load.image('Fondo', 'src/assets/caseta/Plantilla.png');
 
   }
 //coloca objetos apartir de los assets dentro de la escena
@@ -57,32 +59,29 @@ export default class Scene2 extends BaseScene {
     this.add.image(this.game.config.width/2,this.game.config.height/2, 'background2').setScale(2.13,2.13);
     //Platform and player
     platforms = this.physics.add.staticGroup();
+    //Caseta
+    
+
     this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
+    this.CreaCaseta();
+
     platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
     platforms.children.iterate(function (child) { //Caja de colision
         child.body.setSize(0,100);
         child.setOffset(0, 40);
     });
 
-    //Caseta
-    this.walls=this.physics.add.staticGroup();
-    this.walls.create(this.game.config.width/2, this.game.height*0.8, 'Wall').setScale(0.75,0.75).refreshBody();
-    // this.walls.create(this.game.config.width - 60, this.game.height - 30, 'ground').setScale(0.75,0.75).refreshBody();
-    // this.walls.create(this.game.config.width - 70, this.game.height - 20, 'ground').setScale(0.75,0.75).refreshBody();
 
-    this.walls.children.iterate(function(child){
-      child.body.setSize(0,50);
-      child.setOffset(0, 40);
-    });
-
-    //arbol y palabra
+    //Puzzle
     this.physics.add.collider(this.player, platforms);
     this.word = new Word({
       scene: this,
       x: this.game.config.width* 0.4,
       y: this.game.config.height/3,
-      word: 'MisMuertos'
+      word: 'Calentar'
     });
+
+    
     //Particles
     let leaves = this.add.particles('leaves');
     leaves.createEmitter({
@@ -111,5 +110,33 @@ export default class Scene2 extends BaseScene {
     if(this.player.checkPos(this.game.config.width)){
       this.scene.start('menu');
     }
+
+    if(this.word === 'Central' && !this.complete){
+      //Cambiar Imagen con todas las llaves por imagen con una y cambiar de nivel
+    }
+  }
+
+  CreaCaseta(){
+    //Caseta
+    this.walls=this.physics.add.staticGroup();
+    this.walls.create(this.game.config.width-300,this.game.config.height-500).setScale(0.75,0.75).refreshBody();
+    this.walls.create(this.game.config.width - 800, this.game.config.height-500);
+
+    this.walls.children.iterate(function(child){
+      child.body.setSize(50,450);
+      child.setOffset(0, 0);
+    });
+    //Techo
+    this.add.image(this.game.config.width - 550, this.game.config.height-540,'Roof').setScale(0.33,0.33);
+    //FOndo
+    this.add.image(this.game.config.width - 550, this.game.config.height-300,'Fondo').setScale(0.45,0.7);
+
+    //Estufa
+    //this.add.image = (this.game.config.width - 800, this.game.config.height-500,'ImagenEstufa').setScale(0.75,0.75);
+
+    //Llave
+    //this.llaves = this.add.image(this.game.config.width - 800, this.game.config.height-500,'ImagenLlaves').setScale(0.75,0.75);
+
+    this.physics.add.collider(this.player, this.walls);
   }
 }
