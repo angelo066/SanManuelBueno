@@ -57,7 +57,13 @@ export default class GameScene extends BaseScene {
     this.load.image('background', 'src/assets/bg/lake.png');
     this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
     this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
+    this.load.image('rosa', 'src/assets/puzzle_objects/rosa.png');
+    this.load.image('marchita', 'src/assets/puzzle_objects/rosa_marchita.png');
+    this.load.image('nuez', 'src/assets/puzzle_objects/nuez.png');
+    this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
+    this.load.image('tumba', 'src/assets/sprites/tumba.png');
+    this.load.image('tumbaSombra', 'src/assets/sprites/tumbaSombra.png');
 
   }
 //coloca objetos apartir de los assets dentro de la escena
@@ -75,21 +81,39 @@ export default class GameScene extends BaseScene {
         child.body.setSize(0,100);
         child.setOffset(0, 40);
     });
-
-    //Player
-    this.player = new Player(this, this.game.config.width-100, this.game.config.height*0.8);
-
-    this.physics.add.collider(this.player, this.platforms);
     //#endregion
 
-    //Árbol
-    this.brote = this.add.image(this.game.config.width-400, this.game.config.height - 120, 'brote');
-    this.brote.setScale(0.4,0.4);
+    //tumba
+    this.tumba = this.add.image(this.game.config.width/3, this.game.config.height - 175, 'tumba');
+    this.tumba.setScale(2.85,2.85);
     
-    //Palabras
-    this.palabra = this.createWords('Logan', this.game.config.width*2 /3, this.game.config.height/3, false);
+    //nuez
+    this.nuez = this.add.image(this.game.config.width/2 + 150, this.game.config.height - 110, 'nuez')
+    this.nuez.setScale(0.035,0.035);
 
-    this.test = this.createWords('P', this.game.config.width / 2, (this.game.config.height*80) / 100, true);
+    //rosas marchitas
+    this.marchita = this.add.image(this.game.config.width/3, this.game.config.height - 120, 'marchita')
+    this.marchita.setScale(2.3,2.3);
+    this.marchita2 = this.add.image(this.game.config.width/3+20, this.game.config.height - 115, 'marchita')
+    this.marchita2.setScale(2.3,2.3);
+    this.marchita3 = this.add.image(this.game.config.width/3+40, this.game.config.height - 110, 'marchita')
+    this.marchita3.setScale(2.3,2.3);
+
+    //Player
+    this.player = new Player(this, this.game.config.width/10, this.game.config.height*0.8);
+
+    this.physics.add.collider(this.player, this.platforms);
+    
+    //Árbol
+    this.brote = this.add.image(this.game.config.width/2, this.game.config.height - 157, 'brote');
+    this.brote.setScale(0.4,0.4);
+
+    //Palabras
+    this.palabra = this.createWords('lago', this.game.config.width/6, this.game.config.height - 300, false);
+
+    this.palabra2 = this.createWords('uez', this.game.config.width/2 + 135, this.game.config.height - 170, false)
+
+    this.test = this.createWords('n', this.game.config.width/2 + 115, this.game.config.height - 170, true);
 
     //Particulas
     this.createParticles('leaves'); 
@@ -101,13 +125,33 @@ export default class GameScene extends BaseScene {
   {
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1); 
     if(this.palabra.word === 'nogal' && !this.complete){
+      //textura del nogal
       this.brote.setTexture('nogal');
-      this.brote.setScale(2.2,2.2);
-      this.brote.setPosition(this.brote.x, this.game.config.height - 500);
+      this.brote.setScale(2.35,2.35);
+      this.brote.setPosition(this.brote.x, this.game.config.height - 550);
       this.palabra.destroyWord();
-      console.log("lag");
+
+      //se crea sombra
+      this.sombra = this.add.image(this.game.config.width/2 + 230, this.game.config.height - 350, 'sombra');
+      this.sombra.setScale(0.58,0.58);
+      this.sombra.setAlpha(0.3);
+      this.palabra3 = this.createWords('sombra', 1322, this.game.config.height - 180, false)
+     
+
       this.complete = true;
     }
+    if(this.complete){
+      if(this.palabra3.word === 'rosa' && !this.complete2){
+        this.rosa = this.add.image(this.game.config.width-400, this.game.config.height - 125, 'rosa')
+        this.rosa.setScale(0.023,0.023);
+
+        this.complete2=true;
+      }
+    }
+
+    //this.game.config.width-500, this.game.config.height - 125
+
+    console.log(this.player.body.x);
     //Sale por un lado y carga la siguiente escena
     if(this.player.checkPos(this.game.config.width)){
       this.scene.start('Level2');
