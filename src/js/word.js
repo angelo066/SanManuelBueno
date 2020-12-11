@@ -2,7 +2,7 @@ import Letter from "./letter.js";
 
 export default class Word extends Letter{
     constructor(data){
-        let {scene, x, y, word, interactive, letter} = data;
+        let{scene, x, y, word, interactive, letter} = data
         super(data);
         this.scene.add.existing(this);
         //gameObject padre de las letras
@@ -12,11 +12,10 @@ export default class Word extends Letter{
         this.word = word;   
         //Letra seleccionada para intercambio
         this.letter_selected = null; 
-        // console.log(this.word);
         //Crea los sprites de letras y los hace hijos de palabra
-        let i = 0;
+        this.i = 0;
         let letterKey = 'letters';
-        word.split('').forEach(l=>{
+        this.word.split('').forEach(l=>{
             l = l.toLowerCase();
             //Si la palabra no es interactiva(solo es para dar una letr al jugador)
             if(!interactive){
@@ -25,17 +24,16 @@ export default class Word extends Letter{
                 else{ letterKey = 'crackedLetters'; }
             }
             this.letter = new Letter({
-                scene: scene,
-                x: 80 * i,
+                scene: this.scene,
+                x: 80 * this.i,
                 y: 0,
                 key: letterKey,
                 frame: l.charCodeAt()-97,
-                word: word,
                 interactive: interactive
             });
             this.container.add(this.letter);
             if(letter === l){this.container.sendToBack(this.letter);}
-            i++;
+            this.i++;
         });
         //Tecla de activacion de tachar
         this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
@@ -53,7 +51,6 @@ export default class Word extends Letter{
     }
 
     preUpdate(){
-        
         if (Phaser.Input.Keyboard.JustDown(this.keycode)){
             this.strikeMode = !this.strikeMode;
             //Feedback visual de que el modo tachar esta activo
@@ -66,6 +63,9 @@ export default class Word extends Letter{
 				this.mode.destroy();
             this.letter_selected = null;
           }
+    }
+    centerWordPosX(){
+        return this.x-((this.i-1)*80/2);
     }
     //Seleccion de letra
     selectLetter(gameObject){
