@@ -43,8 +43,11 @@
             },
             scene: [MenuScene,GameScene,Level2],
             physics: {
-              default: "arcade",
-              arcade: { gravity: { y: 500 }, debug: true },
+              default: "matter",
+              matter: { gravity: { y: 3 },
+              debug: true,
+              setBounds: {left:true, right: true, top: true, bottom: true}
+              }
             },
           };
           new Phaser.Game(config);
