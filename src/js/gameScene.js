@@ -2,7 +2,6 @@ import BaseScene from './BaseScene.js';
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
-import Word from './word.js';
 
 export default class GameScene extends BaseScene {
   constructor() {
@@ -29,7 +28,7 @@ export default class GameScene extends BaseScene {
     });
     this.load.spritesheet({//Letras normales
       key:'letters', 
-      url:'src/assets/sprites/letters/normaltipo.png',
+      url:'src/assets/sprites/letters/normal.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
@@ -37,7 +36,7 @@ export default class GameScene extends BaseScene {
     });
     this.load.spritesheet({//Letras tachadas
       key:'strikedletters', 
-      url:'src/assets/sprites/letters/strikedtipo.png',
+      url:'src/assets/sprites/letters/striked.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
@@ -45,7 +44,7 @@ export default class GameScene extends BaseScene {
     });
     this.load.spritesheet({//Letras agrietadas
       key:'crackedletters', 
-      url:'src/assets/sprites/letters/crackedtipo.png',
+      url:'src/assets/sprites/letters/cracked.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
@@ -70,51 +69,23 @@ export default class GameScene extends BaseScene {
   create() 
   {
     //BG
-    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
-    this.add.image(this.game.config.width/2,this.game.config.height/2, 'background').setScale(0.75,0.75);
+    this.sky = this.add.tileSprite(this.cameras.main.centerX,this.cameras.main.centerY, 0, 0, 'sky');
+    this.scaleThis(this.sky,0.75,0.75);
+    this.bg = this.add.image(this.cameras.main.centerX,this.cameras.main.centerY, 'background');
+    this.scaleThis(this.bg,0.75,0.75);
 
     //#region Plataformas
-    this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
-
-    this.platforms.children.iterate(function (child) { //Caja de colision
-        child.body.setSize(0,100);
-        child.setOffset(0, 40);
-    });
+    this.ground =  this.matter.add.image(this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
+    this.addStaticCollision(this.ground,0,120);
+    this.scaleThis(this.ground,0.75,0.75); //{isStatic: true, render: { sprite: { yOffset: -80 }}}
     //#endregion
 
-    //tumba
-    this.tumba = this.add.image(this.game.config.width/3, this.game.config.height - 175, 'tumba');
-    this.tumba.setScale(2.85,2.85);
-    
-    //nuez
-    this.nuez = this.add.image(this.game.config.width/2 + 150, this.game.config.height - 110, 'nuez')
-    this.nuez.setScale(0.035,0.035);
-
-    //rosas marchitas
-    this.marchita = this.add.image(this.game.config.width/3, this.game.config.height - 120, 'marchita')
-    this.marchita.setScale(2.3,2.3);
-    this.marchita2 = this.add.image(this.game.config.width/3+20, this.game.config.height - 115, 'marchita')
-    this.marchita2.setScale(2.3,2.3);
-    this.marchita3 = this.add.image(this.game.config.width/3+40, this.game.config.height - 110, 'marchita')
-    this.marchita3.setScale(2.3,2.3);
-
-    //Player
-    this.player = new Player(this, this.game.config.width/10, this.game.config.height*0.8);
-
-    this.physics.add.collider(this.player, this.platforms);
-    
     //Árbol
-    this.brote = this.add.image(this.game.config.width/2, this.game.config.height - 157, 'brote');
-    this.brote.setScale(0.4,0.4);
-
-    //Palabras
-    this.palabra = this.createWords('lago', this.game.config.width/6, this.game.config.height - 300, false);
-
-    this.palabra2 = this.createWords('uez', this.game.config.width/2 + 135, this.game.config.height - 170, false)
-
-    this.test = this.createWords('n', this.game.config.width/2 + 115, this.game.config.height - 170, true);
-
+    this.brote = new PuzzleObjectWord(this, this.cameras.main.width-400, this.cameras.main.height - 120, 'brote', false, 400, 'logan', 'nogal')/*.setScaleSprite(0.4,0.4)*/;
+    
+    //Player
+    this.player = new Player(this, this.cameras.main.width*0.125, this.cameras.main.height*0.8, 'player_run', 0);
+    
     //Particulas
     this.createParticles('leaves'); 
    
@@ -123,39 +94,7 @@ export default class GameScene extends BaseScene {
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-    this.sky.setTilePosition(this.sky.tilePositionX + 0.1); 
-    if(this.palabra.word === 'nogal' && !this.complete){
-      //textura del nogal
-      this.brote.setTexture('nogal');
-      this.brote.setScale(2.35,2.35);
-      this.brote.setPosition(this.brote.x, this.game.config.height - 550);
-      this.palabra.destroyWord();
-
-      //se crea sombra
-      this.sombra = this.add.image(this.game.config.width/2 + 230, this.game.config.height - 350, 'sombra');
-      this.sombra.setScale(0.58,0.58);
-      this.sombra.setAlpha(0.3);
-      this.palabra3 = this.createWords('sombra', 1322, this.game.config.height - 180, false)
-     
-
-      this.complete = true;
-    }
-    if(this.complete){
-      if(this.palabra3.word === 'rosa' && !this.complete2){
-        this.rosa = this.add.image(this.game.config.width-400, this.game.config.height - 125, 'rosa')
-        this.rosa.setScale(0.023,0.023);
-
-        this.complete2=true;
-      }
-    }
-
-    //this.game.config.width-500, this.game.config.height - 125
-
-    console.log(this.player.body.x);
-    //Sale por un lado y carga la siguiente escena
-    if(this.player.checkPos(this.game.config.width)){
-      this.scene.start('Level2');
-    }
+    this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
   }
 
   FadeIn()
@@ -176,7 +115,7 @@ export default class GameScene extends BaseScene {
     leaves.createEmitter({
         frames: [{key: particleSprite, frame: 0}],
         x: -50,
-        y: { min: 100, max: this.game.config.height*0.5},
+        y: { min: 100, max: this.cameras.main.centerY},
         speedX: { min: 100, max: 300 },
         speedY: { min: -50, max: 50 },
         lifespan: 7000,
@@ -185,23 +124,17 @@ export default class GameScene extends BaseScene {
         frequency: 600
     });
   }
-
-  createWords(palabra, posX, posY, isPhysic)
-  {
-    this.word=new Word({
-      scene:this,
-      x: posX,
-      y: posY,
-      word: palabra
-    });
-
-    if(isPhysic)
-    {
-      this.word.scene.physics.add.existing(this.word);
-      this.word.body.allowGravity = false;
-      this.physics.add.overlap(this.player, this.word, this.player.AddLetter, null, this.player);
-    }
-
-    return this.word;
+  //escalar la imagen con display en vez de setScale
+  scaleThis(image,w, h){
+    image.displayWidth = image.width*w;
+    image.displayHeight = image.height*h;
+  }
+  //Añadir collide estatico a imagen
+  addStaticCollision(image, offsetX, offsetY){
+    let M = Phaser.Physics.Matter.Matter;
+    let w = image.width;
+    let h = image.height;
+    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true, label:'ground'});
+    image.setExistingBody(newBody);
   }
 }

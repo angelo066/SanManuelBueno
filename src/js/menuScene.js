@@ -1,4 +1,4 @@
-import BaseScene from './BaseScene.js'
+import BaseScene from './baseScene.js'
 export default class MenuScene extends BaseScene {
     constructor() {
       super({ key: 'menu' });

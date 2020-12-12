@@ -3,7 +3,7 @@ import Word from './word.js';
 export default class Inventory extends Phaser.GameObjects.Sprite{
     constructor(data){
             //Letras   //Número de elemtos
-        let {scene,x, y, L} = data;
+        let {scene,x, y, l} = data;
         super (scene,x, y,'inventory');
         this.scene.add.existing(this);
         this.Letters=L;
