@@ -62,8 +62,6 @@ export default class GameScene extends BaseScene {
     this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
     this.load.image('tumba', 'src/assets/sprites/tumba.png');
-    this.load.image('tumbaSombra', 'src/assets/sprites/tumbaSombra.png');
-
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
@@ -81,7 +79,9 @@ export default class GameScene extends BaseScene {
     //#endregion
 
     //Árbol
-    this.brote = new PuzzleObjectWord(this, this.cameras.main.width-400, this.cameras.main.height - 120, 'brote', false, 400, 'logan', 'nogal')/*.setScaleSprite(0.4,0.4)*/;
+    this.brote = new PuzzleObjectWord(this, this.cameras.main.width-400, this.cameras.main.height - 270, 'brote', false, 400, 'logan', 'nogal')/*.setScaleSprite(0.4,0.4)*/;
+
+    // this.sprite = this.matter.add.image(this.cameras.main.width-400, this.cameras.main.height - 120, 'brote', {isStatic:true});
     
     //Player
     this.player = new Player(this, this.cameras.main.width*0.125, this.cameras.main.height*0.8, 'player_run', 0);

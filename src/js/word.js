@@ -23,18 +23,21 @@ export default class Word extends Letter{
                 if(letter === l){ letterKey = 'letters'; }
                 else{ letterKey = 'crackedLetters'; }
             }
+            console.log(letterKey);
             this.letter = new Letter({
                 scene: this.scene,
                 x: 80 * this.i,
                 y: 0,
-                key: letterKey,
+                key: 'letters', //si pongo letterKey no me lo dibuja, por que?
                 frame: l.charCodeAt()-97,
                 interactive: interactive
             });
             this.container.add(this.letter);
             if(letter === l){this.container.sendToBack(this.letter);}
             this.i++;
+
         });
+
         //Tecla de activacion de tachar
         this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
         //Modo quitar letra = true y modo intercambiar letras = false
@@ -117,22 +120,22 @@ export default class Word extends Letter{
         this.container.destroy();
     }
 
-
     AddLetter(l)
     {
         l = l.toLowerCase();
-
         let letter = new Letter({
             scene: this.scene,
-            x: 80 * this.i,
-            y: 0,
+            x: 220 + 50*this.i,
+            y: -120,
             key: 'letters',
             frame: l.charCodeAt()-97,
             interactive: false
         });
 
+        letter.setScrollFactor(0);
+        letter.setScale(0.5);
         this.container.add(letter);
+        this.i++;
 
     }
-
 }

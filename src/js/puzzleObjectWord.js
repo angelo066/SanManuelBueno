@@ -1,18 +1,19 @@
 import Word from './word.js';
 
 export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
-    constructor(scene, x, y, key, physicsEnabled, sensorRadius, word, sol){
+    constructor(scene, x, y, keyImage, physicsEnabled, sensorRadius, word, sol){
         super(scene, x, y);
-        this.sprite = scene.matter.add.image(scene.matter.world, x, y, key,{isStatic:true});
+        
+        this.sprite = this.scene.matter.add.image(x, y, keyImage, {isStatic:true});
         if(physicsEnabled)//Objeto con fisicas
             this.sprite.isStatic(false);
         //Trigger
         let circle = new Phaser.Physics.Matter.Matter.Bodies.circle(x,y,sensorRadius,{isStatic:true,isSensor:true});
-        this.sprite.setExistingBody(circle);
+        this.sprite.setExistingBody(circle);    
         //String palabra
         this.word = word;
         this.objectWord = '';
-        this.add(this.sprite);
+        // this.add(this.sprite); //esto al parecer provoca que no se vea
         this.scene.add.existing(this);
         //Solucion Palabra
         this.sol = sol;

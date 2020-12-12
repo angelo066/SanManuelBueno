@@ -32,12 +32,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       restitution: 0.05, // Prevent body from sticking against a wall
     });
     this.setExistingBody(compoundBody).setFixedRotation() // Sets max inertia to prevent rotation
+
     this.invent = new Inventory({
       scene:scene,
-      x: this.scene.cameras.main.width/8,
-      y: this.scene.cameras.main.height*0.96,
+      x: this.scene.cameras.main.width/3.9,
+      y: this.scene.cameras.main.height*0.84,
       l:{},
     })
+
+    this.invent.setScrollFactor(0);
 
     //Creacion de las colisiones    
     //Colisiones de suelo y pegar
