@@ -13,7 +13,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         run: 5,
         jump: 13
       },
-      onFloor: true
+      onFloor: false
     };
     let M = Phaser.Physics.Matter.Matter;
     let w = this.width;
