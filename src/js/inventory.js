@@ -5,7 +5,12 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             //Letras   //Número de elemtos
         let {scene,x, y, l} = data;
         super (scene,x, y,'inventory');
+      
+
         this.scene.add.existing(this);
+        this.sprite = this.scene.add.image(this.scene.cameras.main.width-1570, this.scene.cameras.main.height-170, 'selection', {isStatic:true});
+        this.sprite.setScale(0.08);
+        this.sprite.setScrollFactor(0);
         this.Letters=l;
         this.NumElems = 0;
 
