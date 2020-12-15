@@ -78,13 +78,24 @@ export default class GameScene extends BaseScene {
     this.scaleThis(this.ground,0.75,0.75); //{isStatic: true, render: { sprite: { yOffset: -80 }}}
     //#endregion
 
-    //Árbol
-    this.brote = new PuzzleObjectWord(this, this.cameras.main.width-400, this.cameras.main.height - 270, 'brote', false, 400, 'logan', 'nogal')/*.setScaleSprite(0.4,0.4)*/;
+    //Tumba
+    this.tumba = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height - 175, 'tumba', false, 1, '', '');
 
-    // this.sprite = this.matter.add.image(this.cameras.main.width-400, this.cameras.main.height - 120, 'brote', {isStatic:true});
-    
+    //RosasMarchitas
+    this.marchita = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height - 118, 'marchita', false, 1, '', '');
+    this.marchita2 = new PuzzleObjectWord(this, this.game.config.width/3 + 20, this.game.config.height - 115, 'marchita', false, 1, '', '');
+    this.marchita3 = new PuzzleObjectWord(this, this.game.config.width/3 + 40, this.game.config.height - 120, 'marchita', false, 1, '', '');
+
+    //Nuez
+    this.nuez = new PuzzleObjectWord(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'nuez');
+
     //Player
     this.player = new Player(this, this.cameras.main.width*0.125, this.cameras.main.height*0.8, 'player_run', 0);
+
+    //Árbol
+    this.brote = new PuzzleObjectWord(this, this.game.config.width/2, this.game.config.height - 250, 'brote', false, 400, 'logan', 'nogal');
+
+    // this.sprite = this.matter.add.image(this.cameras.main.width-400, this.cameras.main.height - 120, 'brote', {isStatic:true});
     
     //Particulas
     this.createParticles('leaves'); 
@@ -95,6 +106,20 @@ export default class GameScene extends BaseScene {
   update(time, delta)
   {
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
+    if(this.brote.objectSolved() && !this.complete){
+      this.brote.changeImage('nogal');
+      //Sombra
+      this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosamb')
+      this.sombra.changeAlpha(0.3);
+      this.complete = true;
+    }
+    if(this.complete){
+      if(this.sombra.objectSolved() && !this.complete2){
+        //Rosa
+        this.rosa = new PuzzleObjectWord(this, this.game.config.width-400, this.game.config.height - 175, 'rosa', false, 1, '', '');
+        this.complete2 = true;
+      }    
+    }
   }
 
   FadeIn()

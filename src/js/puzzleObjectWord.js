@@ -52,10 +52,16 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     }
     //Flag de puzzle resuelto, poner en el update
     objectSolved(){
-        if(this.sol === this.objectWord)
+        if(this.sol === this.objectWord.word)
             return true;
         else
             return false;
+    }
+    changeAlpha(value){
+        this.sprite.alpha = value;
+    }
+    changeImage(image){
+        this.sprite.setTexture(image);
     }
     //Cambiar escala del sprite
     setScaleSprite(width, height){
