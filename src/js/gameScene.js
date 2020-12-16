@@ -70,13 +70,23 @@ export default class GameScene extends BaseScene {
     //BG
     this.sky = this.add.tileSprite(this.cameras.main.centerX,this.cameras.main.centerY, 0, 0, 'sky');
     this.scaleThis(this.sky,0.75,0.75);
+
+    this.sky2 = this.add.tileSprite(this.cameras.main.centerX + 1920,this.cameras.main.centerY, 0, 0, 'sky');
+    this.scaleThis(this.sky2,0.75,0.75);
+
     this.bg = this.add.image(this.cameras.main.centerX,this.cameras.main.centerY, 'background');
     this.scaleThis(this.bg,0.75,0.75);
+    this.bg2 = this.add.image(this.cameras.main.centerX + this.bg.width - 650,this.cameras.main.centerY, 'background').setFlipX(true);
+    this.scaleThis(this.bg2,0.75,0.75);
 
     //#region Plataformas
     this.ground =  this.matter.add.image(this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
     this.addStaticCollision(this.ground,0,120);
     this.scaleThis(this.ground,0.75,0.75); //{isStatic: true, render: { sprite: { yOffset: -80 }}}
+
+    this.ground2 =  this.matter.add.image(this.cameras.main.width + this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
+    this.addStaticCollision(this.ground2,0,120);
+    this.scaleThis(this.ground2,0.75,0.75);
     //#endregion
 
     //Tumba
@@ -91,13 +101,11 @@ export default class GameScene extends BaseScene {
     this.nuez = new PuzzleObjectWord(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'nuez');
 
     //Player
-    this.player = new Player(this, this.cameras.main.width*0.125, this.cameras.main.height*0.8, 'player_run', 0);
+    this.player = new Player(this, /*this.cameras.main.width*0.125 */34567890 , this.cameras.main.height*0.8, 'player_run', 0);
 
     //Árbol
     this.brote = new PuzzleObjectWord(this, this.game.config.width/2, this.game.config.height - 250, 'brote', false, 400, 'logan', 'nogal');
 
-    // this.sprite = this.matter.add.image(this.cameras.main.width-400, this.cameras.main.height - 120, 'brote', {isStatic:true});
-    
     //Particulas
     this.createParticles('leaves'); 
    
@@ -107,6 +115,8 @@ export default class GameScene extends BaseScene {
   update(time, delta)
   {
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
+    this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
+
     if(this.brote.objectSolved() && !this.complete){
       this.brote.changeImage('nogal');
       //Sombra
@@ -127,8 +137,11 @@ export default class GameScene extends BaseScene {
   {
     //Camara
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    this.cameras.main.setBounds(0,0,this.sky.displayWidth, this.sky.displayHeight);
+    this.cameras.main.setBounds(0,-1000,this.sky.displayWidth*2, this.sky.displayHeight * 2);
+    
     this.cameras.main.startFollow(this.player);
+    //Offeset para seguir al jugador
+    this.cameras.main.followOffset.set(0,250);
     this.cameras.main.setZoom(1.3);
     
     this.complete = false;

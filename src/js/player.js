@@ -157,6 +157,5 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.invent.AddLetter(letrita.word);
     letrita.destroy();
     letrita.destroyWord();
-     this.invent.EscribeInventario();
   }
 }

@@ -92,6 +92,14 @@ export default class Word extends Letter{
         }
         this.newWord();
     }
+
+    removeLetter(selection)
+    {
+        
+
+        
+    }
+
     //Cambiar la posicion de las letras
     swapLetters(gameObject){
         let temp = [this.letter_selected.texture,this.letter_selected.frame.name];
@@ -125,7 +133,7 @@ export default class Word extends Letter{
         l = l.toLowerCase();
         let letter = new Letter({
             scene: this.scene,
-            x: 220 + 50*this.i,
+            x: 50*this.i,
             y: -120,
             key: 'letters',
             frame: l.charCodeAt()-97,
