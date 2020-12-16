@@ -17,7 +17,11 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         this.scene.add.existing(this);
         //Solucion Palabra
         this.sol = sol;
+        //Variable para que el jugador pueda añadir letras cuando colisione con el puzzle
+        this.canAdd = false;
         //Colisiones
+        this.keycodeW = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+
         this.scene.matter.world.on('collisionstart', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -28,9 +32,12 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                 if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                 {
                     this.wordAppear();
+
+                    this.canAdd = true;
                 }
             }
         });
+
         this.scene.matter.world.on('collisionend', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -40,15 +47,27 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
 
                 if (bodyA === wordBody || bodyB === wordBody)
                 {
-                    if(bodyA === wordBody && bodyB.label === 'player'){
+                    if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
+                    {
                         this.wordDisappear();
-                    }
-                    else if(bodyA.label === 'player'){
-                        this.wordDisappear();
+
+                        this.canAdd = false;
                     }
                 }
             }
+
+            this.canAdd = false;
         });
+    }
+
+    preUpdate(time,delta)
+    {
+        // super.preUpdate(time,delta);
+        // console.log(this.canAdd);
+        if (Phaser.Input.Keyboard.JustDown(this.keycodeW) && this.canAdd)
+        {
+            console.log("averlas");
+        }
     }
     //Flag de puzzle resuelto, poner en el update
     objectSolved(){
@@ -106,4 +125,5 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         timeline.play();
         this.remove(this.objectWord);
     }
+
  }

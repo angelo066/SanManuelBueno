@@ -82,7 +82,7 @@ export default class GameScene extends BaseScene {
     //#region Plataformas
     this.ground =  this.matter.add.image(this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
     this.addStaticCollision(this.ground,0,120);
-    this.scaleThis(this.ground,0.75,0.75); //{isStatic: true, render: { sprite: { yOffset: -80 }}}
+    this.scaleThis(this.ground,0.75,0.75); 
 
     this.ground2 =  this.matter.add.image(this.cameras.main.width + this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
     this.addStaticCollision(this.ground2,0,120);
@@ -98,7 +98,7 @@ export default class GameScene extends BaseScene {
     this.marchita3 = new PuzzleObjectWord(this, this.game.config.width/3 + 40, this.game.config.height - 120, 'marchita', false, 1, '', '');
 
     //Nuez
-    this.nuez = new PuzzleObjectWord(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'nuez');
+    this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'n');
 
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */34567890 , this.cameras.main.height*0.8, 'player_run', 0);
@@ -129,9 +129,9 @@ export default class GameScene extends BaseScene {
         //Rosa
         this.rosa = new PuzzleObjectWord(this, this.game.config.width-400, this.game.config.height - 175, 'rosa', false, 1, '', '');
         this.complete2 = true;
-      }    
+      }
     }
-  }
+    }
 
   FadeIn()
   {

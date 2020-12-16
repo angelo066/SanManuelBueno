@@ -21,14 +21,14 @@ export default class Word extends Letter{
             if(!interactive){
                 //La letra que recibe el jugador mantiene el sprite, las otras son diferentes
                 if(letter === l){ letterKey = 'letters'; }
-                else{ letterKey = 'crackedLetters'; }
+                else{ letterKey = 'crackedletters'; }
             }
             console.log(letterKey);
             this.letter = new Letter({
                 scene: this.scene,
                 x: 80 * this.i,
                 y: 0,
-                key: 'letters', //si pongo letterKey no me lo dibuja, por que?
+                key: letterKey,
                 frame: l.charCodeAt()-97,
                 interactive: interactive
             });
@@ -95,9 +95,17 @@ export default class Word extends Letter{
 
     removeLetter(selection)
     {
-        
+        // console.log("removing child number " + selection);
 
+        this.container.bringToTop(this.container.getAt(selection));
+
+        this.container.iterate ( child =>{
+            if(this.container.getIndex(child) >= selection &&  this.container.getIndex( (this.container.last) !== this.container.getIndex(child)  )) 
+                child.x = child.x -80;
+        });
         
+        this.container.remove(this.container.last);
+        this.i--;
     }
 
     //Cambiar la posicion de las letras

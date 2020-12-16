@@ -29,6 +29,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
           this.AddLetter("I");
           this.AddLetter("O");
           this.AddLetter("S");
+         
           
         this.setScale(0.04);
 
@@ -62,9 +63,10 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.keycodeW)){
-            console.log("you just pressed W");
+            // console.log("you just pressed W");
 
-            this.word.removeLetter();
+            this.word.removeLetter(this.selector);
+
         }
     }
 
