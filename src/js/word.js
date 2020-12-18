@@ -93,7 +93,7 @@ export default class Word extends Letter{
         this.newWord();
     }
 
-    removeLetter(selection)
+    removeLetter(selection, i)
     {
         // console.log("removing child number " + selection);
 
@@ -101,7 +101,7 @@ export default class Word extends Letter{
 
         this.container.iterate ( child =>{
             if(this.container.getIndex(child) >= selection &&  this.container.getIndex( (this.container.last) !== this.container.getIndex(child)  )) 
-                child.x = child.x -80;
+                child.x = child.x - i ;
         });
         
         this.container.remove(this.container.last);
@@ -136,12 +136,12 @@ export default class Word extends Letter{
         this.container.destroy();
     }
 
-    AddLetter(l)
+    AddLetter(l, offset)
     {
         l = l.toLowerCase();
         let letter = new Letter({
             scene: this.scene,
-            x: 50*this.i,
+            x: offset*this.i,
             y: -120,
             key: 'letters',
             frame: l.charCodeAt()-97,

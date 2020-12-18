@@ -50,7 +50,7 @@ export default class GameScene extends Phaser.Scene {
       }
     });
     this.load.image('inventory', 'src/assets/inventory/pergamino.png')
-    this.load.image('selection', 'src/assets/inventory/select.png')
+    this.load.image('selection', 'src/assets/inventory/selector.png')
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
     this.load.image('background', 'src/assets/bg/lake.png');
