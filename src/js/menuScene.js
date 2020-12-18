@@ -1,5 +1,4 @@
-import BaseScene from './baseScene.js'
-export default class MenuScene extends BaseScene {
+export default class MenuScene extends  Phaser.Scene {
     constructor() {
       super({ key: 'menu' });
     }

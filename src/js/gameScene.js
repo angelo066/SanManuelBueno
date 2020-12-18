@@ -1,9 +1,8 @@
-import BaseScene from './BaseScene.js';
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
 
-export default class GameScene extends BaseScene {
+export default class GameScene extends Phaser.Scene {
   constructor() {
     super({key: 'game'});
   }

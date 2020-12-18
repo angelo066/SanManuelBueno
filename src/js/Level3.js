@@ -1,9 +1,8 @@
-import BaseScene from './BaseScene.js';
 import Player from './player.js';
 import Word from './word.js';
 
 let platforms;
-export default class Scene2 extends BaseScene {
+export default class Scene2 extends  Phaser.Scene {
   constructor() {
     super({key: 'Level2'});
   }
