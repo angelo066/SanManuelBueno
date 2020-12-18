@@ -16,21 +16,22 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
         this.offset = 55;
         this.NumElems = 0;
+        this.limit = 6;
 
         this.word = new Word({
             scene:this.scene,
-            x: this.scene.cameras.main.width-1570,
+            x: this.scene.cameras.main.width-1570,// TODO: Revisar numeritos pochos
             y: this.scene.cameras.main.height-50,
             word: "",
             interactive: false,
             letter: 'letters'
           });
-          this.AddLetter("S");
-          this.AddLetter("I");
-          this.AddLetter("M");
-          this.AddLetter("I");
-          this.AddLetter("O");
-          this.AddLetter("S");
+        //   this.AddLetter("S");
+        //   this.AddLetter("A");
+        //   this.AddLetter("B");
+        //   this.AddLetter("I");
+        //   this.AddLetter("O");
+        //   this.AddLetter("S");
           
         this.setScale(0.04);
 
@@ -43,7 +44,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
     {
         if (Phaser.Input.Keyboard.JustDown(this.keycodeD)){
             
-            if(this.selector<5)
+            if(this.selector < this.limit - 1)
             {
                 console.log("you just pressed D");
                 this.selector++;
@@ -77,7 +78,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             }
           
 
-            console.log(this.NumElems);
+            // console.log(this.NumElems);
             
             this.moveSelection(this.scene.cameras.main.width-1570 + this.selector *this.offset);
 
@@ -86,7 +87,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
     AddLetter(letrita)
     {
-        if(this.NumElems< 6)
+        if(this.NumElems< this.limit)
         {
             this.word.AddLetter(letrita, this.offset);
         

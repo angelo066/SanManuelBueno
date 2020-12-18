@@ -1,3 +1,8 @@
+
+
+//SE COMENTA EL CóDIGO CRACKS(COJONES DICE GUILLE) >:()
+
+
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
@@ -89,15 +94,15 @@ export default class GameScene extends Phaser.Scene {
     //#endregion
 
     //Tumba
-    this.tumba = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height - 175, 'tumba', false, 1, '', '');
+    // this.tumba = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height - 175, 'tumba', false, 1, '', '');
 
     //RosasMarchitas
-    this.marchita = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height - 118, 'marchita', false, 1, '', '');
-    this.marchita2 = new PuzzleObjectWord(this, this.game.config.width/3 + 20, this.game.config.height - 115, 'marchita', false, 1, '', '');
-    this.marchita3 = new PuzzleObjectWord(this, this.game.config.width/3 + 40, this.game.config.height - 120, 'marchita', false, 1, '', '');
+    // this.marchita = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height - 118, 'marchita', false, 1, '', '');
+    // this.marchita2 = new PuzzleObjectWord(this, this.game.config.width/3 + 20, this.game.config.height - 115, 'marchita', false, 1, '', '');
+    // this.marchita3 = new PuzzleObjectWord(this, this.game.config.width/3 + 40, this.game.config.height - 120, 'marchita', false, 1, '', '');
 
     //Nuez
-    this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'n');
+    // this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'n');
 
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */34567890 , this.cameras.main.height*0.8, 'player_run', 0);

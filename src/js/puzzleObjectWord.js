@@ -38,6 +38,21 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             }
         });
 
+
+        // this.scene.matter.world.on('collisionactive', (event)=>{
+        //     let wordBody = this.sprite.body;
+        //     for (let i = 0; i < event.pairs.length; i++)
+        //     {
+        //         let bodyA = event.pairs[i].bodyA;
+        //         let bodyB = event.pairs[i].bodyB;
+
+        //         if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
+        //         {
+        //             this.canAdd = true;
+        //         }
+        //     }
+        // });
+
         this.scene.matter.world.on('collisionend', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -56,15 +71,15 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                 }
             }
 
-            this.canAdd = false;
         });
     }
 
-    preUpdate(time,delta)
+    preUpdate(/*time,delta*/)
     {
         // super.preUpdate(time,delta);
         // console.log(this.canAdd);
-        if (Phaser.Input.Keyboard.JustDown(this.keycodeW) && this.canAdd)
+        // console.log("Estás presionando la Q?:" + Phaser.Input.Keyboard.JustDown(this.keycodeQ));
+        if (Phaser.Input.Keyboard.JustDown(this.keycodeW)  && this.canAdd)
         {
             console.log("averlas");
         }
