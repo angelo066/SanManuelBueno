@@ -6,6 +6,7 @@
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
+import Dialogo from './Dialogo.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -67,6 +68,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
     this.load.image('tumba', 'src/assets/sprites/tumba.png');
+    //this.load.image('bocadillo',);
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
@@ -108,12 +110,13 @@ export default class GameScene extends Phaser.Scene {
     this.player = new Player(this, /*this.cameras.main.width*0.125 */34567890 , this.cameras.main.height*0.8, 'player_run', 0);
 
     //Árbol
-    this.brote = new PuzzleObjectWord(this, this.game.config.width/2, this.game.config.height - 250, 'brote', false, 400, 'logan', 'nogal');
+    //this.brote = new PuzzleObjectWord(this, this.game.config.width/2, this.game.config.height - 250, 'brote', false, 400, 'logan', 'nogal');
 
     //Particulas
     this.createParticles('leaves'); 
    
     this.FadeIn();
+    this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','tumba',400);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
@@ -121,21 +124,21 @@ export default class GameScene extends Phaser.Scene {
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
     this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
-    if(this.brote.objectSolved() && !this.complete){
-      this.brote.changeImage('nogal');
-      //Sombra
-      this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosa')
-      this.sombra.changeAlpha(0.3);
-      this.complete = true;
-    }
-    if(this.complete){
-      if(this.sombra.objectSolved() && !this.complete2){
-        //Rosa
-        this.rosa = new PuzzleObjectWord(this, this.game.config.width-400, this.game.config.height - 175, 'rosa', false, 1, '', '');
-        this.complete2 = true;
-      }
-    }
-    }
+    // if(this.brote.objectSolved() && !this.complete){
+    //   this.brote.changeImage('nogal');
+    //   //Sombra
+    //   this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosa')
+    //   this.sombra.changeAlpha(0.3);
+    //   this.complete = true;
+    // }
+    // if(this.complete){
+    //   if(this.sombra.objectSolved() && !this.complete2){
+    //     //Rosa
+    //     this.rosa = new PuzzleObjectWord(this, this.game.config.width-400, this.game.config.height - 175, 'rosa', false, 1, '', '');
+    //     this.complete2 = true;
+    //   }
+    // }
+  }
 
   FadeIn()
   {
