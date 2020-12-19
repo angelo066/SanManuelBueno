@@ -86,8 +86,11 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     }
     //Flag de puzzle resuelto, poner en el update
     objectSolved(){
-        if(this.sol === this.objectWord.word)
+        if(this.sol === this.objectWord.word){
+            this.scene.matter.world.remove(this.sprite.body);
+            this.objectWord.destroy();
             return true;
+        }
         else
             return false;
     }

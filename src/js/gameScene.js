@@ -124,7 +124,7 @@ export default class GameScene extends Phaser.Scene {
     if(this.brote.objectSolved() && !this.complete){
       this.brote.changeImage('nogal');
       //Sombra
-      this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosamb')
+      this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosa')
       this.sombra.changeAlpha(0.3);
       this.complete = true;
     }
