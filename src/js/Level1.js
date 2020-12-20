@@ -49,7 +49,7 @@ export default class Scene1 extends  Phaser.Scene {
     this.load.image('Fondo', 'src/assets/caseta/Plantilla.png');
     this.load.image('patronesTilemap','src/assets/tiles/tileset.png');
     this.load.tilemapTiledJSON('tilemap1', 'src/assets/tiles/level1.json');
-    this.load.audio('bandaSonora','src/assets/Sonido/bandaSonora.mp3');
+    this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
 
   }
 //coloca objetos apartir de los assets dentro de la escena
