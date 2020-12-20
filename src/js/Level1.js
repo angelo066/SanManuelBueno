@@ -1,11 +1,9 @@
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
-import Word from './word.js';
 
-let platforms;
-export default class Scene2 extends  Phaser.Scene {
+export default class Scene1 extends  Phaser.Scene {
   constructor() {
-    super({key: 'Level2'});
+    super({key: 'Level1'});
   }
   //para cargar los recursos
   preload() 
@@ -28,7 +26,7 @@ export default class Scene2 extends  Phaser.Scene {
     });
     this.load.spritesheet({
       key:'letters', 
-      url:'src/assets/sprites/letters/tipo1a.png',
+      url:'src/assets/sprites/letters/normal.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
@@ -36,7 +34,7 @@ export default class Scene2 extends  Phaser.Scene {
     });
     this.load.spritesheet({
       key:'strikedletters', 
-      url:'src/assets/sprites/letters/tipo1b.png',
+      url:'src/assets/sprites/letters/cracked.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
@@ -49,31 +47,33 @@ export default class Scene2 extends  Phaser.Scene {
     this.load.image('Wall', 'src/assets/platforms/Sonic.png');
     this.load.image('Roof', 'src/assets/caseta/Roof.png');
     this.load.image('Fondo', 'src/assets/caseta/Plantilla.png');
+    this.load.tilemapTiledJSON('tilemap1', 'src/assets/tiles/level1.json');
+    this.load.image('patronesTilemap','src/assets/tiles/tileset.png')
 
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    //BG
-    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
-    this.add.image(this.game.config.width/2,this.game.config.height/2, 'background2').setScale(2.13,2.13);
-    //Platform and player
-    platforms = this.physics.add.staticGroup();
-    //Caseta
-    
-
-    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
-    this.CreaCaseta();
-
-    platforms.create(this.game.config.width/2, this.game.config.height-60, 'ground').setScale(0.75,0.75).refreshBody();
-    platforms.children.iterate(function (child) { //Caja de colision
-        child.body.setSize(0,100);
-        child.setOffset(0, 40);
+    this.map = this.make.tilemap({
+      key:'tilemap1',
+      tileWidth:1024,
+      tileHeight:1024
     });
 
+    const tileset1 = this.map.addTilesetImage('tileset','patronesTilemap');
 
+    this.backGroundLayer = this.map.createStaticLayer('backgroundcave', tileset1);
+    this.groundLayer = this.map.createStaticLayer('ground',tileset1);
+    this.foregroundLayer=this.map.createStaticLayer('grass',tileset1);
     
-    this.physics.add.collider(this.player, platforms);
+    //BG
+    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
+  
+    //Platform and player
+
+    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
+    //this.playerMaricon= this.map.createFromObjects('ground',1);
+    
 
     //Puzzle1
     this.altar = new PuzzleObjectWord(this, this.game.config.width/5, this.game.config.height/2, 'altar', false,true,'Altar','Talar');
@@ -128,29 +128,5 @@ export default class Scene2 extends  Phaser.Scene {
       //destruir quitar cascada
       this.complete3=true;
     }
-  }
-
-  CreaCaseta(){
-    //Caseta
-    this.walls=this.physics.add.staticGroup();
-    this.walls.create(this.game.config.width-300,this.game.config.height-500).setScale(0.75,0.75).refreshBody();
-    this.walls.create(this.game.config.width - 800, this.game.config.height-500);
-
-    this.walls.children.iterate(function(child){
-      child.body.setSize(50,450);
-      child.setOffset(0, 0);
-    });
-    //Techo
-    this.add.image(this.game.config.width - 550, this.game.config.height-540,'Roof').setScale(0.33,0.33);
-    //FOndo
-    this.add.image(this.game.config.width - 550, this.game.config.height-300,'Fondo').setScale(0.45,0.7);
-
-    //Estufa
-    //this.add.image = (this.game.config.width - 800, this.game.config.height-500,'ImagenEstufa').setScale(0.75,0.75);
-
-    //Llave
-    //this.llaves = this.add.image(this.game.config.width - 800, this.game.config.height-500,'ImagenLlaves').setScale(0.75,0.75);
-
-    this.physics.add.collider(this.player, this.walls);
   }
 }

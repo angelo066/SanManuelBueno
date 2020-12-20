@@ -24,6 +24,7 @@
     <main>
       <canvas id="phaser-game" style="border: 2px solid rgb(0, 0, 0)" ></canvas>
         <script type="module">
+          import Level1 from "./src/js/Level1.js";
           import MenuScene from "./src/js/menuScene.js";
           import GameScene from "./src/js/gameScene.js";
           import Level2 from "./src/js/Level2.js";
@@ -40,7 +41,7 @@
               mode: Phaser.Scale.FIT,
               autoCenter: Phaser.Scale.CENTER_BOTH,
             },
-            scene: [GameScene,Level2, MenuScene],
+            scene: [Level1,Level2,MenuScene, GameScene],
             physics: {
               default: "matter",
               matter: { gravity: { y: 1 },
