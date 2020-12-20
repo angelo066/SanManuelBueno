@@ -125,6 +125,14 @@ export default class level1 extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    this.anims.create({
+      key:'talado',
+      frames: this.anims.generateFrameNumbers('arbol',{start: 0, end: 6}),
+      frameRate: 2,
+      showOnStart:true,
+      hideOnComplete: true
+    });
+
     let config={
       mute:false,
       volume:1,
@@ -180,9 +188,11 @@ export default class level1 extends Phaser.Scene {
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
 
     //Puzzle 1
-    this.altar= new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.35, 'altar', false, 2000,'Altar','Talar');
+    this.altar= new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.35, 'altar', false, 2000,'Altar','talar');
     this.scaleThis(this.altar.sprite, 0.10, 0.10);
-    
+    this.arbol = this.add.sprite(this.game.config.width*0.7, this.game.config.height*1.05, 'arbol', 0);
+    this.arbol.flipX = true;
+    this.arbol.setDepth(9); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
     //Particulas
     this.createParticles('leaves'); 
    
@@ -196,13 +206,19 @@ export default class level1 extends Phaser.Scene {
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
     //this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
-    // if(this.brote.objectSolved() && !this.complete){
-    //   this.brote.changeImage('nogal');
-    //   //Sombra
-    //   this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosa')
-    //   this.sombra.changeAlpha(0.3);
-    //   this.complete = true;
-    // }
+    if(this.altar.objectSolved() && !this.altar.complete)
+    {
+      this.arbol.anims.play('talado',true);     
+
+      this.arbol.setPosition(this.arbol.x, this.arbol.y + 50);
+      let puente = this.matter.add.image(this.arbol.x,this.arbol.y);
+      let rectangle = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.arbol.x,this.arbol.y,64*6,64,{isStatic:true,label:'ground'});
+      let puenteBody = Phaser.Physics.Matter.Matter.Body.create({parts:[rectangle]});
+      puente.setExistingBody(puenteBody).setFixedRotation();
+      
+      this.altar.complete=true;
+      
+    }
     // if(this.nuez.solved){
     //    this.player.addLetter(this.nuez.getLetter());
     //  }
