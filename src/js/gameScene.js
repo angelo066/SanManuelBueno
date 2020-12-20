@@ -87,55 +87,55 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('tumba', 'src/assets/sprites/gameObjects/tumba.png');
 
 
-    this.load.tilemapTiledJSON('tilemap1', 'src/assets/tiles/level1.json');
-    this.load.image('patronesTilemap','src/assets/tiles/tileset.png')
+    this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
+    this.load.image('tileset','src/assets/tiles/tileset.png')
 
     //this.load.image('bocadillo',);
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    this.bg = this.add.image(this.cameras.main.centerX,this.cameras.main.centerY, 'background');
+    this.scaleThis(this.bg,0.75,0.75);
 
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
     const map = this.make.tilemap({
-      key:'tilemap1',
+      key:'tilemap_level1',
       tileWidth:64,
       tileHeight:64
     });
-
-    this.bg = this.add.image(this.cameras.main.centerX,this.cameras.main.centerY, 'background');
-    this.scaleThis(this.bg,0.75,0.75);
-    const tileset1 = map.addTilesetImage('tileset','patronesTilemap');
-
-    map.createStaticLayer('backgroundcave', tileset1);
-    const suelo = map.createStaticLayer('ground',tileset1);
-     map.createStaticLayer('grass',tileset1);
-     map.createStaticLayer('water',tileset1);
-     map.createStaticLayer('waterplant',tileset1);
-     map.createStaticLayer('waterfall2',tileset1);
-     map.createStaticLayer('waterfall',tileset1);
-     map.createStaticLayer('foamWaterFall',tileset1);
-    map.createStaticLayer('foregroundcave',tileset1);
-    map.createStaticLayer('entrycave',tileset1);
-
-    suelo.setCollisionByProperty({ collides: true });
-    const debugGraphics = this.add.graphics().setAlpha(0.75);
-    suelo.renderDebug(debugGraphics, {
-      tileColor: null, // Color of non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-    });  
-
-    // hierba.setCollisionByProperty(this.player);
-    suelo.setCollisionByProperty({collides:true});
-    // cosa1.setCollisionByProperty({collides:true});
-    // cosa2.setCollisionByProperty({collides:true});
-    // cosa3.setCollisionByProperty({collides:true});
-    // cosa4.setCollisionByProperty({collides:true});
-    // cosa5.setCollisionByProperty({collides:true});
-    // cosa6.setCollisionByProperty({collides:true});
-    // cosa7.setCollisionByProperty({collides:true});
-
+    const tileset = map.addTilesetImage('tileset');
+    
+    //Layers del tileMap
+    const water = map.createDynamicLayer('water',tileset);
+    map.createDynamicLayer('waterplant',tileset);
+    const ground = map.createDynamicLayer('ground',tileset,0,0);
+    map.createDynamicLayer('waterfall2',tileset,0,0);
+    const waterfall = map.createDynamicLayer('waterfall',tileset,0,0);
+    map.createDynamicLayer('foamWaterFall',tileset,0,0);
+    map.createDynamicLayer('backgroundcave',tileset,0,0);
+    const cave = map.createDynamicLayer('foregroundcave',tileset,0,0);
+    map.createDynamicLayer('entrycave',tileset,0,0);
+    map.createDynamicLayer('grass',tileset,0,0);
+    //Implementacion de colisiones
+    water.setCollisionByProperty({collides:true});
+    ground.setCollisionBetween(1,0)
+    ground.setCollisionByProperty({collides:true});
+    waterfall.setCollisionByProperty({collides:true});
+    cave.setCollisionByProperty({collides:true});
+    //convertir colisiones a matter
+    this.matter.world.convertTilemapLayer(water);
+    this.matter.world.convertTilemapLayer(ground);
+    this.matter.world.convertTilemapLayer(waterfall);
+    this.matter.world.convertTilemapLayer(cave);
+    //DEBUG
+    this.matter.world.createDebugGraphic();
+    // const debugGraphics = this.add.graphics().setAlpha(0.75);
+    // suelo.renderDebug(debugGraphics, {
+    //   tileColor: null, // Color of non-colliding tiles
+    //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+    //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+    // });  
 
 
     //BG
@@ -178,7 +178,6 @@ export default class GameScene extends Phaser.Scene {
     //this.brote = new PuzzleObjectWord(this, this.game.config.width/2, this.game.config.height - 250, 'brote', false, 400, 'logan', 'nogal');
 
     //Particulas
-    this.matter.world.convertTilemapLayer(suelo);
     this.createParticles('leaves'); 
    
     this.FadeIn();
