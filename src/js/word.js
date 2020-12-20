@@ -9,7 +9,7 @@ export default class Word extends Letter{
         this.container = scene.add.container(x, y);
         this.scene.add.existing(this.container);
         //Palabra
-        this.word = word;   
+        this.word = word; 
         //Letra seleccionada para intercambio
         this.letter_selected = null; 
         //Crea los sprites de letras y los hace hijos de palabra
@@ -20,10 +20,10 @@ export default class Word extends Letter{
             //Si la palabra no es interactiva(solo es para dar una letr al jugador)
             if(!interactive){
                 //La letra que recibe el jugador mantiene el sprite, las otras son diferentes
-                if(letter === l){ letterKey = 'letters'; }
+                if(l === letter){ letterKey = 'letters'; }
                 else{ letterKey = 'crackedletters'; }
             }
-            this.letter = new Letter({
+            this.let = new Letter({
                 scene: this.scene,
                 x: 80 * this.i,
                 y: 0,
@@ -31,14 +31,14 @@ export default class Word extends Letter{
                 frame: l.charCodeAt()-97,
                 interactive: interactive
             });
-            this.container.add(this.letter);
-            if(letter === l){this.container.sendToBack(this.letter);}
+            this.container.add(this.let);
+            if(letter === l){this.container.sendToBack(this.let);}
             this.i++;
 
         });
 
         //Tecla de activacion de tachar
-        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
         //Modo quitar letra = true y modo intercambiar letras = false
         this.strikeMode = false;
         //Input de raton

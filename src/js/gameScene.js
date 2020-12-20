@@ -84,7 +84,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('nuez', 'src/assets/puzzle_objects/nuez.png');
     this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
-    this.load.image('tumba', 'src/assets/sprites/tumba.png');
+    this.load.image('tumba', 'src/assets/sprites/gameObjects/tumba.png');
     //this.load.image('bocadillo',);
   }
 //coloca objetos apartir de los assets dentro de la escena
@@ -121,7 +121,7 @@ export default class GameScene extends Phaser.Scene {
     // this.marchita3 = new PuzzleObjectWord(this, this.game.config.width/3 + 40, this.game.config.height - 120, 'marchita', false, 1, '', '');
 
     //Nuez
-    this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'n');
+    this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 200, 'nuez', 'n');
 
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */34567890 , this.cameras.main.height*0.8, 'player_run', 0);

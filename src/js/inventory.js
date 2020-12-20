@@ -35,14 +35,14 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
           
         this.setScale(0.04);
 
-        this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.keycodeA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keycodeW = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.keycodeC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+        this.keycodeV = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
+        this.keycodeF = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     }
 
     preUpdate()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.keycodeD)){
+        if (Phaser.Input.Keyboard.JustDown(this.keycodeV)){
             
             if(this.selector < this.limit - 1)
             {
@@ -55,7 +55,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keycodeA)){
+        if (Phaser.Input.Keyboard.JustDown(this.keycodeC)){
             console.log("you just pressed A");
 
             if(this.selector>0)
@@ -64,7 +64,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             this.moveSelection(this.scene.cameras.main.width-1570 + this.selector *this.offset);
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keycodeW))
+        if (Phaser.Input.Keyboard.JustDown(this.keycodeF))
         {
             console.log("you just pressed W");
 

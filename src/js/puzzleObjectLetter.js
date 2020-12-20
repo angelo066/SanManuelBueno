@@ -11,6 +11,7 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
         this.sprite.setExistingBody(circle);
         //String palabra
         this.word = word;
+        this.letter = letter;
         this.objectWord = '';
         //Palabra del objeto
         this.objectWord = new Word({
@@ -35,7 +36,8 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
             {
                 let bodyA = event.pairs[i].bodyA;
                 let bodyB = event.pairs[i].bodyB;
-
+                console.log(bodyA);
+                console.log(bodyB);
                 if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                 {
                     this.wordAppear();

@@ -31,6 +31,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       friction: 0.01,
       restitution: 0.05, // Prevent body from sticking against a wall
     });
+    this.bodyAttack = M.Body.create({parts:[this.playerController.sensors.right],      friction: 0.01,      restitution: 0.05})
     this.setExistingBody(compoundBody).setFixedRotation() // Sets max inertia to prevent rotation
     //Pluma Unamuno
     this.fOffsetX = w;
@@ -42,6 +43,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   this.attack = this.scene.matter.add.sprite(x,y,undefined);
   this.attack.displayHeight = this.attack.height*0.8;
   this.attack.displayWidth = this.attack.width*0.8;
+  this.attack.setExistingBody(this.bodyAttack);
   //Inventario
     this.invent = new Inventory({
       scene:scene,
@@ -80,8 +82,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         }
     });
 
-    //Input de cursores
-    this.cursors = this.scene.input.keyboard.createCursorKeys();
+    //Input
+      this.keycodeA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+      this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+      this.keycodeW =this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+      this.keycodeSpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     //animaciones
     this.scene.anims.create({
       key:'idle',
@@ -132,7 +137,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.feather.flipX = true;
     }
     //Movement
-    if(this.cursors.left.isDown)
+    if(this.keycodeA.isDown)
     {
       this.setVelocityX(-this.playerController.speed.run);
       this.flipX = true;
@@ -141,7 +146,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       else
         this.anims.play('jump', true);
     }
-    else if(this.cursors.right.isDown)
+    else if(this.keycodeD.isDown)
     {
       this.setVelocityX(this.playerController.speed.run);
       this.flipX = false;
@@ -153,7 +158,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     else
       this.setVelocityX(0);
     
-    if(this.cursors.up.isDown && this.playerController.onFloor){
+    if(this.keycodeW.isDown && this.playerController.onFloor){
       this.setVelocityY(-this.playerController.speed.jump);
     }
      if(this.body.velocity.x === 0 && this.playerController.onFloor){
@@ -175,13 +180,12 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.attack.flipX = true;
       this.attack.setX(this.x - this.width);
     }
-    if(Phaser.Input.Keyboard.JustDown(this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X))){
+    if(Phaser.Input.Keyboard.JustDown(this.keycodeSpace)){
       this.attack.anims.play('attack',true);
       this.playerController.onAttack = true;
     }
-    console.log(this.playerController.onAttack);
     if(this.playerController.onAttack){
-      this.attack.setExistingBody(this.playerController.sensors.right);
+      this.attack.setExistingBody(this.bodyAttack);
     }
     else{
       this.scene.matter.world.remove(this.attack.body);
