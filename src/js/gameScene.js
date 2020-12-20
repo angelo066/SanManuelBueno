@@ -218,12 +218,12 @@ export default class GameScene extends Phaser.Scene {
   {
     //Camara
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    this.cameras.main.setBounds(0,0,7680, 1920);  
+    this.cameras.main.setBounds(0,0,7680, 2560);  
     
     this.cameras.main.startFollow(this.player);
     //Offeset para seguir al jugador
-    this.cameras.main.followOffset.set(0,250);
-    this.cameras.main.setZoom(1);
+    this.cameras.main.followOffset.set(0,125);
+    this.cameras.main.setZoom(1.2);
     
     this.complete = false;
   }
