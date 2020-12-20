@@ -47,8 +47,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   //Inventario
     this.invent = new Inventory({
       scene:scene,
-      x: this.scene.cameras.main.width*0.12,
-      y: this.scene.cameras.main.height*0.92,
+      x: this.scene.cameras.main.width*0.2,
+      y: this.scene.cameras.main.height*0.85,
       l:{},
     })
 
