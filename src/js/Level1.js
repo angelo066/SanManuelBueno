@@ -97,6 +97,7 @@ export default class level1 extends Phaser.Scene {
       }
     });
 
+    this.load.image('vela', 'src/assets/sprites/gameObjects/Velas.png')
     this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
@@ -109,6 +110,7 @@ export default class level1 extends Phaser.Scene {
     this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
+
 
     //this.load.image('bocadillo',);
   }
@@ -130,6 +132,12 @@ export default class level1 extends Phaser.Scene {
       repeat: -1
     });
 
+    this.anims.create({
+      key:'velasMuevan',
+      frames: this.anims.generateFrameNumbers('velas',{start: 0, end: 3}),
+      frameRate: 3,
+      repeat: -1
+    });
 
     let config={
       mute:false,
@@ -209,6 +217,17 @@ export default class level1 extends Phaser.Scene {
     this.vaquitas[3] = this.add.sprite(this.game.config.width*2.8, this.game.config.height/1.05, 'vacaCome', 0);
     this.scaleThis(this.vaquitas[3], 4, 4);
 
+
+    //Velas
+    this.velas = new PuzzleObjectWord(this, this.game.config.width*2.9, this.game.config.height/0.53, undefined, false, 4000,'ceras','secar');
+    this.scaleThis(this.velas.sprite,0.1,0.1);
+
+    this.velaAnima = this.add.sprite(this.game.config.width*2.9, this.game.config.height/0.53, 'vela',0);
+    this.scaleThis(this.velaAnima,0.1,0.1);
+
+    this.velas.complete=false;
+
+    this.velaAnima
     // this.rec = Phaser.Physics.Matter.Matter.Bodies.rectangle(x, t); 
     //Particulas
     this.createParticles('leaves'); 
@@ -240,7 +259,15 @@ export default class level1 extends Phaser.Scene {
     for(let i = 0; i < 4; i++)
       this.vaquitas[i].anims.play('idlee', true);
 
+    
+    this.velaAnima.anims.play('velasMuevan',true);
 
+
+    if(this.velas.objectSolved() && !this.velas.complete){
+      
+
+      this.velas.complete=true;
+    }
     // if(this.nuez.solved){
     //    this.player.addLetter(this.nuez.getLetter());
     //  }
