@@ -143,8 +143,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.flipX = true;
       if(this.playerController.onFloor)
         this.anims.play('run',true);
-      else
-        this.anims.play('jump', true);
+      else{
+        //this.anims.play('jump', true);
+      }
     }
     else if(this.keycodeD.isDown)
     {
@@ -152,8 +153,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.flipX = false;
       if(this.playerController.onFloor)
         this.anims.play('run',true);
-      else
-        this.anims.play('jump', true);
+      else{
+        //this.anims.play('jump', true);
+      }
     }
     else
       this.setVelocityX(0);
