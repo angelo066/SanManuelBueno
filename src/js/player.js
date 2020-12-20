@@ -64,7 +64,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
           let bodyB = event.pairs[i].bodyB;
           if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
-            this.playerController.onFloor = true;
+
+              if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
+                  this.playerController.onFloor = true;
+                  
           }
         }
     });
@@ -75,6 +78,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         {
           let bodyA = event.pairs[i].bodyA;
           let bodyB = event.pairs[i].bodyB;
+
+          bodyA.labe
           if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
             this.playerController.onFloor = false;
@@ -141,21 +146,19 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     {
       this.setVelocityX(-this.playerController.speed.run);
       this.flipX = true;
-      if(this.playerController.onFloor)
+      // if(this.playerController.onFloor)
         this.anims.play('run',true);
-      else{
-        //this.anims.play('jump', true);
-      }
+      // else
+      //   this.anims.play('jump', true);
     }
     else if(this.keycodeD.isDown)
     {
       this.setVelocityX(this.playerController.speed.run);
       this.flipX = false;
-      if(this.playerController.onFloor)
+      // if(this.playerController.onFloor)
         this.anims.play('run',true);
-      else{
-        //this.anims.play('jump', true);
-      }
+      // else
+      //   this.anims.play('jump', true);
     }
     else
       this.setVelocityX(0);
