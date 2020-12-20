@@ -83,8 +83,8 @@ export default class level1 extends Phaser.Scene {
       key:'vacaCome',
       url:'src/assets/props/vacas/cowEat.png',
       frameConfig:{
-        frameWidth:32,
-        frameHeight:512,
+        frameWidth:128,
+        frameHeight:128,
       }
     });
 
@@ -115,7 +115,6 @@ export default class level1 extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-<<<<<<< Updated upstream
     this.anims.create({
       key:'talado',
       frames: this.anims.generateFrameNumbers('arbol',{start: 0, end: 6}),
@@ -123,15 +122,14 @@ export default class level1 extends Phaser.Scene {
       showOnStart:true,
       hideOnComplete: true
     });
-=======
-    // this.anims.create({
-    //   key:'idle',
-    //   frames: this.anims.generateFrameNumbers('vacaCome',{start: 0, end: 4}),
-    //   frameRate: 6,
-    //   repeat: -1
-    // });
 
->>>>>>> Stashed changes
+    this.anims.create({
+      key:'idlee',
+      frames: this.anims.generateFrameNumbers('vacaCome',{start: 0, end: 4}),
+      frameRate: 6,
+      repeat: -1
+    });
+
 
     let config={
       mute:false,
@@ -188,30 +186,30 @@ export default class level1 extends Phaser.Scene {
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
 
     //Puzzle 1
-<<<<<<< Updated upstream
     this.altar= new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.35, 'altar', false, 2000,'Altar','talar');
     this.scaleThis(this.altar.sprite, 0.10, 0.10);
+
     this.arbol = this.add.sprite(this.game.config.width*0.7, this.game.config.height*1.05, 'arbol', 0);
     this.arbol.flipX = true;
     this.arbol.setDepth(9); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
-=======
-    this.altar = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.35, 'altar', false, 2000,'Altar','Talar');
-    this.scaleThis(this.altar.sprite, 0.10, 0.10);
 
+    this.vacas = new PuzzleObjectWord(this, this.game.config.width*2.8, this.game.config.height/1.05, 'cow', false, 190,'vacas','cava');
+    this.scaleThis(this.vacas.sprite, 4, 4);
 
-    this.arbol = this.add.image(this.game.config.width*1.2, this.game.config.height*1.05, 'arbol', 0);
-    // this.arbol.sprite.setDepth();
+    this.vaquitas = {};
+    this.vaquitas[0] = this.add.sprite(this.game.config.width*2.75, this.game.config.height/1.05, 'vacaCome', 0);
+    this.scaleThis(this.vaquitas[0], 4, 4);
 
-    
-    this.vacas = new PuzzleObjectWord(this, this.game.config.width*2.8, this.game.config.height/1.05, 'cow', false, 400,'Altar','Talar');
-    this.scaleThis(this.vacas.sprite, 2, 2);
+    this.vaquitas[1] = this.add.sprite(this.game.config.width*2.72, this.game.config.height/1.05, 'vacaCome', 0);
+    this.scaleThis(this.vaquitas[1], 4, 4);
 
-    this.vaca1 = this.add.image(this.game.config.width*2.8, this.game.config.height/1.05, 'vacaCome', 0);
+    this.vaquitas[2] = this.add.sprite(this.game.config.width*2.86, this.game.config.height/1.05, 'vacaCome', 0);
+    this.scaleThis(this.vaquitas[2], 4, 4);
 
+    this.vaquitas[3] = this.add.sprite(this.game.config.width*2.8, this.game.config.height/1.05, 'vacaCome', 0);
+    this.scaleThis(this.vaquitas[3], 4, 4);
 
-
-      // this.rec = Phaser.Physics.Matter.Matter.Bodies.rectangle(x, t); 
->>>>>>> Stashed changes
+    // this.rec = Phaser.Physics.Matter.Matter.Bodies.rectangle(x, t); 
     //Particulas
     this.createParticles('leaves'); 
    
@@ -238,6 +236,11 @@ export default class level1 extends Phaser.Scene {
       this.altar.complete=true;
       
     }
+
+    for(let i = 0; i < 4; i++)
+      this.vaquitas[i].anims.play('idlee', true);
+
+
     // if(this.nuez.solved){
     //    this.player.addLetter(this.nuez.getLetter());
     //  }
