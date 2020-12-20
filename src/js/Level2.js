@@ -66,52 +66,14 @@ export default class Level2 extends  Phaser.Scene {
       }
     });
 
-    this.load.spritesheet({
-      key:'arbol',
-      url:'src/assets/puzzle_Objects/ArbolSS.png',
-      frameConfig:{
-        frameWidth:1398,
-        frameHeight:1000,
-      }
-    });
-
-    this.load.spritesheet({
-      key:'vacaCome',
-      url:'src/assets/props/vacas/cowEat.png',
-      frameConfig:{
-        frameWidth:32,
-        frameHeight:512,
-      }
-    });
-
-    this.load.spritesheet({
-      key:'vacaAnda',
-      url:'src/assets/props/vacas/cowWalk.png',
-      frameConfig:{
-        frameWidth:32,
-        frameHeight:512,
-      }
-    });
-
-    this.load.spritesheet({
-      key:'velas',
-      url:'src/assets/sprites/gameObjects/VelasSS.png',
-      frameConfig:{
-        frameWidth:1248,
-        frameHeight:1458,
-      }
-    });
-
-
     this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
-    this.load.image('bg', 'src/assets/bg/lake.png');
     this.load.image('altar', 'src/assets/props/altar/altar.png'); 
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
-
+    this.load.image('bg', 'src/assets/bg/BGIglesiaSS.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
@@ -143,6 +105,7 @@ export default class Level2 extends  Phaser.Scene {
     const tileset = map.addTilesetImage('tileset');
     
     //BG
+    this.background = this.add.image(this.mapWidth/2, this.mapHeight/2, 0, 0, 'bg');
 
     //Layers del tileMap
     const inviwall = map.createDynamicLayer('inviWall',tileset,0,0).setDepth(0);
@@ -175,7 +138,6 @@ export default class Level2 extends  Phaser.Scene {
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-
 
     // if(this.brote.objectSolved() && !this.complete){
     //   this.brote.changeImage('nogal');
