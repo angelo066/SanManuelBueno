@@ -9,7 +9,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         this.selector = 0;
         this.originX = x-(this.width/2)*0.04 + 60;
         this.scene.add.existing(this);
-        this.sprite = this.scene.add.image(this.originX , this.y, 'selection', {isStatic:true});
+        this.sprite = this.scene.add.image(this.originX , this.y, 'selection', {isStatic:true}).setDepth(21);
         this.sprite.setScale(0.55);
         this.sprite.setScrollFactor(0);
         this.Letters=l;
@@ -28,6 +28,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
           
         this.word.container.setScrollFactor(0);
         this.word.container.setScale(0.5)
+        this.word.container.setDepth(21);
         this.setScale(0.04);
         this.setAlpha(0.6);
         this.keycodeC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
