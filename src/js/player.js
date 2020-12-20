@@ -28,7 +28,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       parts: [
         playerBody, this.playerController.sensors.bottom
       ],
-      friction: 0.01,
+      friction: 0,
       restitution: 0.05, // Prevent body from sticking against a wall
     });
     this.bodyAttack = M.Body.create({parts:[this.playerController.sensors.right],      friction: 0.01,      restitution: 0.05})
