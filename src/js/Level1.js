@@ -47,31 +47,59 @@ export default class Scene1 extends  Phaser.Scene {
     this.load.image('Wall', 'src/assets/platforms/Sonic.png');
     this.load.image('Roof', 'src/assets/caseta/Roof.png');
     this.load.image('Fondo', 'src/assets/caseta/Plantilla.png');
+    this.load.image('patronesTilemap','src/assets/tiles/tileset.png');
     this.load.tilemapTiledJSON('tilemap1', 'src/assets/tiles/level1.json');
-    this.load.image('patronesTilemap','src/assets/tiles/tileset.png')
+    this.load.audio('bandaSonora','src/assets/Sonido/bandaSonora.mp3');
 
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    let config={
+      mute:false,
+      volume:1,
+      rate:1,
+      detune:0,
+      seek:0,
+      loop:true,
+      delay:0
+    };
+    let musiquita = this.sound.add('bandaSonora',config);
+    musiquita.play();
+
+
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
-    this.map = this.make.tilemap({
+    const map = this.make.tilemap({
       key:'tilemap1',
-      // tileWidth:1024,
-      // tileHeight:1024
+      tileWidth:1024,
+      tileHeight:1024
     });
 
-    const tileset1 = this.map.addTilesetImage('tileset','patronesTilemap');
+    const tileset1 = map.addTilesetImage('tileset','patronesTilemap');
 
-    this.backGroundLayer = this.map.createStaticLayer('backgroundcave', tileset1);
-    this.groundLayer = this.map.createStaticLayer('ground',tileset1);
-    this.foregroundLayer=this.map.createStaticLayer('grass',tileset1);
+    map.createStaticLayer('backgroundcave', tileset1);
+    const suelo = map.createStaticLayer('ground',tileset1);
+    const hierba = map.createStaticLayer('grass',tileset1);
+    map.createStaticLayer('water',tileset1);
+    map.createStaticLayer('waterplant',tileset1);
+    map.createStaticLayer('waterfall2',tileset1);
+    map.createStaticLayer('waterfall',tileset1);
+    map.createStaticLayer('foamWaterFall',tileset1);
+    map.createStaticLayer('foregroundcave',tileset1);
+    map.createStaticLayer('entrycave',tileset1);
     
+    suelo.setCollisionByProperty({collides:true});
+    
+    map.setCollisionByProperty({collides:true});
+
+    this.matter.world.convertTilemapLayer(hierba);
+    this.matter.world.convertTilemapLayer(suelo);
+
     //BG
   
-    //Platform and player
+    //Player
 
-    this.player = new Player(this, this.game.config.width/8, this.game.config.height*0.8);
+    this.player = new Player(this, this.game.config.width/2, this.game.config.height);
     //this.playerMaricon= this.map.createFromObjects('ground',1);
     
 
@@ -102,9 +130,9 @@ export default class Scene1 extends  Phaser.Scene {
     });
     //Camara
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    this.cameras.main.setBounds(0,0,this.sky.displayWidth, this.sky.displayHeight);
+    //this.cameras.main.setBounds(0,0,this.sky.displayWidth, this.sky.displayHeight);
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setZoom(1.3);
+    this.cameras.main.setZoom(1);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
