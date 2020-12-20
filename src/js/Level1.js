@@ -92,8 +92,8 @@ export default class level1 extends Phaser.Scene {
       key:'velas',
       url:'src/assets/sprites/gameObjects/VelasSS.png',
       frameConfig:{
-        frameWidth:1248,
-        frameHeight:1458,
+        frameWidth:1020,
+        frameHeight:1254,
       }
     });
 
@@ -169,8 +169,8 @@ export default class level1 extends Phaser.Scene {
     const water = map.createDynamicLayer('water',tileset);
     map.createDynamicLayer('waterplant',tileset);
     const ground = map.createDynamicLayer('ground',tileset,0,0);
-    map.createDynamicLayer('waterfall2',tileset,0,0);
-    const waterfall = map.createDynamicLayer('waterfall',tileset,0,0);
+    this.waterfall2 = map.createStaticLayer('waterfall2',tileset,0,0);
+    this.waterfall = map.createStaticLayer('waterfall',tileset,0,0);
     map.createDynamicLayer('foamWaterFall',tileset,0,0);
     map.createDynamicLayer('backgroundcave',tileset,0,0);
     const cave = map.createDynamicLayer('foregroundcave',tileset,0,0);
@@ -180,14 +180,16 @@ export default class level1 extends Phaser.Scene {
     inviwalls.setCollisionByProperty({collides:true});
     water.setCollisionByProperty({collides:true});
     ground.setCollisionByProperty({collides:true});
-    waterfall.setCollisionByProperty({collides:true});
+    this.waterfall.setCollisionByProperty({collides:true});
+    this.waterfall2.setCollisionByProperty({collides:true});
     cave.setCollisionByProperty({collides:true});
 
     //convertir colisiones a matter
+    this.matter.world.convertTilemapLayer(this.waterfall);
+    this.matter.world.convertTilemapLayer(this.waterfall2);
     this.matter.world.convertTilemapLayer(inviwalls);
     this.matter.world.convertTilemapLayer(water);
     this.matter.world.convertTilemapLayer(ground);
-    this.matter.world.convertTilemapLayer(waterfall);
     this.matter.world.convertTilemapLayer(cave); 
     
     //Player
@@ -227,7 +229,6 @@ export default class level1 extends Phaser.Scene {
 
     this.velas.complete=false;
 
-    this.velaAnima
     // this.rec = Phaser.Physics.Matter.Matter.Bodies.rectangle(x, t); 
     //Particulas
     this.createParticles('leaves'); 
@@ -260,11 +261,16 @@ export default class level1 extends Phaser.Scene {
       this.vaquitas[i].anims.play('idlee', true);
 
     
-    this.velaAnima.anims.play('velasMuevan',true);
+    
+      this.velaAnima.anims.play('velasMuevan',true);
 
 
     if(this.velas.objectSolved() && !this.velas.complete){
-      
+
+      this.waterfall.setCollisionByProperty({collides:false});
+      this.waterfall2.setCollisionByProperty({collides:false});
+      this.waterfall.destroy(true);
+      this.waterfall2.destroy(true);
 
       this.velas.complete=true;
     }
