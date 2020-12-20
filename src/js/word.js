@@ -145,8 +145,6 @@ export default class Word extends Letter{
             frame: l.charCodeAt()-97,
             interactive: false
         });
-
-        letter.setScrollFactor(0);
         letter.setScale(0.5);
         this.container.add(letter);
         this.i++;

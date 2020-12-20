@@ -7,34 +7,29 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         super (scene,x, y,'inventory');
       
         this.selector = 0;
-        
+        this.originX = x-(this.width/2)*0.04 + 60;
         this.scene.add.existing(this);
-        this.sprite = this.scene.add.image(this.scene.cameras.main.width-1570 + this.selector *50 , this.scene.cameras.main.height-173, 'selection', {isStatic:true});
+        this.sprite = this.scene.add.image(this.originX , this.y, 'selection', {isStatic:true});
         this.sprite.setScale(0.55);
         this.sprite.setScrollFactor(0);
         this.Letters=l;
-
-        this.offset = 55;
+        this.offset = 40;
         this.NumElems = 0;
         this.limit = 6;
 
         this.word = new Word({
             scene:this.scene,
-            x: this.scene.cameras.main.width-1570,// TODO: Revisar numeritos pochos
-            y: this.scene.cameras.main.height-50,
-            word: "",
+            x: this.originX,
+            y: this.y,
+            word: '',
             interactive: false,
-            letter: 'letters'
+            letter: null
           });
-        //   this.AddLetter("S");
-        //   this.AddLetter("A");
-        //   this.AddLetter("B");
-        //   this.AddLetter("I");
-        //   this.AddLetter("O");
-        //   this.AddLetter("S");
           
+        this.word.container.setScrollFactor(0);
+        this.word.container.setScale(0.5)
         this.setScale(0.04);
-
+        this.setAlpha(0.6);
         this.keycodeC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         this.keycodeV = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
         this.keycodeF = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -46,29 +41,23 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             
             if(this.selector < this.limit - 1)
             {
-                console.log("you just pressed D");
                 this.selector++;
 
-                this.moveSelection(this.scene.cameras.main.width-1570 + this.selector *this.offset);
+                this.moveSelection(this.originX + this.selector *this.offset);
             }
 
 
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.keycodeC)){
-            console.log("you just pressed A");
-
             if(this.selector>0)
                 this.selector--;
                 
-            this.moveSelection(this.scene.cameras.main.width-1570 + this.selector *this.offset);
+            this.moveSelection(this.originX + this.selector *this.offset);
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.keycodeF))
         {
-            console.log("you just pressed W");
-
-            // if(this.selectordad)
 
             if(!(this.selector + 1 > this.NumElems))
             {
@@ -77,10 +66,8 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
                 this.NumElems--;
             }
           
-
-            // console.log(this.NumElems);
             
-            this.moveSelection(this.scene.cameras.main.width-1570 + this.selector *this.offset);
+            this.moveSelection(this.originX + this.selector *this.offset);
 
         }
     }
@@ -92,8 +79,6 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             this.word.AddLetter(letrita, this.offset);
         
             this.NumElems++;
-
-            console.log(this.NumElems);
         }
         else console.log("Cant add more letters");
 

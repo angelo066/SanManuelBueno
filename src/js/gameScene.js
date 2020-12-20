@@ -76,7 +76,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('selection', 'src/assets/inventory/selector.png');
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
-    this.load.image('background', 'src/assets/bg/lake.png');
+    this.load.image('bg', 'src/assets/bg/lake.png');
     this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
     this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
     this.load.image('rosa', 'src/assets/puzzle_objects/rosa.png');
@@ -108,10 +108,12 @@ export default class GameScene extends Phaser.Scene {
     let musiquita = this.sound.add('bandaSonora',config);
     musiquita.play();
     
-    this.bg = this.add.image(this.cameras.main.centerX,this.cameras.main.centerY, 'background');
-    this.scaleThis(this.bg,0.75,0.75);
+    //BG
+    this.sky = this.add.tileSprite(3840,this.cameras.main.centerY, 0, 0, 'sky');
+    this.scaleThis(this.sky,3,3);
 
-    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
+    this.bg = this.add.image(3840,this.cameras.main.centerY, 'bg');
+    this.scaleThis(this.bg,3,3);
     const map = this.make.tilemap({
       key:'tilemap_level1',
       tileWidth:64,
@@ -120,6 +122,7 @@ export default class GameScene extends Phaser.Scene {
     const tileset = map.addTilesetImage('tileset');
     
     //Layers del tileMap
+    const inviwalls = map.createDynamicLayer('inviWall',tileset);
     const water = map.createDynamicLayer('water',tileset);
     map.createDynamicLayer('waterplant',tileset);
     const ground = map.createDynamicLayer('ground',tileset,0,0);
@@ -131,11 +134,13 @@ export default class GameScene extends Phaser.Scene {
     map.createDynamicLayer('entrycave',tileset,0,0);
     map.createDynamicLayer('grass',tileset,0,0);
     //Implementacion de colisiones
+    inviwalls.setCollisionByProperty({collides:true});
     water.setCollisionByProperty({collides:true});
     ground.setCollisionByProperty({collides:true});
     waterfall.setCollisionByProperty({collides:true});
     cave.setCollisionByProperty({collides:true});
     //convertir colisiones a matter
+    this.matter.world.convertTilemapLayer(inviwalls);
     this.matter.world.convertTilemapLayer(water);
     this.matter.world.convertTilemapLayer(ground);
     this.matter.world.convertTilemapLayer(waterfall);
@@ -144,12 +149,6 @@ export default class GameScene extends Phaser.Scene {
     //this.matter.world.createDebugGraphic();
 
 
-    //BG
-    // this.sky = this.add.tileSprite(this.cameras.main.centerX,this.cameras.main.centerY, 0, 0, 'sky');
-    // this.scaleThis(this.sky,0.75,0.75);
-
-    // this.sky2 = this.add.tileSprite(this.cameras.main.centerX + 1920,this.cameras.main.centerY, 0, 0, 'sky');
-    // this.scaleThis(this.sky2,0.75,0.75);
 
     
 
@@ -193,8 +192,8 @@ export default class GameScene extends Phaser.Scene {
   update(time, delta)
   {
 
-    // this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
-    // this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
+    this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
+    //this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
     // if(this.brote.objectSolved() && !this.complete){
     //   this.brote.changeImage('nogal');
@@ -219,7 +218,7 @@ export default class GameScene extends Phaser.Scene {
   {
     //Camara
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    // this.cameras.main.setBounds(0,-1000,this.sky.displayWidth*2, this.sky.displayHeight * 2);  
+    this.cameras.main.setBounds(0,0,7680, 1920);  
     
     this.cameras.main.startFollow(this.player);
     //Offeset para seguir al jugador

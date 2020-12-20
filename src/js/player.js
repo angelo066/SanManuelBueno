@@ -47,8 +47,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   //Inventario
     this.invent = new Inventory({
       scene:scene,
-      x: this.scene.cameras.main.width/3.9,
-      y: this.scene.cameras.main.height*0.84,
+      x: this.scene.cameras.main.width*0.12,
+      y: this.scene.cameras.main.height*0.92,
       l:{},
     })
 
@@ -64,10 +64,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
           let bodyB = event.pairs[i].bodyB;
           if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
-
-              if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
-                  this.playerController.onFloor = true;
-                  
+            if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "ground") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "ground"))
+                this.playerController.onFloor = true;
           }
         }
     });
@@ -82,7 +80,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
           bodyA.labe
           if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
-            this.playerController.onFloor = false;
+            if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
+                this.playerController.onFloor = false;
           }
         }
     });
