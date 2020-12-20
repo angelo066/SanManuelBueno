@@ -138,10 +138,10 @@ export default class Scene1 extends  Phaser.Scene {
   update(time, delta)
   {
     //Sale por un lado y entra por el otro
-    this.player.checkPos(this.game.config.width);
+    /*this.player.checkPos(this.game.config.width);
     if(this.player.checkPos(this.game.config.width)){
       this.scene.start('menu');
-    }
+    }*/
 
     if(this.altar.objectSolved() && !this.complete){
       //destruir ábol y ponerlo tumbado

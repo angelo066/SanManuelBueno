@@ -119,7 +119,6 @@ export default class GameScene extends Phaser.Scene {
     map.createDynamicLayer('grass',tileset,0,0);
     //Implementacion de colisiones
     water.setCollisionByProperty({collides:true});
-    ground.setCollisionBetween(1,0)
     ground.setCollisionByProperty({collides:true});
     waterfall.setCollisionByProperty({collides:true});
     cave.setCollisionByProperty({collides:true});
