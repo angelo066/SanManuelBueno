@@ -74,8 +74,8 @@ export default class level1 extends Phaser.Scene {
       key:'arbol',
       url:'src/assets/puzzle_Objects/ArbolSS.png',
       frameConfig:{
-        frameWidth:1398,
-        frameHeight:1000,
+        frameWidth:1426,
+        frameHeight:980,
       }
     });
 
@@ -113,11 +113,11 @@ export default class level1 extends Phaser.Scene {
     //this.load.image('bocadillo',);
   }
 //coloca objetos apartir de los assets dentro de la escena
-  create() 
+  create()
   {
     this.anims.create({
       key:'talado',
-      frames: this.anims.generateFrameNumbers('arbol',{start: 0, end: 6}),
+      frames: this.anims.generateFrameNumbers('arbol',{start: 0, end: 5}),
       frameRate: 2,
       showOnStart:true,
       hideOnComplete: true
