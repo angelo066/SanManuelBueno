@@ -98,7 +98,7 @@ export default class GameScene extends Phaser.Scene {
   {
     let config={
       mute:false,
-      volume:1,
+      volume:0.1,
       rate:1,
       detune:0,
       seek:0,
@@ -108,31 +108,30 @@ export default class GameScene extends Phaser.Scene {
     let musiquita = this.sound.add('bandaSonora',config);
     musiquita.play();
     
+    
+    const map = this.add.tilemap('tilemap_level1');
+    const tileset = map.addTilesetImage('tileset');
+    this.mapWidth = map.width*64;
+    this.mapHeight = map.height*64;
     //BG
-    this.sky = this.add.tileSprite(3840,this.cameras.main.centerY, 0, 0, 'sky');
+    this.sky = this.add.tileSprite(this.mapWidth/2,this.mapHeight/2, 0, 0, 'sky');
     this.scaleThis(this.sky,3,3);
 
-    this.bg = this.add.image(3840,this.cameras.main.centerY, 'bg');
+    this.bg = this.add.image(this.mapWidth/2,this.mapHeight/6, 'bg');
     this.scaleThis(this.bg,3,3);
-    const map = this.make.tilemap({
-      key:'tilemap_level1',
-      tileWidth:64,
-      tileHeight:64
-    });
-    const tileset = map.addTilesetImage('tileset');
     
     //Layers del tileMap
-    const inviwalls = map.createDynamicLayer('inviWall',tileset);
-    const water = map.createDynamicLayer('water',tileset);
-    map.createDynamicLayer('waterplant',tileset);
-    const ground = map.createDynamicLayer('ground',tileset,0,0);
-    map.createDynamicLayer('waterfall2',tileset,0,0);
-    const waterfall = map.createDynamicLayer('waterfall',tileset,0,0);
-    map.createDynamicLayer('foamWaterFall',tileset,0,0);
-    map.createDynamicLayer('backgroundcave',tileset,0,0);
-    const cave = map.createDynamicLayer('foregroundcave',tileset,0,0);
-    map.createDynamicLayer('entrycave',tileset,0,0);
-    map.createDynamicLayer('grass',tileset,0,0);
+    const inviwalls = map.createDynamicLayer('inviWall',tileset,0,0).setDepth(0);
+    const water = map.createDynamicLayer('water',tileset,0,0).setDepth(1);
+    map.createDynamicLayer('waterplant',tileset,0,0).setDepth(2);
+    const ground = map.createDynamicLayer('ground',tileset,0,0).setDepth(3);
+    map.createDynamicLayer('waterfall2',tileset,0,0).setDepth(4);
+    const waterfall = map.createDynamicLayer('waterfall',tileset,0,0).setDepth(5);
+    map.createDynamicLayer('foamWaterFall',tileset,0,0).setDepth(6);
+    map.createDynamicLayer('backgroundcave',tileset,0,0).setDepth(7);
+    const cave = map.createDynamicLayer('foregroundcave',tileset,0,0).setDepth(8);
+    map.createDynamicLayer('entrycave',tileset,0,0).setDepth(9);
+    map.createDynamicLayer('grass',tileset,0,0).setDepth(10);
     //Implementacion de colisiones
     inviwalls.setCollisionByProperty({collides:true});
     water.setCollisionByProperty({collides:true});
@@ -145,12 +144,7 @@ export default class GameScene extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(ground);
     this.matter.world.convertTilemapLayer(waterfall);
     this.matter.world.convertTilemapLayer(cave);
-    //DEBUG
-    //this.matter.world.createDebugGraphic();
-
-
-
-    
+    //DEBUG   
 
     // this.bg2 = this.add.image(this.cameras.main.centerX + this.bg.width - 650,this.cameras.main.centerY, 'background').setFlipX(true);
     // this.scaleThis(this.bg2,0.75,0.75);
@@ -177,8 +171,8 @@ export default class GameScene extends Phaser.Scene {
     // this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 200, 'nuez', 'n');
 
     //Player
-    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
-
+    this.player = new Player(this, this.mapWidth*0.05 , this.mapHeight*0.1, 'player_run', 0);
+    this.player.setDepth(7);
     //Árbol
     //this.brote = new PuzzleObjectWord(this, this.game.config.width/2, this.game.config.height - 250, 'brote', false, 400, 'logan', 'nogal');
 
@@ -186,14 +180,13 @@ export default class GameScene extends Phaser.Scene {
     this.createParticles('leaves'); 
    
     this.FadeIn();
-    this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','sky',400);
+    //this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','sky',400);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
 
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
-    //this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
     // if(this.brote.objectSolved() && !this.complete){
     //   this.brote.changeImage('nogal');
@@ -218,12 +211,12 @@ export default class GameScene extends Phaser.Scene {
   {
     //Camara
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    this.cameras.main.setBounds(0,0,7680, 2560);  
+    this.cameras.main.setBounds(0,0,this.mapWidth, this.mapHeight);  
     
     this.cameras.main.startFollow(this.player);
     //Offeset para seguir al jugador
-    this.cameras.main.followOffset.set(0,125);
-    this.cameras.main.setZoom(1.2);
+    this.cameras.main.followOffset.set(0,200);
+    this.cameras.main.setZoom(0.8);
     
     this.complete = false;
   }
@@ -234,11 +227,11 @@ export default class GameScene extends Phaser.Scene {
     let leaves = this.add.particles(particleSprite);
     leaves.createEmitter({
         frames: [{key: particleSprite, frame: 0}],
-        x: -50,
-        y: { min: 100, max: this.cameras.main.centerY},
+        x: -400,
+        y: { min: 500, max: 1000},
         speedX: { min: 100, max: 300 },
         speedY: { min: -50, max: 50 },
-        lifespan: 7000,
+        lifespan: 20000,
         scale: {start: 0.7, end: 0.1},
         rotate: {start: 0, end: 360},
         frequency: 600

@@ -28,7 +28,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       parts: [
         playerBody, this.playerController.sensors.bottom
       ],
-      friction: 0,
+      friction: 0.01,
       restitution: 0.05, // Prevent body from sticking against a wall
     });
     this.bodyAttack = M.Body.create({parts:[this.playerController.sensors.right],      friction: 0.01,      restitution: 0.05})
@@ -47,13 +47,13 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   //Inventario
     this.invent = new Inventory({
       scene:scene,
-      x: this.scene.cameras.main.width*0.2,
-      y: this.scene.cameras.main.height*0.85,
+      x: 0,
+      y: this.scene.cameras.main.height*1.05,
       l:{},
     })
 
     this.invent.setScrollFactor(0);
-
+    this.invent.setDepth(20);
     //Creacion de las colisiones    
     //Colisiones de suelo y pegar
     this.scene.matter.world.on('collisionstart',(event)=>{
