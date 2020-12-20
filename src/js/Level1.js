@@ -1,13 +1,26 @@
+//SE COMENTA EL CóDIGO CRACKS(COJONES DICE GUILLE) >:()
+
+
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
+import PuzzleObjectLetter from './puzzleObjectLetter.js';
+import Dialogo from './dialogo.js';
 
-export default class Scene1 extends  Phaser.Scene {
+export default class level1 extends Phaser.Scene {
   constructor() {
-    super({key: 'Level1'});
+    super({key: 'level1'});
   }
   //para cargar los recursos
   preload() 
   {
+    this.load.spritesheet({
+    key:'player_idle', 
+    url:'src/assets/sprites/unamuno/idle.png',
+    frameConfig:{
+      frameWidth:120,
+      frameHeight:200
+    }
+  });
     this.load.spritesheet({
       key:'player_run', 
       url:'src/assets/sprites/unamuno/run.png',
@@ -25,6 +38,14 @@ export default class Scene1 extends  Phaser.Scene {
       }
     });
     this.load.spritesheet({
+      key:'player_attack', 
+      url:'src/assets/sprites/unamuno/attack.png',
+      frameConfig:{
+        frameWidth:180,
+        frameHeight:180
+      }
+    });
+    this.load.spritesheet({//Letras normales
       key:'letters', 
       url:'src/assets/sprites/letters/normal.png',
       frameConfig:{
@@ -32,25 +53,74 @@ export default class Scene1 extends  Phaser.Scene {
         frameHeight:120
       }
     });
-    this.load.spritesheet({
+    this.load.spritesheet({//Letras tachadas
       key:'strikedletters', 
+      url:'src/assets/sprites/letters/striked.png',
+      frameConfig:{
+        frameWidth:120,
+        frameHeight:120
+      }
+    });
+    this.load.spritesheet({//Letras agrietadas
+      key:'crackedletters', 
       url:'src/assets/sprites/letters/cracked.png',
       frameConfig:{
         frameWidth:120,
         frameHeight:120
       }
     });
+
+    this.load.spritesheet({
+      key:'arbol',
+      url:'src/assets/puzzle_Objects/ArbolSS.png',
+      frameConfig:{
+        frameWidth:1398,
+        frameHeight:1000,
+      }
+    });
+
+    this.load.spritesheet({
+      key:'vacaCome',
+      url:'src/assets/props/vacas/cowEat.png',
+      frameConfig:{
+        frameWidth:32,
+        frameHeight:512,
+      }
+    });
+
+    this.load.spritesheet({
+      key:'vacaAnda',
+      url:'src/assets/props/vacas/cowWalk.png',
+      frameConfig:{
+        frameWidth:32,
+        frameHeight:512,
+      }
+    });
+
+    this.load.spritesheet({
+      key:'velas',
+      url:'src/assets/sprites/gameObjects/VelasSS.png',
+      frameConfig:{
+        frameWidth:1248,
+        frameHeight:1458,
+      }
+    });
+
+
+    this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
+    this.load.image('inventory', 'src/assets/inventory/pergamino.png');
+    this.load.image('selection', 'src/assets/inventory/selector.png');
+    this.load.image('bg', 'src/assets/bg/lake.png');
+    this.load.image('altar', 'src/assets/props/altar/altar.png'); 
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
-    this.load.image('background2', 'src/assets/bg/BackGround3.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
-    this.load.image('Wall', 'src/assets/platforms/Sonic.png');
-    this.load.image('Roof', 'src/assets/caseta/Roof.png');
-    this.load.image('Fondo', 'src/assets/caseta/Plantilla.png');
-    this.load.image('patronesTilemap','src/assets/tiles/tileset.png');
-    this.load.tilemapTiledJSON('tilemap1', 'src/assets/tiles/level1.json');
+
+    this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
+    this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
 
+    //this.load.image('bocadillo',);
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
@@ -66,61 +136,109 @@ export default class Scene1 extends  Phaser.Scene {
     };
     let musiquita = this.sound.add('bandaSonora',config);
     musiquita.play();
-
-
-    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
-    const map = this.make.tilemap({
-      key:'tilemap1',
-      tileWidth:1024,
-      tileHeight:1024
-    });
-
-    const tileset1 = map.addTilesetImage('tileset','patronesTilemap');
-
-    map.createStaticLayer('backgroundcave', tileset1);
-    const suelo = map.createStaticLayer('ground',tileset1);
-    const hierba = map.createStaticLayer('grass',tileset1);
-    map.createStaticLayer('water',tileset1);
-    map.createStaticLayer('waterplant',tileset1);
-    map.createStaticLayer('waterfall2',tileset1);
-    map.createStaticLayer('waterfall',tileset1);
-    map.createStaticLayer('foamWaterFall',tileset1);
-    map.createStaticLayer('foregroundcave',tileset1);
-    map.createStaticLayer('entrycave',tileset1);
     
-    suelo.setCollisionByProperty({collides:true});
-    
-    map.setCollisionByProperty({collides:true});
-
-    this.matter.world.convertTilemapLayer(hierba);
-    this.matter.world.convertTilemapLayer(suelo);
-
     //BG
-  
+    this.sky = this.add.tileSprite(3840,this.cameras.main.centerY, 0, 0, 'sky');
+    this.scaleThis(this.sky,3,3);
+
+    this.bg = this.add.image(3840,this.cameras.main.centerY, 'bg');
+    this.scaleThis(this.bg,3,3);
+    const map = this.make.tilemap({
+      key:'tilemap_level1',
+      tileWidth:64,
+      tileHeight:64
+    });
+    const tileset = map.addTilesetImage('tileset');
+    
+    //Layers del tileMap
+    const inviwalls = map.createDynamicLayer('inviWall',tileset);
+    const water = map.createDynamicLayer('water',tileset);
+    map.createDynamicLayer('waterplant',tileset);
+    const ground = map.createDynamicLayer('ground',tileset,0,0);
+    map.createDynamicLayer('waterfall2',tileset,0,0);
+    const waterfall = map.createDynamicLayer('waterfall',tileset,0,0);
+    map.createDynamicLayer('foamWaterFall',tileset,0,0);
+    map.createDynamicLayer('backgroundcave',tileset,0,0);
+    const cave = map.createDynamicLayer('foregroundcave',tileset,0,0);
+    map.createDynamicLayer('entrycave',tileset,0,0);
+    map.createDynamicLayer('grass',tileset,0,0);
+    //Implementacion de colisiones
+    inviwalls.setCollisionByProperty({collides:true});
+    water.setCollisionByProperty({collides:true});
+    ground.setCollisionByProperty({collides:true});
+    waterfall.setCollisionByProperty({collides:true});
+    cave.setCollisionByProperty({collides:true});
+
+    //convertir colisiones a matter
+    this.matter.world.convertTilemapLayer(inviwalls);
+    this.matter.world.convertTilemapLayer(water);
+    this.matter.world.convertTilemapLayer(ground);
+    this.matter.world.convertTilemapLayer(waterfall);
+    this.matter.world.convertTilemapLayer(cave);
+    
+    //si soy yo el chocu 
+    
     //Player
+    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
 
-    this.player = new Player(this, this.game.config.width/2, this.game.config.height);
-    //this.playerMaricon= this.map.createFromObjects('ground',1);
+    //Puzzle 1
+    this.altar= new PuzzleObjectWord(this, this.game.config.width/5, this.game.config.height/2, 'altar', false,true,'Altar','Talar');
     
+    this.altar.sprite.setScale(0.5,0.5);
+    //Particulas
+    this.createParticles('leaves'); 
+   
+    this.FadeIn();
+    this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','sky',400);
+  }
+//actualiza los eventos. El delta es para calcular las fisicas
+  update(time, delta)
+  {
 
-    //Puzzle1
-    this.altar = new PuzzleObjectWord(this, this.game.config.width/5, this.game.config.height/2, 'altar', false,true,'Altar','Talar');
-    this.complete=false;
+    this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
+    //this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
-    //Puzzle2
-    this.vaca = new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height/2, 'vaca',false, true, 'Vaca', 'Cava');
-    this.complete2=false;
+    // if(this.brote.objectSolved() && !this.complete){
+    //   this.brote.changeImage('nogal');
+    //   //Sombra
+    //   this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosa')
+    //   this.sombra.changeAlpha(0.3);
+    //   this.complete = true;
+    // }
+    // if(this.nuez.solved){
+    //    this.player.addLetter(this.nuez.getLetter());
+    //  }
+    // if(this.complete){
+    //   if(this.sombra.objectSolved() && !this.complete2){
+    //     //Rosa
+    //     this.rosa = new PuzzleObjectWord(this, this.game.config.width-400, this.game.config.height - 175, 'rosa', false, 1, '', '');
+    //     this.complete2 = true;
+    //   }
+    // }
+  }
 
-    //Puzzle 3
-    this.velas = new PuzzleObjectWord(this, this.game.config.width * 3/4, this.game.config.height * 3/4, 'Velas', false, true, 'Ceras', 'Secar');
-    this.complete3=false;
+  FadeIn()
+  {
+    //Camara
+    this.cameras.main.fadeIn(2000, 0, 0, 0);
+    this.cameras.main.setBounds(0,0,7680, 2560);  
     
+    this.cameras.main.startFollow(this.player);
+    //Offeset para seguir al jugador
+    this.cameras.main.followOffset.set(0,125);
+    this.cameras.main.setZoom(1.2);
+    
+    this.complete = false;
+  }
+
+  createParticles(particleSprite)
+  {
     //Particles
-    let leaves = this.add.particles('leaves');
+    let leaves = this.add.particles(particleSprite);
     leaves.createEmitter({
-        frames: [{key: 'leaves', frame: 0}],
+        frames: [{key: particleSprite, frame: 0}],
         x: -50,
-        y: { min: 100, max: this.game.config.height*0.5},
+        y: { min: 100, max: this.cameras.main.centerY},
         speedX: { min: 100, max: 300 },
         speedY: { min: -50, max: 50 },
         lifespan: 7000,
@@ -128,33 +246,18 @@ export default class Scene1 extends  Phaser.Scene {
         rotate: {start: 0, end: 360},
         frequency: 600
     });
-    //Camara
-    this.cameras.main.fadeIn(2000, 0, 0, 0);
-    //this.cameras.main.setBounds(0,0,this.sky.displayWidth, this.sky.displayHeight);
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.setZoom(1);
   }
-//actualiza los eventos. El delta es para calcular las fisicas
-  update(time, delta)
-  {
-    //Sale por un lado y entra por el otro
-    /*this.player.checkPos(this.game.config.width);
-    if(this.player.checkPos(this.game.config.width)){
-      this.scene.start('menu');
-    }*/
-
-    if(this.altar.objectSolved() && !this.complete){
-      //destruir ábol y ponerlo tumbado
-      this.complete=true;
-    }
-    if(this.vaca.objectSolved() && !this.complete2){
-      //destruir suelo y caer
-      this.complete2=true;
-    }
-
-    if(this.vaca.objectSolved() && !this.complete3){
-      //destruir quitar cascada
-      this.complete3=true;
-    }
+  //escalar la imagen con display en vez de setScale
+  scaleThis(image,w, h){
+    image.displayWidth = image.width*w;
+    image.displayHeight = image.height*h;
+  }
+  //Añadir collide estatico a imagen
+  addStaticCollision(image, offsetX, offsetY){
+    let M = Phaser.Physics.Matter.Matter;
+    let w = image.width;
+    let h = image.height;
+    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true, label:'ground'});
+    image.setExistingBody(newBody);
   }
 }
