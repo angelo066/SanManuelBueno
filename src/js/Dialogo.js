@@ -6,103 +6,103 @@ export default class Dialogo{
         this.x=x;
         this.y=y;
         this.text=text;
-        this.sprite = this.scene.add.image(this.x,this.y,bocadillo);
+        // this.sprite = this.scene.add.image(this.x,this.y,'tumba');
         this.sensor = this.scene.matter.add.image(this.x, this.y, undefined, {isStatic:true});
         this.dialogue=this.scene.add.text(this.x,this.y);
-        this.dialogue.setAlign('center');
+        // this.dialogue.setAlign('center');
 
-        this.dialogue.setFont('Calibri');
-        this.dialogue.setFontSize(50);
+        // this.dialogue.setFont('Calibri');
+        // this.dialogue.setFontSize(50);
 
-        this.dialogue.setStroke('#000000', 6)
-        this.dialogue.setFill('#43d637');
-        this.dialogue.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+        // this.dialogue.setStroke('#000000', 6)
+        // this.dialogue.setFill('#43d637');
+        // this.dialogue.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
         let circle = new Phaser.Physics.Matter.Matter.Bodies.circle(this.x, this.y, sensorR,{isStatic:true,isSensor:true});
         this.sensor.setExistingBody(circle);
 
         this.scene.add.existing(this);
 
         this.dialogue.setAlpha(0);
-        this.sprite.setAlpha(0);
+        // this.sprite.setAlpha(0);
 
-        this.scene.matter.world.on('collisionstart', (event)=>{
-            let wordBody = this.sensor.body;
-            for (let i = 0; i < event.pairs.length; i++)
-            {
-                let bodyA = event.pairs[i].bodyA;
-                let bodyB = event.pairs[i].bodyB;
+        // this.scene.matter.world.on('collisionstart', (event)=>{
+        //     let wordBody = this.sensor.body;
+        //     for (let i = 0; i < event.pairs.length; i++)
+        //     {
+        //         let bodyA = event.pairs[i].bodyA;
+        //         let bodyB = event.pairs[i].bodyB;
 
-                if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
-                {
+        //         if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
+        //         {
 
-                    this.MuestraTexto();
-                }
-            }
-        });
+        //             this.MuestraTexto();
+        //         }
+        //     }
+        // });
 
 
-        this.scene.matter.world.on('collisionend', (event)=>{
-            let wordBody = this.sensor.body;
-            for (let i = 0; i < event.pairs.length; i++)
-            {
-                let bodyA = event.pairs[i].bodyA;
-                let bodyB = event.pairs[i].bodyB;
+        // this.scene.matter.world.on('collisionend', (event)=>{
+        //     let wordBody = this.sensor.body;
+        //     for (let i = 0; i < event.pairs.length; i++)
+        //     {
+        //         let bodyA = event.pairs[i].bodyA;
+        //         let bodyB = event.pairs[i].bodyB;
 
-                if (bodyA === wordBody || bodyB === wordBody)
-                {
-                    if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
-                    {
-                        this.EscondeTexto();
-                    }
-                }
-            }
+        //         if (bodyA === wordBody || bodyB === wordBody)
+        //         {
+        //             if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
+        //             {
+        //                 this.EscondeTexto();
+        //             }
+        //         }
+        //     }
 
-        });
+        // });
         
     }
 
-    MuestraTexto(){
-        this.scene.tweens.add({
-            targets: this.sprite,
-            scale: {from: 0.2, to: 1},
-            alpha:{ from: 0, to: 1},
-            ease: 'Sine.easeInOut',
-            duration: 1000
-        })
+    // MuestraTexto(){
+    //     this.scene.tweens.add({
+    //         targets: this.sprite,
+    //         scale: {from: 0.2, to: 1},
+    //         alpha:{ from: 0, to: 1},
+    //         ease: 'Sine.easeInOut',
+    //         duration: 1000
+    //     })
 
-        this.scene.tweens.add({
-            targets: this.dialogue,
-            scale: {from: 0.2, to: 1},
-            alpha:{ from: 0, to: 1},
-            ease: 'Sine.easeInOut',
-            duration: 1000
-        })
+    //     this.scene.tweens.add({
+    //         targets: this.dialogue,
+    //         scale: {from: 0.2, to: 1},
+    //         alpha:{ from: 0, to: 1},
+    //         ease: 'Sine.easeInOut',
+    //         duration: 1000
+    //     })
         
-    }
+    // }
 
-    EscondeTexto(){
-       //Destruir palabra del objeto despues de terminar animacion
-       let timeline = this.scene.tweens.createTimeline();
-       timeline.add({
-           targets: this.dialogue,
-           scale: {from: 1, to: 0},
-           alpha:{ from: 1, to: 0},
-           ease: 'Sine.easeInOut',
-           duration: 1000
-       });
+    // EscondeTexto(){
+    //    //Destruir palabra del objeto despues de terminar animacion
+    //    let timeline = this.scene.tweens.createTimeline();
+    //    timeline.add({
+    //        targets: this.dialogue,
+    //        scale: {from: 1, to: 0},
+    //        alpha:{ from: 1, to: 0},
+    //        ease: 'Sine.easeInOut',
+    //        duration: 1000
+    //    });
 
-       //Destruir palabra del objeto despues de terminar animacion
-       timeline.add({
-           targets: this.sprite,
-           scale: {from: 1, to: 0},
-           alpha:{ from: 1, to: 0},
-           ease: 'Sine.easeInOut',
-           duration: 1000
-       });
-       timeline.play();
-    }
+    //    //Destruir palabra del objeto despues de terminar animacion
+    //    timeline.add({
+    //        targets: this.sprite,
+    //        scale: {from: 1, to: 0},
+    //        alpha:{ from: 1, to: 0},
+    //        ease: 'Sine.easeInOut',
+    //        duration: 1000
+    //    });
+    //    timeline.play();
+    // }
 
-    CambiaTexto(newText){
-        this.text = newText;
-    }
+    // CambiaTexto(newText){
+    //     this.text = newText;
+    // }
 }

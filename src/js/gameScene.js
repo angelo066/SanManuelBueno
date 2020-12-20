@@ -85,31 +85,79 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
     this.load.image('tumba', 'src/assets/sprites/gameObjects/tumba.png');
+
+
+    this.load.tilemapTiledJSON('tilemap1', 'src/assets/tiles/level1.json');
+    this.load.image('patronesTilemap','src/assets/tiles/tileset.png')
+
     //this.load.image('bocadillo',);
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    //BG
-    this.sky = this.add.tileSprite(this.cameras.main.centerX,this.cameras.main.centerY, 0, 0, 'sky');
-    this.scaleThis(this.sky,0.75,0.75);
 
-    this.sky2 = this.add.tileSprite(this.cameras.main.centerX + 1920,this.cameras.main.centerY, 0, 0, 'sky');
-    this.scaleThis(this.sky2,0.75,0.75);
+    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
+    const map = this.make.tilemap({
+      key:'tilemap1',
+      tileWidth:64,
+      tileHeight:64
+    });
 
     this.bg = this.add.image(this.cameras.main.centerX,this.cameras.main.centerY, 'background');
     this.scaleThis(this.bg,0.75,0.75);
-    this.bg2 = this.add.image(this.cameras.main.centerX + this.bg.width - 650,this.cameras.main.centerY, 'background').setFlipX(true);
-    this.scaleThis(this.bg2,0.75,0.75);
+    const tileset1 = map.addTilesetImage('tileset','patronesTilemap');
+
+    map.createStaticLayer('backgroundcave', tileset1);
+    const suelo = map.createStaticLayer('ground',tileset1);
+     map.createStaticLayer('grass',tileset1);
+     map.createStaticLayer('water',tileset1);
+     map.createStaticLayer('waterplant',tileset1);
+     map.createStaticLayer('waterfall2',tileset1);
+     map.createStaticLayer('waterfall',tileset1);
+     map.createStaticLayer('foamWaterFall',tileset1);
+    map.createStaticLayer('foregroundcave',tileset1);
+    map.createStaticLayer('entrycave',tileset1);
+
+    suelo.setCollisionByProperty({ collides: true });
+    const debugGraphics = this.add.graphics().setAlpha(0.75);
+    suelo.renderDebug(debugGraphics, {
+      tileColor: null, // Color of non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+    });  
+
+    // hierba.setCollisionByProperty(this.player);
+    suelo.setCollisionByProperty({collides:true});
+    // cosa1.setCollisionByProperty({collides:true});
+    // cosa2.setCollisionByProperty({collides:true});
+    // cosa3.setCollisionByProperty({collides:true});
+    // cosa4.setCollisionByProperty({collides:true});
+    // cosa5.setCollisionByProperty({collides:true});
+    // cosa6.setCollisionByProperty({collides:true});
+    // cosa7.setCollisionByProperty({collides:true});
+
+
+
+    //BG
+    // this.sky = this.add.tileSprite(this.cameras.main.centerX,this.cameras.main.centerY, 0, 0, 'sky');
+    // this.scaleThis(this.sky,0.75,0.75);
+
+    // this.sky2 = this.add.tileSprite(this.cameras.main.centerX + 1920,this.cameras.main.centerY, 0, 0, 'sky');
+    // this.scaleThis(this.sky2,0.75,0.75);
+
+    
+
+    // this.bg2 = this.add.image(this.cameras.main.centerX + this.bg.width - 650,this.cameras.main.centerY, 'background').setFlipX(true);
+    // this.scaleThis(this.bg2,0.75,0.75);
 
     //#region Plataformas
-    this.ground =  this.matter.add.image(this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
-    this.addStaticCollision(this.ground,0,120);
-    this.scaleThis(this.ground,0.75,0.75); 
+    // this.ground =  this.matter.add.image(this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
+    // this.addStaticCollision(this.ground,0,120);
+    // this.scaleThis(this.ground,0.75,0.75); 
 
-    this.ground2 =  this.matter.add.image(this.cameras.main.width + this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
-    this.addStaticCollision(this.ground2,0,120);
-    this.scaleThis(this.ground2,0.75,0.75);
+    // this.ground2 =  this.matter.add.image(this.cameras.main.width + this.cameras.main.width/2, this.cameras.main.height-60, 'ground');
+    // this.addStaticCollision(this.ground2,0,120);
+    // this.scaleThis(this.ground2,0.75,0.75);
     //#endregion
 
     //Tumba
@@ -121,25 +169,27 @@ export default class GameScene extends Phaser.Scene {
     // this.marchita3 = new PuzzleObjectWord(this, this.game.config.width/3 + 40, this.game.config.height - 120, 'marchita', false, 1, '', '');
 
     //Nuez
-    this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 200, 'nuez', 'n');
+    // this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 200, 'nuez', 'n');
 
     //Player
-    this.player = new Player(this, /*this.cameras.main.width*0.125 */34567890 , this.cameras.main.height*0.8, 'player_run', 0);
+    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
 
     //Árbol
     //this.brote = new PuzzleObjectWord(this, this.game.config.width/2, this.game.config.height - 250, 'brote', false, 400, 'logan', 'nogal');
 
     //Particulas
+    this.matter.world.convertTilemapLayer(suelo);
     this.createParticles('leaves'); 
    
     this.FadeIn();
-    this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','tumba',400);
+    this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','sky',400);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-    this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
-    this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
+
+    // this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
+    // this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
     // if(this.brote.objectSolved() && !this.complete){
     //   this.brote.changeImage('nogal');
@@ -148,9 +198,9 @@ export default class GameScene extends Phaser.Scene {
     //   this.sombra.changeAlpha(0.3);
     //   this.complete = true;
     // }
-    if(this.nuez.solved){
-       this.player.addLetter(this.nuez.getLetter());
-     }
+    // if(this.nuez.solved){
+    //    this.player.addLetter(this.nuez.getLetter());
+    //  }
     // if(this.complete){
     //   if(this.sombra.objectSolved() && !this.complete2){
     //     //Rosa
@@ -164,12 +214,12 @@ export default class GameScene extends Phaser.Scene {
   {
     //Camara
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    this.cameras.main.setBounds(0,-1000,this.sky.displayWidth*2, this.sky.displayHeight * 2);
+    // this.cameras.main.setBounds(0,-1000,this.sky.displayWidth*2, this.sky.displayHeight * 2);  
     
     this.cameras.main.startFollow(this.player);
     //Offeset para seguir al jugador
     this.cameras.main.followOffset.set(0,250);
-    this.cameras.main.setZoom(1.3);
+    this.cameras.main.setZoom(1);
     
     this.complete = false;
   }

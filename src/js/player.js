@@ -62,7 +62,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         {
           let bodyA = event.pairs[i].bodyA;
           let bodyB = event.pairs[i].bodyB;
-          if ((bodyA === bottom && bodyB.label === 'ground') || (bodyB === bottom && bodyA.label === 'ground'))
+          if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
             this.playerController.onFloor = true;
           }
@@ -75,7 +75,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         {
           let bodyA = event.pairs[i].bodyA;
           let bodyB = event.pairs[i].bodyB;
-          if ((bodyA === bottom && bodyB.label === 'ground') || (bodyB === bottom && bodyA.label === 'ground'))
+          if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
             this.playerController.onFloor = false;
           }
@@ -158,7 +158,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     else
       this.setVelocityX(0);
     
-    if(this.keycodeW.isDown && this.playerController.onFloor){
+    if(this.keycodeW.isDown  && this.playerController.onFloor){
       this.setVelocityY(-this.playerController.speed.jump);
     }
      if(this.body.velocity.x === 0 && this.playerController.onFloor){
@@ -209,20 +209,20 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   //   this.invent.EscribeInventario();
   //   }
 
-  checkPos(width) { 
-    if(this.body.x >= width - this.body.width) 
-    {
-      console.log(this.invent);
-      console.log(letrita);
+  // checkPos(width) { 
+  //   if(this.body.x >= width - this.body.width) 
+  //   {
+  //     console.log(this.invent);
+  //     console.log(letrita);
 
-      this.invent.AddLetter(letrita.word);
+  //     this.invent.AddLetter(letrita.word);
 
-      letrita.destroy();
-      letrita.destroyWord();
+  //     letrita.destroy();
+  //     letrita.destroyWord();
 
-      // this.invent.EscribeInventario();
-    }
-  }
+  //     // this.invent.EscribeInventario();
+  //   }
+  // }
 
   addLetter(letrita)
   {

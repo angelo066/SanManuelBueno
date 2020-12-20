@@ -54,10 +54,11 @@ export default class Scene1 extends  Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
     this.map = this.make.tilemap({
       key:'tilemap1',
-      tileWidth:1024,
-      tileHeight:1024
+      // tileWidth:1024,
+      // tileHeight:1024
     });
 
     const tileset1 = this.map.addTilesetImage('tileset','patronesTilemap');
@@ -67,7 +68,6 @@ export default class Scene1 extends  Phaser.Scene {
     this.foregroundLayer=this.map.createStaticLayer('grass',tileset1);
     
     //BG
-    this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
   
     //Platform and player
 
