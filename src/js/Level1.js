@@ -174,17 +174,15 @@ export default class level1 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(water);
     this.matter.world.convertTilemapLayer(ground);
     this.matter.world.convertTilemapLayer(waterfall);
-    this.matter.world.convertTilemapLayer(cave);
-    
-    //si soy yo el chocu 
+    this.matter.world.convertTilemapLayer(cave); 
     
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
 
     //Puzzle 1
-    this.altar= new PuzzleObjectWord(this, this.game.config.width/5, this.game.config.height/2, 'altar', false,true,'Altar','Talar');
+    this.altar= new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.35, 'altar', false, 2000,'Altar','Talar');
+    this.scaleThis(this.altar.sprite, 0.10, 0.10);
     
-    this.altar.sprite.setScale(0.5,0.5);
     //Particulas
     this.createParticles('leaves'); 
    

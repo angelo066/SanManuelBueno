@@ -17,6 +17,8 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         this.scene.add.existing(this);
         //Solucion Palabra
         this.sol = sol;
+        //Comprobador de que el puzzle está terminado
+        this.complete = false;
         //Variable para que el jugador pueda añadir letras cuando colisione con el puzzle
         this.canAdd = false;
         //Colisiones
