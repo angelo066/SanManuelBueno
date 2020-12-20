@@ -6,7 +6,7 @@
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
-import Dialogo from './Dialogo.js';
+import Dialogo from './dialogo.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -15,6 +15,14 @@ export default class GameScene extends Phaser.Scene {
   //para cargar los recursos
   preload() 
   {
+    this.load.spritesheet({
+    key:'player_idle', 
+    url:'src/assets/sprites/unamuno/idle.png',
+    frameConfig:{
+      frameWidth:120,
+      frameHeight:200
+    }
+  });
     this.load.spritesheet({
       key:'player_run', 
       url:'src/assets/sprites/unamuno/run.png',
@@ -29,6 +37,14 @@ export default class GameScene extends Phaser.Scene {
       frameConfig:{
         frameWidth:120,
         frameHeight:200
+      }
+    });
+    this.load.spritesheet({
+      key:'player_attack', 
+      url:'src/assets/sprites/unamuno/attack.png',
+      frameConfig:{
+        frameWidth:180,
+        frameHeight:180
       }
     });
     this.load.spritesheet({//Letras normales
@@ -55,8 +71,9 @@ export default class GameScene extends Phaser.Scene {
         frameHeight:120
       }
     });
-    this.load.image('inventory', 'src/assets/inventory/pergamino.png')
-    this.load.image('selection', 'src/assets/inventory/selector.png')
+    this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
+    this.load.image('inventory', 'src/assets/inventory/pergamino.png');
+    this.load.image('selection', 'src/assets/inventory/selector.png');
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
     this.load.image('background', 'src/assets/bg/lake.png');
@@ -104,7 +121,7 @@ export default class GameScene extends Phaser.Scene {
     // this.marchita3 = new PuzzleObjectWord(this, this.game.config.width/3 + 40, this.game.config.height - 120, 'marchita', false, 1, '', '');
 
     //Nuez
-    // this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'n');
+    this.nuez = new PuzzleObjectLetter(this, this.game.config.width/2 + 150, this.game.config.height - 50, 'nuez', false, 100, 'nuez', 'n');
 
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */34567890 , this.cameras.main.height*0.8, 'player_run', 0);
@@ -131,6 +148,9 @@ export default class GameScene extends Phaser.Scene {
     //   this.sombra.changeAlpha(0.3);
     //   this.complete = true;
     // }
+    if(this.nuez.solved){
+       this.player.addLetter(this.nuez.getLetter());
+     }
     // if(this.complete){
     //   if(this.sombra.objectSolved() && !this.complete2){
     //     //Rosa

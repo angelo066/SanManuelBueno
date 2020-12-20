@@ -6,10 +6,8 @@ export default class Dialogo{
         this.x=x;
         this.y=y;
         this.text=text;
-      
-
-        this.sprite = this.scene.matter.add.image(this.x,this.y,bocadillo,{isStatic:true});
-        
+        this.sprite = this.scene.add.image(this.x,this.y,bocadillo);
+        this.sensor = this.scene.matter.add.image(this.x, this.y, undefined, {isStatic:true});
         this.dialogue=this.scene.add.text(this.x,this.y);
         this.dialogue.setAlign('center');
 
@@ -19,10 +17,8 @@ export default class Dialogo{
         this.dialogue.setStroke('#000000', 6)
         this.dialogue.setFill('#43d637');
         this.dialogue.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
-
-
-        this.radius= new Phaser.Physics.Matter.Matter.Bodies.circle(this.x, this.y, sensorR,{isStatic:true,isSensor:true});
-        this.sprite.setExistingBody(this.radius);
+        let circle = new Phaser.Physics.Matter.Matter.Bodies.circle(this.x, this.y, sensorR,{isStatic:true,isSensor:true});
+        this.sensor.setExistingBody(circle);
 
         this.scene.add.existing(this);
 
@@ -30,7 +26,7 @@ export default class Dialogo{
         this.sprite.setAlpha(0);
 
         this.scene.matter.world.on('collisionstart', (event)=>{
-            let wordBody = this.sprite.body;
+            let wordBody = this.sensor.body;
             for (let i = 0; i < event.pairs.length; i++)
             {
                 let bodyA = event.pairs[i].bodyA;
@@ -46,7 +42,7 @@ export default class Dialogo{
 
 
         this.scene.matter.world.on('collisionend', (event)=>{
-            let wordBody = this.sprite.body;
+            let wordBody = this.sensor.body;
             for (let i = 0; i < event.pairs.length; i++)
             {
                 let bodyA = event.pairs[i].bodyA;
@@ -70,8 +66,6 @@ export default class Dialogo{
             targets: this.sprite,
             scale: {from: 0.2, to: 1},
             alpha:{ from: 0, to: 1},
-            x: {from:this.x - 50, to: this.x},
-            y: this.y-150,
             ease: 'Sine.easeInOut',
             duration: 1000
         })
@@ -80,8 +74,6 @@ export default class Dialogo{
             targets: this.dialogue,
             scale: {from: 0.2, to: 1},
             alpha:{ from: 0, to: 1},
-            x: {from:this.x - 50, to: this.x},
-            y: this.y-150,
             ease: 'Sine.easeInOut',
             duration: 1000
         })
@@ -95,8 +87,6 @@ export default class Dialogo{
            targets: this.dialogue,
            scale: {from: 1, to: 0},
            alpha:{ from: 1, to: 0},
-           x: {from:this.x, to: this.x - 50},
-           y: this.y,
            ease: 'Sine.easeInOut',
            duration: 1000
        });
@@ -106,8 +96,6 @@ export default class Dialogo{
            targets: this.sprite,
            scale: {from: 1, to: 0},
            alpha:{ from: 1, to: 0},
-           x: {from:this.x, to: this.x - 50},
-           y: this.y,
            ease: 'Sine.easeInOut',
            duration: 1000
        });

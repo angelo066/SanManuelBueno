@@ -37,7 +37,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
         this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keycodeA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keycodeQ = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keycodeW = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     }
 
     preUpdate()
@@ -64,9 +64,9 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             this.moveSelection(this.scene.cameras.main.width-1570 + this.selector *this.offset);
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keycodeQ))
+        if (Phaser.Input.Keyboard.JustDown(this.keycodeW))
         {
-            console.log("you just pressed Q");
+            console.log("you just pressed W");
 
             // if(this.selectordad)
 

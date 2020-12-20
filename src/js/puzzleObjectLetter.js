@@ -12,10 +12,23 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
         //String palabra
         this.word = word;
         this.objectWord = '';
+        //Palabra del objeto
+        this.objectWord = new Word({
+            scene: this.scene,
+            x:this.x,
+            y:this.y,
+            word: this.word,
+            interactive: false,
+            letter:this.letter
+        });
+        this.objectWord.container.setVisible(false);
+        this.add(this.objectWord);
         //Letra del objeto
         this.letter = letter;
         this.add(this.sprite);
-        this.scene.add.existing(this);//Colisiones
+        this.scene.add.existing(this);
+        this.solved = false;
+        //Colisiones
         this.scene.matter.world.on('collisionstart', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -26,6 +39,14 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
                 if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                 {
                     this.wordAppear();
+                }
+                if ((bodyA === wordBody && bodyB.label === 'player_attack')|| (bodyB === wordBody && bodyA.label === 'player_attack')) //Aqui no detecta el label del sensor
+                {
+                    console.log('F');
+                    if(this.giveLetter()){
+                        this.solved = true;
+                        this.scene.matter.world.remove(this.sprite);
+                    }
                 }
             }
         });
@@ -50,31 +71,23 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
     }
     //Flag para devolver letra o destruir las otras
     giveLetter(){
-        if(this.objectWord === this.letter){
-            this.word.destroyWord();
-            return false;
+        if(this.objectWord.container.getIndex(this.objectWord.container.last) === 0){
+            this.objectWord.destroyWord();
+            return true;
         }
         else{
-            this.word.destroyCrackedLetter();
+            this.objectWord.destroyCrackedLetter();
             return false;
         }
     }
     //Devolver letra especial
     getLetter(){
+        this.solved = false;
         return this.letter;
     }
     //Animacion de aparicion de palabra
     wordAppear(){
-        //Palabra del objeto
-        this.objectWord = new Word({
-            scene: this.scene,
-            x:this.x,
-            y:this.y,
-            word: this.word,
-            interactive: false,
-            letter:this.letter
-        });
-        this.add(this.objectWord);
+        this.objectWord.container.setVisible(true);
         this.scene.tweens.add({
             targets: this.objectWord.container,
             scale: {from: 0.2, to: 1},
@@ -99,6 +112,6 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
             duration: 1000
         });
         timeline.play();
-        this.remove(this.objectWord);
+        this.objectWord.container.setVisible(false);
     }
  }

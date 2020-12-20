@@ -65,7 +65,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                     if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                     {
                         this.wordDisappear();
-
                         this.canAdd = false;
                     }
                 }

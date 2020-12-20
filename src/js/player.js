@@ -11,9 +11,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       },
       speed: {
         run: 5,
-        jump: 13
+        jump: 10
       },
-      onFloor: false
+      onFloor: false,
+      onAttack:false
     };
     let M = Phaser.Physics.Matter.Matter;
     let w = this.width;
@@ -21,18 +22,27 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     let sx = w / 2;
     let sy = h / 2;
     let playerBody = M.Bodies.rectangle(sx, sy, w * 0.75, h, { chamfer: { radius: 10 }, label:'player' });
-    this.playerController.sensors.bottom = M.Bodies.rectangle(sx, h, sx, 10, { isSensor: true });
-    this.playerController.sensors.right = M.Bodies.rectangle(sx + w * 0.45, sy, 20, h * 0.25, { isSensor: true });
+    this.playerController.sensors.bottom = M.Bodies.rectangle(sx, h, sx, 10, { isSensor: true , label: 'foot'});
+    this.playerController.sensors.right = M.Bodies.rectangle(w*3, sy, w*1.2, h * 1.2, {isStatic:true, isSensor: true, label:'player_attack'});
     let compoundBody = M.Body.create({
       parts: [
-        playerBody, this.playerController.sensors.bottom,
-        this.playerController.sensors.right
+        playerBody, this.playerController.sensors.bottom
       ],
       friction: 0.01,
       restitution: 0.05, // Prevent body from sticking against a wall
     });
     this.setExistingBody(compoundBody).setFixedRotation() // Sets max inertia to prevent rotation
-
+    //Pluma Unamuno
+    this.fOffsetX = w;
+    this.fOffsetY = h*0.25
+    this.feather = this.scene.add.image(x,y,'feather');
+    this.feather.displayHeight = h* 0.4;
+    this.feather.displayWidth = w *0.4;
+  //Ataque Unamuno
+  this.attack = this.scene.matter.add.sprite(x,y,undefined);
+  this.attack.displayHeight = this.attack.height*0.8;
+  this.attack.displayWidth = this.attack.width*0.8;
+  //Inventario
     this.invent = new Inventory({
       scene:scene,
       x: this.scene.cameras.main.width/3.9,
@@ -45,7 +55,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     //Creacion de las colisiones    
     //Colisiones de suelo y pegar
     this.scene.matter.world.on('collisionstart',(event)=>{
-      let right = this.playerController.sensors.right;
       let bottom = this.playerController.sensors.bottom;
        for (let i = 0; i < event.pairs.length; i++)
         {
@@ -54,10 +63,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
           if ((bodyA === bottom && bodyB.label === 'ground') || (bodyB === bottom && bodyA.label === 'ground'))
           {
             this.playerController.onFloor = true;
-          }
-          else if ((bodyA === right && bodyB.isStatic) || (bodyB === right && bodyA.isStatic))
-          {
-            //proximamente
           }
         }
     });
@@ -80,8 +85,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     //animaciones
     this.scene.anims.create({
       key:'idle',
-      frames: [{key: 'player_run', frame: 28}],
-      frameRate: 24
+      frames: this.scene.anims.generateFrameNumbers('player_idle',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
     })
     this.scene.anims.create({
       key:'run',
@@ -94,11 +100,38 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       frames: [{key: 'player_jump', frame: 0}],
       frameRate: 24
     });
+    this.scene.anims.create({
+      key:'attack',
+      frames: this.scene.anims.generateFrameNumbers('player_attack',{start: 0, end: 7}),
+      frameRate: 24,
+      showOnStart:true,
+      hideOnComplete: true
+    });
+    //Control animaciones
+    this.attack.on('animationcomplete', function (anim, frame) {
+      this.emit('animationcomplete_' + anim.key, anim, frame);
+    }, this.attack);
+    this.attack.on('animationcomplete_attack',()=> {
+      this.playerController.onAttack = false;
+    });
   }
 
   preUpdate(time,delta)
   {
     super.preUpdate(time,delta);
+    //Follow de la pluma
+    this.feather.setX(this.x-this.fOffsetX);
+    this.feather.setY(this.y - 80);
+    this.featherFloat();
+    if(!this.flipX){
+      this.fOffsetX = this.width;
+      this.feather.flipX = false;
+    }
+    else{
+      this.fOffsetX = -this.width;
+      this.feather.flipX = true;
+    }
+    //Movement
     if(this.cursors.left.isDown)
     {
       this.setVelocityX(-this.playerController.speed.run);
@@ -126,14 +159,51 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
      if(this.body.velocity.x === 0 && this.playerController.onFloor){
       this.anims.play('idle', true);
     }
+    else if(this.body.velocity.x === 0){
+      this.anims.play('jump', true);
+    }
+
+    
+    //Attack
+    this.attack.setX(this.x + this.width*0.5);
+    this.attack.setY(this.y);
+    if(!this.flipX){
+      this.attack.flipX = false;
+      this.attack.setX(this.x + this.width);
+    }
+    else{
+      this.attack.flipX = true;
+      this.attack.setX(this.x - this.width);
+    }
+    if(Phaser.Input.Keyboard.JustDown(this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X))){
+      this.attack.anims.play('attack',true);
+      this.playerController.onAttack = true;
+    }
+    console.log(this.playerController.onAttack);
+    if(this.playerController.onAttack){
+      this.attack.setExistingBody(this.playerController.sensors.right);
+    }
+    else{
+      this.scene.matter.world.remove(this.attack.body);
+    }
   }
 
-  addLetter(letrita){
-    //letrita.container.destroy();
-    console.log(this.invent)
-    this.invent.addLet(letrita.word);
-    this.invent.EscribeInventario();
-    }
+  featherFloat(){
+    this.scene.tweens.add({
+      targets: this.feather,
+      y: {from:this.feather.y - 15, to:this.feather.y+10},
+      duration:500,
+      yoyo: true,
+      loop:-1
+  }); 
+  }
+
+  // addLetter(letrita){
+  //   //letrita.container.destroy();
+  //   console.log(this.invent)
+  //   this.invent.addLet(letrita.word);
+  //   this.invent.EscribeInventario();
+  //   }
 
   checkPos(width) { 
     if(this.body.x >= width - this.body.width) 
@@ -150,12 +220,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     }
   }
 
-  AddLetter(player, letrita)
+  addLetter(letrita)
   {
-    console.log(this.invent);
     console.log(letrita);
-    this.invent.AddLetter(letrita.word);
-    letrita.destroy();
-    letrita.destroyWord();
+    this.invent.AddLetter(letrita);
   }
 }

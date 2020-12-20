@@ -23,7 +23,6 @@ export default class Word extends Letter{
                 if(letter === l){ letterKey = 'letters'; }
                 else{ letterKey = 'crackedletters'; }
             }
-            console.log(letterKey);
             this.letter = new Letter({
                 scene: this.scene,
                 x: 80 * this.i,
@@ -39,7 +38,7 @@ export default class Word extends Letter{
         });
 
         //Tecla de activacion de tachar
-        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         //Modo quitar letra = true y modo intercambiar letras = false
         this.strikeMode = false;
         //Input de raton
@@ -122,7 +121,6 @@ export default class Word extends Letter{
             if (!e.strikethrough)
                 this.word = this.word + String.fromCharCode(e.frame.name + 97);
         });
-        console.log(this.word);
     }
     //Destruir ultima letra agrietada
     destroyCrackedLetter(){
