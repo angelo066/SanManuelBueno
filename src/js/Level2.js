@@ -65,20 +65,45 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight:120
       }
     });
-
+    this.load.spritesheet({
+      key:'rainrain',
+      url:'src/assets/sprites/particles/rain.png',
+      frameConfig:{
+        frameWidth:1920,
+        frameHeight:374
+      }
+    })
+    this.load.spritesheet({
+      key:'guadalupe',
+      url:'src/assets/sprites/gameObjects/SraGuadalupeSS.png',
+      frameConfig:{
+        frameWidth:115,
+        frameHeight:171.8
+      }
+    })
+    /*this.load.spritesheet({
+      key:'puerta',
+      url:'src/assets/sprites/gameObjects/PuertaSS.png',
+      frameConfig:{
+        frameWidth:619,
+        frameHeight:1037
+      }
+    })*/
     this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
-    this.load.image('altar', 'src/assets/props/altar/altar.png'); 
-    this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
-    this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
     this.load.image('bg', 'src/assets/bg/BGIglesiaSS.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
-
-    //this.load.image('bocadillo',);
+    this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
+    this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
+    this.load.image('rosa', 'src/assets/puzzle_objects/rosa.png');
+    this.load.image('marchita', 'src/assets/puzzle_objects/rosa_marchita.png');
+    this.load.image('nuez', 'src/assets/puzzle_objects/nuez.png');
+    this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
+    this.load.image('tumba', 'src/assets/sprites/gameObjects/tumba.png');
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
@@ -105,7 +130,36 @@ export default class Level2 extends  Phaser.Scene {
     const tileset = map.addTilesetImage('tileset');
     
     //BG
-    this.background = this.add.image(this.mapWidth/2, this.mapHeight/2, 0, 0, 'bg');
+    this.background = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'bg');
+    this.scaleThis(this.background, 2, 2);
+
+    //Rain
+    this.rain = this.add.sprite(this.mapWidth/2, this.mapHeight/2, 'rainrain', 0);
+    this.rain.setAlpha(0.34);
+    this.scaleThis(this.rain, 2.42, 3.5);
+    this.rain.setDepth(1);
+    this.anims.create({
+      key:'rainanim',
+      frames: this.anims.generateFrameNumbers('rainrain',{start: 0, end: 4}),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    //animacion de la señora guadalupe gracias 
+    this.anims.create({
+      key:'guadalupeanim',
+      frames: this.anims.generateFrameNumbers('guadalupe',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
+    }) 
+
+    //animacionPUERTA
+    this.anims.create({
+      key:'puertaAnim',
+      frames: this.anims.generateFrameNumbers('puertaAnim',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
+    })
 
     //Layers del tileMap
     const inviwall = map.createDynamicLayer('inviWall',tileset,0,0).setDepth(0);
@@ -116,6 +170,7 @@ export default class Level2 extends  Phaser.Scene {
     map.createDynamicLayer('window',tileset,0,0).setDepth(5);
     map.createDynamicLayer('roofhouse',tileset,0,0).setDepth(6);
     const houseFloor = map.createDynamicLayer('grass',tileset,0,0).setDepth(7);
+
     //Implementacion de colisiones
     inviwall.setCollisionByProperty({collides:true});
     ground.setCollisionByProperty({collides:true});
@@ -128,34 +183,65 @@ export default class Level2 extends  Phaser.Scene {
     this.matter.world.convertTilemapLayer(fghouse); 
     this.matter.world.convertTilemapLayer(houseFloor); 
     
+    //Puerta
+    this.puerta = this.add.sprite(this.mapWidth/2 + 2710, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
+    this.scaleThis(this.puerta, 0.27, 0.27);
+
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
-    //Particulas
-    this.createParticles('leaves'); 
-   
+    this.player.setDepth(15);
+    
+    //Tumba
+    this.tumba = this.add.sprite(this.mapWidth/2 + 470, this.mapHeight - 900, 'tumba', 0).setDepth(2);
+    this.scaleThis(this.tumba, 1.5, 1.5);
+
+    //RosasMarchitas
+    this.marchita1 = this.add.sprite(this.mapWidth/2 + 500, this.mapHeight - 850, 'marchita', 0).setDepth(2);
+    this.scaleThis(this.marchita1, 2, 2);
+    this.marchita2 = this.add.sprite(this.mapWidth/2 + 470, this.mapHeight - 850, 'marchita', 0).setDepth(2);
+    this.scaleThis(this.marchita2, 2, 2);
+    this.marchita3 = this.add.sprite(this.mapWidth/2 + 440, this.mapHeight - 850, 'marchita', 0).setDepth(2);
+    this.scaleThis(this.marchita3, 2, 2);
+
+    //SEÑORAGUADALUPESACAMEDEAQUI
+    this.guadalupe = this.add.sprite(this.mapWidth/2 + 2000, this.mapHeight - 1000, 'guadalupe', 0);
+    this.scaleThis(this.guadalupe, 1.2, 1.2);
+    this.guadalupe.flipX = true;
+
+    //Nuez
+    this.nuez = new PuzzleObjectLetter(this, this.mapWidth/2 - 300, this.mapHeight - 700, 'nuez', false, 200, 'nuez', 'n');
+
+    //Árbol
+    this.brote = new PuzzleObjectWord(this, this.mapWidth/2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
+
     this.FadeIn();
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
+    this.rain.anims.play('rainanim', true);
+    this.guadalupe.anims.play('guadalupeanim', true);
+    //this.puerta.anims.play('puertaAnim', true);
+    //La lluvia siga al player
+    this.rain.setPosition(this.player.x, this.player.y-280);
 
-    // if(this.brote.objectSolved() && !this.complete){
-    //   this.brote.changeImage('nogal');
-    //   //Sombra
-    //   this.sombra = new PuzzleObjectWord(this, this.game.config.width/2 + 500, this.game.config.height - 50, 'sombra', false, 280, 'sombra', 'rosa')
-    //   this.sombra.changeAlpha(0.3);
-    //   this.complete = true;
-    // }
-    // if(this.nuez.solved){
-    //    this.player.addLetter(this.nuez.getLetter());
-    //  }
-    // if(this.complete){
-    //   if(this.sombra.objectSolved() && !this.complete2){
-    //     //Rosa
-    //     this.rosa = new PuzzleObjectWord(this, this.game.config.width-400, this.game.config.height - 175, 'rosa', false, 1, '', '');
-    //     this.complete2 = true;
-    //   }
-    // }
+    if(this.brote.objectSolved() && !this.complete){
+      this.brote.changeImage('nogal');
+      //Sombra
+      this.sombra = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'sombra', false, 280, 'sombra', 'rosa')
+      this.sombra.changeAlpha(0.21);
+      this.complete = true;
+    }
+    if(this.nuez.solved){
+       this.player.addLetter(this.nuez.getLetter());
+     }
+    if(this.complete){
+      if(this.sombra.objectSolved() && !this.complete2){
+        //Rosa
+        this.rosa = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'rosa', false, 1, '', '');
+        this.complete2 = true;
+      }
+    }
   }
 
   FadeIn()

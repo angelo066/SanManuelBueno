@@ -36,15 +36,15 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
             {
                 let bodyA = event.pairs[i].bodyA;
                 let bodyB = event.pairs[i].bodyB;
-                console.log(bodyA);
-                console.log(bodyB);
+                //console.log(bodyA);
+                //console.log(bodyB);
                 if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                 {
                     this.wordAppear();
                 }
                 if ((bodyA === wordBody && bodyB.label === 'player_attack')|| (bodyB === wordBody && bodyA.label === 'player_attack')) //Aqui no detecta el label del sensor
                 {
-                    console.log('F');
+                    //console.log('F');
                     if(this.giveLetter()){
                         this.solved = true;
                         this.scene.matter.world.remove(this.sprite);
