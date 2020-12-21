@@ -114,6 +114,6 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
             duration: 1000
         });
         timeline.play();
-        this.objectWord.container.setVisible(false);
+        // this.objectWord.container.setVisible(false);
     }
  }

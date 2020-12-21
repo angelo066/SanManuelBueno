@@ -52,6 +52,14 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       l:{},
     })
 
+    this.invent.AddLetter("W");
+    this.invent.AddLetter("A");
+    this.invent.AddLetter("R");
+    this.invent.AddLetter("R");
+    this.invent.AddLetter("O");
+    this.invent.AddLetter("R");
+
+
     this.invent.setScrollFactor(0);
     this.invent.setDepth(20);
     //Creacion de las colisiones    

@@ -30,9 +30,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         //Comprobador de que el puzzle está terminado
         this.complete = false;
         //Variable para que el jugador pueda añadir letras cuando colisione con el puzzle
-        this.canAdd = false;
         //Colisiones
-        this.keycodeW = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
         this.scene.matter.world.on('collisionstart', (event)=>{
             let wordBody = this.sprite.body;
@@ -45,7 +43,20 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                 {
                     this.wordAppear();
 
-                    this.canAdd = true;
+                    if(bodyA.label === 'player')
+                    {
+                        console.log(bodyA.gameObject.invent.canAdd);
+                        bodyA.gameObject.invent.canAdd = true;
+                        bodyA.gameObject.invent.puzzleToInteract = this;
+                        
+                    }
+                    
+                    if(bodyB.label === 'player')
+                    {
+                        console.log(bodyB.gameObject.invent.canAdd);
+                        bodyB.gameObject.invent.canAdd = true;
+                        bodyA.gameObject.invent.puzzleToInteract = this;
+                    }
                 }
             }
         });
@@ -77,7 +88,15 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                     if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                     {
                         this.wordDisappear();
-                        this.canAdd = false;
+                        
+                        if(bodyB.label === 'player')
+                        {
+                            bodyB.gameObject.invent.canAdd = false;
+                        }
+                        else if(bodyB.label === 'player')
+                        {
+                            bodyA.gameObject.invent.canAdd = false;
+                        } 
                     }
                 }
             }
@@ -90,10 +109,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         // super.preUpdate(time,delta);
         // console.log(this.canAdd);
         // console.log("Estás presionando la Q?:" + Phaser.Input.Keyboard.JustDown(this.keycodeQ));
-        if (Phaser.Input.Keyboard.JustDown(this.keycodeW)  && this.canAdd)
-        {
-            console.log("averlas");
-        }
     }
     //Flag de puzzle resuelto, poner en el update
     objectSolved(){
@@ -143,7 +158,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             duration: 1000
         });
         timeline.play();
-        this.objectWord.container.setVisible(false);
+        // this.objectWord.container.setVisible(false);
     }
 
  }

@@ -266,6 +266,7 @@ export default class level1 extends Phaser.Scene {
     for(let i = 0; i < 4; i++)
       this.vaquitas[i].anims.play('idlee', true);
       this.velaAnima.anims.play('velasMuevan',true);
+    
 
     if(this.vacas.objectSolved() && !this.vacas.complete){
       this.suelo.destroy();

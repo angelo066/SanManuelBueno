@@ -12,6 +12,7 @@ export default class Word extends Letter{
         this.word = word; 
         //Letra seleccionada para intercambio
         this.letter_selected = null; 
+        this.offSetLetter = 80;
         //Crea los sprites de letras y los hace hijos de palabra
         this.i = 0;
         let letterKey = 'letters';
@@ -25,7 +26,7 @@ export default class Word extends Letter{
             }
             this.let = new Letter({
                 scene: this.scene,
-                x: 80 * this.i,
+                x: this.offSetLetter * this.i,
                 y: 0,
                 key: letterKey,
                 frame: l.charCodeAt()-97,
@@ -101,16 +102,17 @@ export default class Word extends Letter{
     removeLetter(selection, i)
     {
         // console.log("removing child number " + selection);
-
+        let letra = this.container.getAt(selection).frame.name;
         this.container.bringToTop(this.container.getAt(selection));
 
         this.container.iterate ( child =>{
             if(this.container.getIndex(child) >= selection &&  this.container.getIndex( (this.container.last) !== this.container.getIndex(child)  )) 
                 child.x = child.x - i ;
         });
-        
+     
         this.container.remove(this.container.last);
         this.i--;
+        return letra + 97;
     }
 
     //Cambiar la posicion de las letras
@@ -140,18 +142,17 @@ export default class Word extends Letter{
         this.container.destroy();
     }
 
-    AddLetter(l, offset)
+    AddLetter(l, offset, interactivo )
     {
         l = l.toLowerCase();
         let letter = new Letter({
             scene: this.scene,
             x: offset*this.i,
-            y: -120,
+            y: 0,
             key: 'letters',
             frame: l.charCodeAt()-97,
-            interactive: false
+            interactive: interactivo,
         });
-        letter.setScale(0.5);
         this.container.add(letter);
         this.i++;
 

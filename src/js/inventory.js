@@ -1,3 +1,4 @@
+import PuzzleObjectLetter from './puzzleObjectLetter.js';
 import Word from './word.js';
 
 export default class Inventory extends Phaser.GameObjects.Sprite{
@@ -13,9 +14,13 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         this.sprite.setScale(0.55);
         this.sprite.setScrollFactor(0);
         this.Letters=l;
-        this.offset = 40;
+        this.offset = 50;
         this.NumElems = 0;
         this.limit = 6;
+
+        this.puzzleToInteract = null;
+
+        this.canAdd = false;
 
         this.word = new Word({
             scene:this.scene,
@@ -29,6 +34,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         this.word.container.setScrollFactor(0);
         this.word.container.setScale(0.5)
         this.word.container.setDepth(21);
+
         this.setScale(0.04);
         this.setAlpha(0.6);
         this.keycodeC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
@@ -46,8 +52,6 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
                 this.moveSelection(this.originX + this.selector *this.offset);
             }
-
-
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.keycodeC)){
@@ -57,14 +61,21 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             this.moveSelection(this.originX + this.selector *this.offset);
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keycodeF))
+        if (Phaser.Input.Keyboard.JustDown(this.keycodeF) && this.canAdd)
         {
 
             if(!(this.selector + 1 > this.NumElems))
             {
-                this.word.removeLetter(this.selector, this.offset);
+                let letraEliminada = this.word.removeLetter(this.selector, this.offset*2);
 
                 this.NumElems--;
+                let n = String.fromCharCode(letraEliminada); 
+                console.log(n);
+
+                if(this.puzzleToInteract !== null)
+                    this.puzzleToInteract.objectWord.AddLetter(n, this.puzzleToInteract.objectWord.offSetLetter, true);
+
+                // console.log(letraEliminada);
             }
           
             
@@ -77,7 +88,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
     {
         if(this.NumElems< this.limit)
         {
-            this.word.AddLetter(letrita, this.offset);
+            this.word.AddLetter(letrita, this.offset*2, false);
         
             this.NumElems++;
         }
