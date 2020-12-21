@@ -120,9 +120,9 @@ export default class level1 extends Phaser.Scene {
     this.anims.create({
       key:'talado',
       frames: this.anims.generateFrameNumbers('arbol',{start: 0, end: 5}),
-      frameRate: 2,
+      frameRate: 4,
       showOnStart:true,
-      hideOnComplete: true
+      hideOnComplete: false
     });
 
     this.anims.create({
@@ -165,23 +165,23 @@ export default class level1 extends Phaser.Scene {
     const tileset = map.addTilesetImage('tileset');
     
     //Layers del tileMap
-    const inviwalls = map.createDynamicLayer('inviWall',tileset);
-    const water = map.createDynamicLayer('water',tileset);
-    map.createDynamicLayer('waterplant',tileset);
-    const ground = map.createDynamicLayer('ground',tileset,0,0);
-    this.waterfall2 = map.createStaticLayer('waterfall2',tileset,0,0);
-    this.waterfall = map.createStaticLayer('waterfall',tileset,0,0);
-    map.createDynamicLayer('foamWaterFall',tileset,0,0);
-    map.createDynamicLayer('backgroundcave',tileset,0,0);
-    const cave = map.createDynamicLayer('foregroundcave',tileset,0,0);
-    map.createDynamicLayer('entrycave',tileset,0,0);
-    map.createDynamicLayer('grass',tileset,0,0);
+    const inviwalls = map.createDynamicLayer('inviWall',tileset).setDepth(0);
+    const water = map.createDynamicLayer('water',tileset).setDepth(0);
+    map.createDynamicLayer('waterplant',tileset).setDepth(0);
+    const ground = map.createDynamicLayer('ground',tileset,0,0).setDepth(0);
+    this.waterfall2 = map.createDynamicLayer('waterfall2',tileset,0,0).setDepth(1);
+    this.waterfall = map.createDynamicLayer('waterfall',tileset,0,0).setDepth(1);
+    map.createDynamicLayer('foamWaterFall',tileset,0,0).setDepth(1);
+    map.createDynamicLayer('backgroundcave',tileset,0,0).setDepth(1);
+    const cave = map.createDynamicLayer('foregroundcave',tileset,0,0).setDepth(3);
+    map.createDynamicLayer('entrycave',tileset,0,0).setDepth(3);
+    map.createDynamicLayer('grass',tileset,0,0).setDepth(3);
     //Implementacion de colisiones
     inviwalls.setCollisionByProperty({collides:true});
     water.setCollisionByProperty({collides:true});
     ground.setCollisionByProperty({collides:true});
-    this.waterfall.setCollisionByProperty({collides:true});
-    this.waterfall2.setCollisionByProperty({collides:true});
+    this.waterfall.setCollisionByProperty({collides:false});
+    this.waterfall2.setCollisionByProperty({collides:false});
     cave.setCollisionByProperty({collides:true});
 
     //convertir colisiones a matter
@@ -193,53 +193,59 @@ export default class level1 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(cave); 
     
     //Player
-    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
+    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0).setDepth(2);
 
     //Puzzle 1
-    this.altar= new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.35, 'altar', false, 2000,'Altar','talar');
+    this.altar= new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.37, 'altar', false, 2000,'Altar','talar');
+    this.altar.sprite.setDepth(1);
     this.scaleThis(this.altar.sprite, 0.10, 0.10);
 
-    this.arbol = this.add.sprite(this.game.config.width*0.7, this.game.config.height*1.05, 'arbol', 0);
+    this.arbol = this.add.sprite(this.game.config.width*0.7, this.game.config.height*1.05, 'arbol', 0).setDepth(1);
     this.arbol.flipX = true;
-    this.arbol.setDepth(9); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
-
-    this.vacas = new PuzzleObjectWord(this, this.game.config.width*2.8, this.game.config.height/1.05, 'cow', false, 190,'vacas','cava');
+    this.arbol.setDepth(1); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
+    //Puzzle 2
+    this.vacas = new PuzzleObjectWord(this, this.game.config.width*2.8, this.game.config.height/1.05, 'cow', false, 190,'vacas','cavas');
+    this.vacas.sprite.setDepth(1);
     this.scaleThis(this.vacas.sprite, 4, 4);
 
     this.vaquitas = {};
-    this.vaquitas[0] = this.add.sprite(this.game.config.width*2.75, this.game.config.height/1.05, 'vacaCome', 0);
+    this.vaquitas[0] = this.add.sprite(this.game.config.width*2.75, this.game.config.height/1.05, 'vacaCome', 0).setDepth(2);
     this.scaleThis(this.vaquitas[0], 4, 4);
 
-    this.vaquitas[1] = this.add.sprite(this.game.config.width*2.72, this.game.config.height/1.05, 'vacaCome', 0);
+    this.vaquitas[1] = this.add.sprite(this.game.config.width*2.72, this.game.config.height/1.05, 'vacaCome', 0).setDepth(2);
     this.scaleThis(this.vaquitas[1], 4, 4);
 
-    this.vaquitas[2] = this.add.sprite(this.game.config.width*2.86, this.game.config.height/1.05, 'vacaCome', 0);
+    this.vaquitas[2] = this.add.sprite(this.game.config.width*2.86, this.game.config.height/1.05, 'vacaCome', 0).setDepth(2);
     this.scaleThis(this.vaquitas[2], 4, 4);
 
-    this.vaquitas[3] = this.add.sprite(this.game.config.width*2.8, this.game.config.height/1.05, 'vacaCome', 0);
+    this.vaquitas[3] = this.add.sprite(this.game.config.width*2.8, this.game.config.height/1.05, 'vacaCome', 0).setDepth(2);
     this.scaleThis(this.vaquitas[3], 4, 4);
 
+    this.suelo = this.matter.add.image(74*64,17*64,undefined,{isStatic:true});
+    let r = Phaser.Physics.Matter.Matter.Bodies.rectangle(76*64+32,17*64+30,64*5,64,{isStatic:true,label:'ground'});
+    let suelobody = Phaser.Physics.Matter.Matter.Body.create({parts:[r]});
+    this.suelo.setExistingBody(suelobody);
 
-    //Velas
+    ////Puzzle 3
     this.velas = new PuzzleObjectWord(this, this.game.config.width*2.9, this.game.config.height/0.53, undefined, false, 4000,'ceras','secar');
+    this.velas.sprite.setDepth(1);
     this.scaleThis(this.velas.sprite,0.1,0.1);
 
-    this.velaAnima = this.add.sprite(this.game.config.width*2.9, this.game.config.height/0.53, 'vela',0);
+    this.velaAnima = this.add.sprite(this.game.config.width*2.9, this.game.config.height/0.53, 'vela',0).setDepth(1);
     this.scaleThis(this.velaAnima,0.1,0.1);
 
-    this.velas.complete=false;
+    let cascadebody = Phaser.Physics.Matter.Matter.Bodies.rectangle(101*64+32,30*64+30,64,64*9,{isStatic:true,label:'ground'});
+    this.cascade = this.matter.add.image(74*64,17*64,undefined);
+    this.cascade.setExistingBody(cascadebody);
 
-    // this.rec = Phaser.Physics.Matter.Matter.Bodies.rectangle(x, t); 
     //Particulas
     this.createParticles('leaves'); 
    
     this.FadeIn();
-    this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','sky',400);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
     //this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
@@ -259,31 +265,16 @@ export default class level1 extends Phaser.Scene {
 
     for(let i = 0; i < 4; i++)
       this.vaquitas[i].anims.play('idlee', true);
-
-    
-    
       this.velaAnima.anims.play('velasMuevan',true);
 
-
+    if(this.vacas.objectSolved() && !this.vacas.complete){
+      this.suelo.destroy();
+    }
     if(this.velas.objectSolved() && !this.velas.complete){
-
-      this.waterfall.setCollisionByProperty({collides:false});
-      this.waterfall2.setCollisionByProperty({collides:false});
+      this.cascade.destroy();
       this.waterfall.destroy(true);
       this.waterfall2.destroy(true);
-
-      this.velas.complete=true;
     }
-    // if(this.nuez.solved){
-    //    this.player.addLetter(this.nuez.getLetter());
-    //  }
-    // if(this.complete){
-    //   if(this.sombra.objectSolved() && !this.complete2){
-    //     //Rosa
-    //     this.rosa = new PuzzleObjectWord(this, this.game.config.width-400, this.game.config.height - 175, 'rosa', false, 1, '', '');
-    //     this.complete2 = true;
-    //   }
-    // }
   }
 
   FadeIn()
