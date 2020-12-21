@@ -74,13 +74,8 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
                 if(this.puzzleToInteract !== null)
                     this.puzzleToInteract.objectWord.AddLetter(n, this.puzzleToInteract.objectWord.offSetLetter, true);
-
-                // console.log(letraEliminada);
             }
-          
-            
-            this.moveSelection(this.originX + this.selector *this.offset);
-
+            // this.moveSelection(this.originX + this.selector *this.offset);
         }
     }
 

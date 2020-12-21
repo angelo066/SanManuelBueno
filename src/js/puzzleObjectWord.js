@@ -4,12 +4,17 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     constructor(scene, x, y, keyImage, physicsEnabled, sensorRadius, word, sol){
         super(scene, x, y);
         
-        this.sprite = this.scene.matter.add.image(x, y, keyImage, {isStatic:true});
-        if(physicsEnabled)//Objeto con fisicas
+        if(keyImage !== undefined)
+            this.sprite = this.scene.matter.add.image(x, y, keyImage, {isStatic:true});
+
+        if(physicsEnabled && this.sprite !== undefined)//Objeto con fisicas
             this.sprite.isStatic(false);
         //Trigger
         let circle = new Phaser.Physics.Matter.Matter.Bodies.circle(x,y,sensorRadius,{isStatic:true,isSensor:true});
-        this.sprite.setExistingBody(circle);    
+
+        if(this.sprite !== undefined)
+             this.sprite.setExistingBody(circle);
+
         //String palabra
         this.word = word;
         //Palabra del objeto
@@ -61,21 +66,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             }
         });
 
-
-        // this.scene.matter.world.on('collisionactive', (event)=>{
-        //     let wordBody = this.sprite.body;
-        //     for (let i = 0; i < event.pairs.length; i++)
-        //     {
-        //         let bodyA = event.pairs[i].bodyA;
-        //         let bodyB = event.pairs[i].bodyB;
-
-        //         if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
-        //         {
-        //             this.canAdd = true;
-        //         }
-        //     }
-        // });
-
         this.scene.matter.world.on('collisionend', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -104,16 +94,13 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         });
     }
 
-    preUpdate(/*time,delta*/)
-    {
-        // super.preUpdate(time,delta);
-        // console.log(this.canAdd);
-        // console.log("Estás presionando la Q?:" + Phaser.Input.Keyboard.JustDown(this.keycodeQ));
-    }
     //Flag de puzzle resuelto, poner en el update
     objectSolved(){
         if(this.sol === this.objectWord.word){
-            this.scene.matter.world.remove(this.sprite.body);
+
+            if(this.sprite !== undefined)
+                 this.scene.matter.world.remove(this.sprite.body);
+
             this.objectWord.destroy();
             return true;
         }
@@ -133,12 +120,13 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     }
     //Animacion de aparicion de palabra
     wordAppear(){
+
         this.objectWord.container.setVisible(true);
         this.scene.tweens.add({
             targets: this.objectWord.container,
             scale: {from: 0.2, to: 1},
             alpha:{ from: 0, to: 1},
-            x: {from:this.objectWord.x - 50, to: this.objectWord.centerWordPosX()},
+            x: {from:this.objectWord.x - 50,  to: this.objectWord.centerWordPosX()},
             y: this.objectWord.y-150,
             ease: 'Sine.easeInOut',
             duration: 1000

@@ -195,7 +195,7 @@ export default class level1 extends Phaser.Scene {
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0).setDepth(2);
 
-    //Puzzle 1
+    //#region Puzzle1 
     this.altar= new PuzzleObjectWord(this, this.game.config.width/3, this.game.config.height*1.37, 'altar', false, 2000,'Altar','talar');
     this.altar.sprite.setDepth(1);
     this.scaleThis(this.altar.sprite, 0.10, 0.10);
@@ -203,7 +203,9 @@ export default class level1 extends Phaser.Scene {
     this.arbol = this.add.sprite(this.game.config.width*0.7, this.game.config.height*1.05, 'arbol', 0).setDepth(1);
     this.arbol.flipX = true;
     this.arbol.setDepth(1); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
-    //Puzzle 2
+    //#endregion
+    
+    //#region Puzzle 2
     this.vacas = new PuzzleObjectWord(this, this.game.config.width*2.8, this.game.config.height/1.05, 'cow', false, 190,'vacas','cavas');
     this.vacas.sprite.setDepth(1);
     this.scaleThis(this.vacas.sprite, 4, 4);
@@ -225,8 +227,9 @@ export default class level1 extends Phaser.Scene {
     let r = Phaser.Physics.Matter.Matter.Bodies.rectangle(76*64+32,17*64+30,64*5,64,{isStatic:true,label:'ground'});
     let suelobody = Phaser.Physics.Matter.Matter.Body.create({parts:[r]});
     this.suelo.setExistingBody(suelobody);
+    //#endregion
 
-    ////Puzzle 3
+    //#region Puzzle 3
     this.velas = new PuzzleObjectWord(this, this.game.config.width*2.9, this.game.config.height/0.53, undefined, false, 4000,'ceras','secar');
     this.velas.sprite.setDepth(1);
     this.scaleThis(this.velas.sprite,0.1,0.1);
@@ -237,7 +240,9 @@ export default class level1 extends Phaser.Scene {
     let cascadebody = Phaser.Physics.Matter.Matter.Bodies.rectangle(101*64+32,30*64+30,64,64*9,{isStatic:true,label:'ground'});
     this.cascade = this.matter.add.image(74*64,17*64,undefined);
     this.cascade.setExistingBody(cascadebody);
-
+    //#endregion
+    
+    
     //Particulas
     this.createParticles('leaves'); 
    
@@ -277,7 +282,7 @@ export default class level1 extends Phaser.Scene {
       this.waterfall2.destroy(true);
     }
   }
-
+  //Entrada de Juego con difuminado
   FadeIn()
   {
     //Camara

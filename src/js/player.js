@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 50,
+        run: 8,
         jump: 12
       },
       onFloor: false,
@@ -76,9 +76,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
                 this.playerController.onFloor = true;
             
           }
-          /*else if ((bodyA === bottom && bodyB.label === 'ground') || (bodyB === bottom && bodyA.label === 'ground')){
-            this.playerController.onFloor = true;
-          }*/
         }
     });
     //Colision de salida del salto
@@ -93,9 +90,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
             if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
                 this.playerController.onFloor = false;
           }
-          /*else if ((bodyA === bottom && bodyB.label === 'ground') || (bodyB === bottom && bodyA.label === 'ground')){
-            this.playerController.onFloor = false;
-          }*/
         }
     });
 
@@ -158,19 +152,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     {
       this.setVelocityX(-this.playerController.speed.run);
       this.flipX = true;
-      // if(this.playerController.onFloor)
-        this.anims.play('run',true);
-      // else
-      //   this.anims.play('jump', true);
+
+      this.anims.play('run',true);
     }
     else if(this.keycodeD.isDown)
     {
       this.setVelocityX(this.playerController.speed.run);
       this.flipX = false;
-      // if(this.playerController.onFloor)
-        this.anims.play('run',true);
-      // else
-      //   this.anims.play('jump', true);
+      
+      this.anims.play('run',true);
     }
     else
       this.setVelocityX(0);
@@ -218,13 +208,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       loop:-1
   }); 
   }
-
-  // addLetter(letrita){
-  //   //letrita.container.destroy();
-  //   console.log(this.invent)
-  //   this.invent.addLet(letrita.word);
-  //   this.invent.EscribeInventario();
-  //   }
 
   // checkPos(width) { 
   //   if(this.body.x >= width - this.body.width) 
