@@ -4,7 +4,6 @@
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
-import Dialogo from './dialogo.js';
 
 export default class level1 extends Phaser.Scene {
   constructor() {

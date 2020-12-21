@@ -1,4 +1,3 @@
-import Word from "./word.js";
 
 export default class Dialogo{
     constructor(scene, x, y, text, bocadillo, sensorR){
