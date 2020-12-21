@@ -4,7 +4,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     constructor(scene, x, y, keyImage, physicsEnabled, sensorRadius, word, sol){
         super(scene, x, y);
         
-        if(keyImage !== undefined)
+        if(keyImage !== null)
             this.sprite = this.scene.matter.add.image(x, y, keyImage, {isStatic:true});
 
         if(physicsEnabled && this.sprite !== undefined)//Objeto con fisicas
@@ -34,11 +34,15 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         this.sol = sol;
         //Comprobador de que el puzzle está terminado
         this.complete = false;
+
+        
         //Variable para que el jugador pueda añadir letras cuando colisione con el puzzle
         //Colisiones
 
         this.scene.matter.world.on('collisionstart', (event)=>{
+
             let wordBody = this.sprite.body;
+
             for (let i = 0; i < event.pairs.length; i++)
             {
                 let bodyA = event.pairs[i].bodyA;
@@ -60,7 +64,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                     {
                         console.log(bodyB.gameObject.invent.canAdd);
                         bodyB.gameObject.invent.canAdd = true;
-                        bodyA.gameObject.invent.puzzleToInteract = this;
+                        bodyB.gameObject.invent.puzzleToInteract = this;
                     }
                 }
             }

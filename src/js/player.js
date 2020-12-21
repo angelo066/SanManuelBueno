@@ -75,6 +75,12 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
             if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "ground") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "ground"))
                 this.playerController.onFloor = true;
             
+            if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
+              {
+                this.playerController.onFloor = false;
+                console.log(this);
+                this.restorePos(this.scene.cameras.main.width*0.125, this.scene.cameras.main.height);
+              }
           }
         }
     });
@@ -88,7 +94,12 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
           if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
             if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
-                this.playerController.onFloor = false;
+            {
+              this.playerController.onFloor = false;
+              
+              this.restorePos(this.scene.cameras.main.width*0.125, this.scene.cameras.main.height);
+
+            }
           }
         }
     });
@@ -167,6 +178,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     
     if(this.keycodeW.isDown  && this.playerController.onFloor){
       this.setVelocityY(-this.playerController.speed.jump);
+
+      this.playerController.onFloor = false;
     }
      if(this.body.velocity.x === 0 && this.playerController.onFloor){
       this.anims.play('idle', true);
@@ -228,5 +241,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   {
     console.log(letrita);
     this.invent.AddLetter(letrita);
+  }
+
+  restorePos(_x, _y)
+  {
+    this.x = _x;
+    this.y = _y;
   }
 }

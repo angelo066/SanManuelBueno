@@ -16,6 +16,7 @@ export default class Word extends Letter{
         //Crea los sprites de letras y los hace hijos de palabra
         this.i = 0;
         let letterKey = 'letters';
+        this.interactive = interactive;
         this.word.split('').forEach(l=>{
             l = l.toLowerCase();
             //Si la palabra no es interactiva(solo es para dar una letr al jugador)
@@ -40,8 +41,10 @@ export default class Word extends Letter{
         this.container.setDepth(10);
         //Tecla de activacion de tachar
         this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
         //Modo quitar letra = true y modo intercambiar letras = false
-        this.strikeMode = false;
+        if(interactive)
+            this.strikeMode = false;
         //Input de raton
         if(interactive){
             this.scene.input.on('gameobjectdown',(pointer, gameObject)=>{
@@ -57,21 +60,27 @@ export default class Word extends Letter{
 
     preUpdate(time,delta){
         super.preUpdate(time,delta);
-        if (Phaser.Input.Keyboard.JustDown(this.keycode)){
-            console.log(this.strikeMode);
-            this.strikeMode = !this.strikeMode;
-            console.log(this.strikeMode);
-            //Feedback visual de que el modo tachar esta activo
-			if(this.strikeMode === true){
-                this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
-                this.mode.setOrigin(0);
-                this.mode.setScrollFactor(0);
-            }
-            else {
-                this.mode.destroy();
-            }
-            this.letter_selected = null;
-          }
+        if (Phaser.Input.Keyboard.JustDown(this.keycode) )
+        {
+            if(this.interactive)
+            {
+                console.log(this.strikeMode);
+                this.strikeMode = !this.strikeMode;
+                console.log(this.strikeMode);
+                //Feedback visual de que el modo tachar esta activo
+                if(this.strikeMode === true){
+                    this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
+                    this.mode.setOrigin(0);
+                    this.mode.setScrollFactor(0);
+                }
+                else {
+                        this.mode.destroy();
+                }
+                this.letter_selected = null;
+
+                console.log(this.strikeMode);
+            }   
+        }
     }
     centerWordPosX(){
         return this.x-((this.i-1)*80/2);
