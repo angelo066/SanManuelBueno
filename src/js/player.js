@@ -10,8 +10,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 50,
-        jump: 10
+        run: 8,
+        jump: 12
       },
       onFloor: false,
       onAttack:false
@@ -21,7 +21,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     let h = this.height;
     let sx = w / 2;
     let sy = h / 2;
-    let playerBody = M.Bodies.rectangle(sx, sy, w * 0.75, h, { chamfer: { radius: 10 }, label:'player' });
+    let playerBody = M.Bodies.rectangle(sx, sy+30, w * 0.75, h*0.7, { chamfer: { radius: 10 }, label:'player' });
     this.playerController.sensors.bottom = M.Bodies.rectangle(sx, h, sx, 10, { isSensor: true , label: 'foot'});
     this.playerController.sensors.right = M.Bodies.rectangle(w*3, sy, w*1.2, h * 1.2, {isStatic:true, isSensor: true, label:'player_attack'});
     let compoundBody = M.Body.create({
@@ -66,7 +66,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
           {
             if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "ground") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "ground"))
                 this.playerController.onFloor = true;
+            
           }
+          /*else if ((bodyA === bottom && bodyB.label === 'ground') || (bodyB === bottom && bodyA.label === 'ground')){
+            this.playerController.onFloor = true;
+          }*/
         }
     });
     //Colision de salida del salto
@@ -76,13 +80,14 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         {
           let bodyA = event.pairs[i].bodyA;
           let bodyB = event.pairs[i].bodyB;
-
-          bodyA.labe
           if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
             if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
                 this.playerController.onFloor = false;
           }
+          /*else if ((bodyA === bottom && bodyB.label === 'ground') || (bodyB === bottom && bodyA.label === 'ground')){
+            this.playerController.onFloor = false;
+          }*/
         }
     });
 

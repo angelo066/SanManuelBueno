@@ -12,7 +12,17 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         this.sprite.setExistingBody(circle);    
         //String palabra
         this.word = word;
-        this.objectWord = '';
+        //Palabra del objeto
+        this.objectWord = new Word({
+            scene: this.scene,
+            x:this.x,
+            y:this.y,
+            word: this.word,
+            interactive: true,
+            letter:null
+        });
+        this.add(this.objectWord);
+        this.objectWord.container.setVisible(false);
         // this.add(this.sprite); //esto al parecer provoca que no se vea
         this.scene.add.existing(this);
         //Solucion Palabra
@@ -108,16 +118,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     }
     //Animacion de aparicion de palabra
     wordAppear(){
-        //Palabra del objeto
-        this.objectWord = new Word({
-            scene: this.scene,
-            x:this.x,
-            y:this.y,
-            word: this.word,
-            interactive: true,
-            letter:null
-        });
-        this.add(this.objectWord);
+        this.objectWord.container.setVisible(true);
         this.scene.tweens.add({
             targets: this.objectWord.container,
             scale: {from: 0.2, to: 1},
@@ -142,7 +143,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             duration: 1000
         });
         timeline.play();
-        this.remove(this.objectWord);
+        this.objectWord.container.setVisible(false);
     }
 
  }
