@@ -88,7 +88,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
-    this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
+    this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
 
   }
 //coloca objetos apartir de los assets dentro de la escena

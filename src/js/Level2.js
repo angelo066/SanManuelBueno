@@ -74,7 +74,7 @@ export default class Level2 extends  Phaser.Scene {
     })
     this.load.spritesheet({
       key:'guadalupe',
-      url:'src/assets/sprites/gameObjects/SraGuadalupeSS.png',
+      url:'src/assets/sprites/gameObjects/sraguadalupe.png',
       frameConfig:{
         frameWidth:115,
         frameHeight:171.8
@@ -95,7 +95,7 @@ export default class Level2 extends  Phaser.Scene {
     this.load.image('bg', 'src/assets/bg/BGIglesiaSS.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
-    this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
+    this.load.audio('bandaSonora','src/assets/Sonido/bandasonoracompr.mp3');
     this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
     this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
     this.load.image('rosa', 'src/assets/puzzle_objects/rosa.png');

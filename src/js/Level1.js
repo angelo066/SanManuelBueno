@@ -71,7 +71,7 @@ export default class level1 extends Phaser.Scene {
 
     this.load.spritesheet({
       key:'arbol',
-      url:'src/assets/puzzle_Objects/ArbolSS.png',
+      url:'src/assets/puzzle_Objects/arbolss.png',
       frameConfig:{
         frameWidth:1426,
         frameHeight:980,
@@ -80,7 +80,7 @@ export default class level1 extends Phaser.Scene {
 
     this.load.spritesheet({
       key:'vacaCome',
-      url:'src/assets/props/vacas/cowEat.png',
+      url:'src/assets/props/vacas/cow_eat.png',
       frameConfig:{
         frameWidth:128,
         frameHeight:128,
@@ -89,7 +89,7 @@ export default class level1 extends Phaser.Scene {
 
     this.load.spritesheet({
       key:'velas',
-      url:'src/assets/sprites/gameObjects/VelasSS.png',
+      url:'src/assets/sprites/gameObjects/velas_ss.png',
       frameConfig:{
         frameWidth:1020,
         frameHeight:1254,
@@ -108,7 +108,7 @@ export default class level1 extends Phaser.Scene {
     this.load.image('cow', 'src/assets/props/vacas/cow.png',);
     this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
-    this.load.audio('bandaSonora','src/assets/Sonido/bandaSonoraCompr.mp3');
+    this.load.audio('bandaSonora','src/assets/Sonido/bandasonoracompr.mp3');
 
 
     //this.load.image('bocadillo',);
