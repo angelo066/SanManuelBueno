@@ -55,9 +55,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.invent.AddLetter("W");
     this.invent.AddLetter("A");
     this.invent.AddLetter("R");
-    this.invent.AddLetter("R");
-    this.invent.AddLetter("O");
-    this.invent.AddLetter("R");
 
 
     this.invent.setScrollFactor(0);

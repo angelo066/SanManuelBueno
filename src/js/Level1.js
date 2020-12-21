@@ -204,9 +204,9 @@ export default class level1 extends Phaser.Scene {
     this.arbol.setDepth(1); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
     
     //#region Puzzle 2
-    // this.vacas = new PuzzleObjectWord(this, this.game.config.width*2.8, this.game.config.height/1.05, 'cow', false, 190,'vacas','cavas');
-    // this.vacas.sprite.setDepth(1);
-    // this.scaleThis(this.vacas.sprite, 4, 4);
+    this.vacas = new PuzzleObjectWord(this, this.game.config.width*2.8, this.game.config.height/1.05, 'cow', false, 190,'vacas','cavas');
+    this.vacas.sprite.setDepth(1);
+    this.scaleThis(this.vacas.sprite, 4, 4);
 
     this.vaquitas = {};
     this.vaquitas[0] = this.add.sprite(this.game.config.width*2.75, this.game.config.height/1.05, 'vacaCome', 0).setDepth(2);
@@ -228,9 +228,9 @@ export default class level1 extends Phaser.Scene {
     //#endregion
 
     //#region Puzzle 3
-    // this.velas = new PuzzleObjectWord(this, this.game.config.width*2.9, this.game.config.height/0.53, undefined, false, 4000,'ceras','secar');
-    // this.velas.sprite.setDepth(1);
-    // this.scaleThis(this.velas.sprite,0.1,0.1);
+    this.velas = new PuzzleObjectWord(this, this.game.config.width*2.9, this.game.config.height/0.53, undefined, false, 4000,'ceras','secar');
+    this.velas.sprite.setDepth(1);
+    this.scaleThis(this.velas.sprite,0.1,0.1);
 
     this.velaAnima = this.add.sprite(this.game.config.width*2.9, this.game.config.height/0.53, 'vela',0).setDepth(1);
     this.scaleThis(this.velaAnima,0.1,0.1);
@@ -250,7 +250,6 @@ export default class level1 extends Phaser.Scene {
   update(time, delta)
   {
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
-    //this.sky2.setTilePosition(this.sky.tilePositionX + 0.1);
 
     if(this.altar.objectSolved() && !this.altar.complete)
     {
@@ -271,14 +270,14 @@ export default class level1 extends Phaser.Scene {
       this.velaAnima.anims.play('velasMuevan',true);
     
 
-    // if(this.vacas.objectSolved() && !this.vacas.complete){
-    //   this.suelo.destroy();
-    // }
-    // if(this.velas.objectSolved() && !this.velas.complete){
-    //   this.cascade.destroy();
-    //   this.waterfall.destroy(true);
-    //   this.waterfall2.destroy(true);
-    // }
+    if(this.vacas.objectSolved() && !this.vacas.complete){
+      this.suelo.destroy();
+    }
+    if(this.velas.objectSolved() && !this.velas.complete){
+      this.cascade.destroy();
+      this.waterfall.destroy(true);
+      this.waterfall2.destroy(true);
+    }
   }
   //Entrada de Juego con difuminado
   FadeIn()
