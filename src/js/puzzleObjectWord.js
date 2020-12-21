@@ -35,7 +35,10 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         //Comprobador de que el puzzle está terminado
         this.complete = false;
 
-        
+        //Comprobador de que puede eliminar letras del puzzle
+        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        this.canDelete = false;
+
         //Variable para que el jugador pueda añadir letras cuando colisione con el puzzle
         //Colisiones
 
@@ -54,7 +57,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
 
                     if(bodyA.label === 'player')
                     {
-                        console.log(bodyA.gameObject.invent.canAdd);
                         bodyA.gameObject.invent.canAdd = true;
                         bodyA.gameObject.invent.puzzleToInteract = this;
                         
@@ -62,7 +64,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                     
                     if(bodyB.label === 'player')
                     {
-                        console.log(bodyB.gameObject.invent.canAdd);
                         bodyB.gameObject.invent.canAdd = true;
                         bodyB.gameObject.invent.puzzleToInteract = this;
                     }
@@ -96,6 +97,15 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             }
 
         });
+    }
+
+    preUpdate()
+    {
+        if (Phaser.Input.Keyboard.JustDown(this.keycode) )
+        {
+            this.canDelete = !this.canDelete;
+            this.objectWord.activateStrikeMode(this.canDelete);
+        }
     }
 
     //Flag de puzzle resuelto, poner en el update

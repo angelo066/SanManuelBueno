@@ -43,8 +43,7 @@ export default class Word extends Letter{
         this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
         //Modo quitar letra = true y modo intercambiar letras = false
-        if(interactive)
-            this.strikeMode = false;
+        this.strikeMode = false;
         //Input de raton
         if(interactive){
             this.scene.input.on('gameobjectdown',(pointer, gameObject)=>{
@@ -58,30 +57,9 @@ export default class Word extends Letter{
         }
     }
 
-    preUpdate(time,delta){
-        super.preUpdate(time,delta);
-        if (Phaser.Input.Keyboard.JustDown(this.keycode) )
-        {
-            if(this.interactive)
-            {
-                console.log(this.strikeMode);
-                this.strikeMode = !this.strikeMode;
-                console.log(this.strikeMode);
-                //Feedback visual de que el modo tachar esta activo
-                if(this.strikeMode === true){
-                    this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
-                    this.mode.setOrigin(0);
-                    this.mode.setScrollFactor(0);
-                }
-                else {
-                        this.mode.destroy();
-                }
-                this.letter_selected = null;
-
-                console.log(this.strikeMode);
-            }   
-        }
-    }
+    // preUpdate(time,delta){
+    //     super.preUpdate(time,delta);
+    // }
     centerWordPosX(){
         return this.x-((this.i-1)*80/2);
     }
@@ -149,6 +127,20 @@ export default class Word extends Letter{
     //Destruir todas las letras y su contenedor
     destroyWord(){
         this.container.destroy();
+    }
+    //Activar el modo quitar letra desde el puzzle en cuestión
+    activateStrikeMode(modeOn)
+    {
+        this.strikeMode = modeOn;
+
+        if(this.strikeMode === true){
+            this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
+            this.mode.setOrigin(0);
+            this.mode.setScrollFactor(0);
+        }
+        else {
+                this.mode.destroy();
+        }
     }
 
     AddLetter(l, offset, interactivo )
