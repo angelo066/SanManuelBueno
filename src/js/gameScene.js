@@ -4,8 +4,10 @@
 
 
 import Player from './player.js';
+import Enemigo from './Enemigo.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
+import Word from './word.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -84,6 +86,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
     this.load.image('tumba', 'src/assets/sprites/game_objects/tumba.png');
+    this.load.image('Boss','src/assets/sprites/Boss/Martir.jpg');
 
 
     this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
@@ -143,7 +146,7 @@ export default class GameScene extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(waterfall);
     this.matter.world.convertTilemapLayer(cave);
     //DEBUG   
-
+    this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.55,'Boss', 'rosa');
     // this.bg2 = this.add.image(this.cameras.main.centerX + this.bg.width - 650,this.cameras.main.centerY, 'background').setFlipX(true);
     // this.scaleThis(this.bg2,0.75,0.75);
 
@@ -179,6 +182,8 @@ export default class GameScene extends Phaser.Scene {
    
     this.FadeIn();
     //this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','sky',400);
+
+    //let holaBuenas = this.matter.add.image(this.mapWidth*0.3 , this.mapHeight*0.55, 'rosa');
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
