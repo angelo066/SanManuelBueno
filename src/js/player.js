@@ -16,6 +16,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       onFloor: false,
       onAttack:false
     };
+    this.lifeStat = 1;
     let M = Phaser.Physics.Matter.Matter;
     let w = this.width;
     let h = this.height;
@@ -106,6 +107,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
       this.keycodeW =this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
       this.keycodeSpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      this.damage = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
     //animaciones
     this.scene.anims.create({
       key:'idle',
@@ -142,6 +144,12 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
   preUpdate(time,delta)
   {
+    if(this.lifeStat< 1)
+    {
+      this.lifeStat+= 0.05;
+    }
+
+
     super.preUpdate(time,delta);
     //Follow de la pluma
     this.feather.setX(this.x-this.fOffsetX);
@@ -185,6 +193,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.anims.play('jump', true);
     }
 
+    if(this.damage.isDown)
+    {
+      this.takeDamage(0.5, 0.1, this.x - 3000);
+    }
     
     //Attack
     this.attack.setX(this.x + this.width*0.5);
@@ -219,20 +231,24 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   }); 
   }
 
-  // checkPos(width) { 
-  //   if(this.body.x >= width - this.body.width) 
-  //   {
-  //     console.log(this.invent);
-  //     console.log(letrita);
+//amount must be a number from 0 to 1 | dirX is the position of the damager
+ takeDamage(amountDamage, amountThrust, posX)
+ {
+    this.lifeStat -= amountDamage;
 
-  //     this.invent.AddLetter(letrita.word);
+    this.thrustLeft(amountThrust*0.3);
 
-  //     letrita.destroy();
-  //     letrita.destroyWord();
+    if(posX <= this.x) this.thrustBack(amountThrust * -1);
+    else this.thrustBack(amountThrust);
 
-  //     // this.invent.EscribeInventario();
-  //   }
-  // }
+    this.scene.cameras.main.shake(300, 0.005);
+
+    this.scene.cameras.main.once('camerafadeoutcomplete', function (camera) {
+      camera.fadeIn(150, 100);
+    }, this);
+
+    this.scene.cameras.main.fadeOut(150, 100);
+ }
 
   addLetter(letrita)
   {
