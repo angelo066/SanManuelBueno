@@ -146,7 +146,7 @@ export default class GameScene extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(waterfall);
     this.matter.world.convertTilemapLayer(cave);
     //DEBUG   
-    this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.55,'Boss', 'rosa');
+    
     // this.bg2 = this.add.image(this.cameras.main.centerX + this.bg.width - 650,this.cameras.main.centerY, 'background').setFlipX(true);
     // this.scaleThis(this.bg2,0.75,0.75);
 
@@ -182,7 +182,7 @@ export default class GameScene extends Phaser.Scene {
    
     this.FadeIn();
     //this.Dialogo = new Dialogo(this, this.cameras.main.width/2, this.cameras.main.height-400,'Hola hijo de puta','sky',400);
-
+    this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.55,'Boss', 'rosa', this.player);
     //let holaBuenas = this.matter.add.image(this.mapWidth*0.3 , this.mapHeight*0.55, 'rosa');
   }
 //actualiza los eventos. El delta es para calcular las fisicas

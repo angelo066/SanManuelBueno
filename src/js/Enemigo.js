@@ -1,7 +1,8 @@
 import Word from'./word.js';
 import Proyectil from './Proyectil.js';
+import Player from './player.js';
 export default class Enemigo extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, key, lettersKey)
+  constructor(scene, x, y, key, lettersKey, player)
   {
     super(scene, x, y, key);
 
@@ -11,11 +12,12 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     this.timer=this.tiempo;
     this.lettersK = lettersKey;
     this.proyectiles = {};
-    let numeroProyectiles =0;
+    this.numeroProyectiles =0;
+    this.player = player;
   }
 
   Creapalabra(){
-    let palabra = new Proyectil(this.scene,this.x + 50, this. y, 'rosa', -25, 0);
+    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y, 'rosa', -25, 0, this.player);
     // palabra.setIgnoreGravity(true);
     // palabra.setVelocity(-25,0);
     
