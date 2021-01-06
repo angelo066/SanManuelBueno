@@ -1,6 +1,5 @@
 import Word from'./word.js';
 import Proyectil from './Proyectil.js';
-import Player from './player.js';
 export default class Enemigo extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, key, lettersKey, player)
   {

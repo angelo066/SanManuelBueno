@@ -1,4 +1,3 @@
-import Player from './player.js';
 export default class Proyectil extends Phaser.Physics.Matter.Sprite{
     constructor(scene, x,y,key, velX, velY, player){
         super (scene,x, y,key);
@@ -10,27 +9,28 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.velocity.x = velX;
         this.velocity.y = velY;
         this.player = player;
-        //this.imagen = this.scene.matter.add.image(x,y,key); //La imagen (Que tendrá que ser una palabra)
-        //this.sensor = Phaser.Physics.Matter.Matter.Bodies.circle(10,100,24,{isSensor:true}); // Le creamos un sensor para que pueda triggerear eventos
+        //let ProyectilBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.width, (this.height/2) + 30, this.width * 0.75, this.height*0.7, {isSensor:true ,label:'Proyectil' });; 
+        //this.compundBody = Phaser.Physics.Matter.Matter.Body.create(ProyectilBody);
+        this.setBody({
+            type:'circle',
+            width:128,
+            height:128,
+        });
+
+        this.scene.matter.world.on('collisionstart',
+        (event,BodyA, BodyB)=>{
+            console.log(BodyA);
+            console.log(BodyB.label);
+            if(BodyA.label === 'Circle Body'  && BodyB.label === 'player' || BodyB.label === 'Circle Body' && BodyA.label === 'player' ){
+                this.destroy(this)
+                this.player.takeDamage(5,5,5);    
+            }
+        });
         
     }
 
-    preUpdate(){
-        this.scene.matter.world.on('collisionstart',
-        (event,BodyA, BodyB)=>{
-            for (let i = 0; i < event.pairs.length; i++)
-            {
-              if(BodyA.label != undefined && BodyB.label=='player' || BodyB.label != undefined && BodyA.label=='player' ){
-                this.destroy(this)
-                this.player.takeDamage(5,5,5);
-              }
-            }
-        });
-    }
 
     LanzaProyectil(){
-        // this.imagen.setIgnoreGravity(true);
-        // this.imagen.setVelocity(-25,0);
         this.setVelocity(this.velocity.x,this.velocity.y);
         this.setIgnoreGravity(true);
     }
