@@ -288,7 +288,7 @@ export default class level1 extends Phaser.Scene {
     this.cameras.main.fadeIn(2000, 0, 0, 0);
     this.cameras.main.setBounds(0,0,7680, 2560);  
     
-    this.cameras.main.startFollow(this.player);
+    this.cameras.main.startFollow(this.player, false, 0.03, 0.03);
     //Offeset para seguir al jugador
     this.cameras.main.followOffset.set(0,125);
     this.cameras.main.setZoom(0.8);
