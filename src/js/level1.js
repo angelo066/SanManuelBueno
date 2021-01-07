@@ -291,9 +291,8 @@ export default class level1 extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, false, 0.03, 0.03);
     //Offeset para seguir al jugador
     this.cameras.main.followOffset.set(0,125);
-    this.cameras.main.setZoom(0.8);
-    
-    this.complete = false;
+    this.cameras.main.zoomTo(0.8, 4000);
+
   }
 
   createParticles(particleSprite)
