@@ -16,6 +16,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       onFloor: false,
       onAttack:false
     };
+    
+    var postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
+    this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0});
+
     this.lifeStat = 1;
     let M = Phaser.Physics.Matter.Matter;
     let w = this.width;
@@ -40,12 +44,12 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.feather = this.scene.add.image(x,y,'feather');
     this.feather.displayHeight = h* 0.4;
     this.feather.displayWidth = w *0.4;
-  //Ataque Unamuno
-  this.attack = this.scene.matter.add.sprite(x,y,undefined);
-  this.attack.displayHeight = this.attack.height*0.8;
-  this.attack.displayWidth = this.attack.width*0.8;
-  this.attack.setExistingBody(this.bodyAttack);
-  //Inventario
+    //Ataque Unamuno
+    this.attack = this.scene.matter.add.sprite(x,y,undefined);
+    this.attack.displayHeight = this.attack.height*0.8;
+    this.attack.displayWidth = this.attack.width*0.8;
+    this.attack.setExistingBody(this.bodyAttack);
+    //Inventario
     this.invent = new Inventory({
       scene:scene,
       x: 0,
@@ -56,7 +60,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.invent.AddLetter("W");
     this.invent.AddLetter("A");
     this.invent.AddLetter("R");
-
 
     this.invent.setScrollFactor(0);
     this.invent.setDepth(20);
@@ -235,7 +238,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
  takeDamage(amountDamage, amountThrust, posX)
  {
     this.lifeStat -= amountDamage;
-
+    this.cameraFilter.intensity += 0.05;
     this.thrustLeft(amountThrust*0.3);
 
     if(posX <= this.x) this.thrustBack(amountThrust * -1);
@@ -248,6 +251,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     }, this);
 
     this.scene.cameras.main.fadeOut(150, 100);
+ }
+
+ cureHealth()
+ {
+  //proximamente 
  }
 
   addLetter(letrita)

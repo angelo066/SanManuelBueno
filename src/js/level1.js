@@ -12,6 +12,9 @@ export default class level1 extends Phaser.Scene {
   //para cargar los recursos
   preload() 
   {
+    //filtro Gris camara
+    this.load.plugin('rexgrayscalepipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgrayscalepipelineplugin.min.js', true);  
+
     this.load.spritesheet({
     key:'player_idle', 
     url:'src/assets/sprites/unamuno/idle.png',

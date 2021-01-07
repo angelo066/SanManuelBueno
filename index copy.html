@@ -25,59 +25,70 @@
       <canvas id="phaser-game" style="border: 2px solid rgb(0, 0, 0)" ></canvas>
         <script type="module">
           // #module
+          import Gray from "./src/js/gray.js";
 
-import GrayScalePipeline from "./src/pipelines/GrayScale.js";
+      var config = {
+          type: Phaser.CANVAS,
+          parent: 'phaser-example',
+          width: 800,
+          height: 600,
+          scene: Gray
+      };
 
-export default class Example extends Phaser.Scene
-{
-    constructor ()
-    {
-        super();
-    }
+      var game = new Phaser.Game(config);
 
-    preload ()
-    {
-        this.load.setPath('./src/assets/testHray/');
+// import GrayScalePipeline from "./src/pipelines/GrayScale.js";
 
-        this.load.image('cake', 'cake.png');
-        this.load.image('crab', 'crab.png');
-        this.load.image('fish', 'fish.png');
-        this.load.image('pudding', 'pudding.png');
-    }
+// export default class Example extends Phaser.Scene
+// {
+//     constructor ()
+//     {
+//         super();
+//     }
 
-    create ()
-    {
-        const grayscalePipeline = this.renderer.pipelines.get('Gray');
-        this.add.sprite(100, 300, 'pudding');
-        this.add.sprite(400, 300, 'crab').setScale(1.5).setPipeline(grayscalePipeline);
-        this.fish = this.add.sprite(400, 300, 'fish').setPipeline(grayscalePipeline);
-        this.add.sprite(700, 300, 'cake');
-        this.input.on('pointermove', pointer => {
-            this.fish.x = pointer.worldX;
-            this.fish.y = pointer.worldY;
-        });
-        this.tweens.add({
-            targets: grayscalePipeline,
-            delay: 2000,
-            repeatDelay: 2000,
-            gray: 0,
-            yoyo: true,
-            repeat: -1
-        });
-    }
-}
+//     preload ()
+//     {
+//         this.load.setPath('./src/assets/testHray/');
 
-const config = {
-    type: Phaser.WEBGL,
-    width: 800,
-    height: 600,
-    backgroundColor: '#0a0067',
-    parent: 'phaser-example',
-    scene: Example,
-    pipeline: { 'Gray': GrayScalePipeline }
-};
+//         this.load.image('cake', 'cake.png');
+//         this.load.image('crab', 'crab.png');
+//         this.load.image('fish', 'fish.png');
+//         this.load.image('pudding', 'pudding.png');
+//     }
 
-let game = new Phaser.Game(config);
+//     create ()
+//     {
+//         const grayscalePipeline = this.renderer.pipelines.get('Gray');
+//         this.add.sprite(100, 300, 'pudding');
+//         this.add.sprite(400, 300, 'crab').setScale(1.5).setPipeline(grayscalePipeline);
+//         this.fish = this.add.sprite(400, 300, 'fish').setPipeline(grayscalePipeline);
+//         this.add.sprite(700, 300, 'cake');
+//         this.input.on('pointermove', pointer => {
+//             this.fish.x = pointer.worldX;
+//             this.fish.y = pointer.worldY;
+//         });
+//         this.tweens.add({
+//             targets: grayscalePipeline,
+//             delay: 2000,
+//             repeatDelay: 2000,
+//             gray: 0,
+//             yoyo: true,
+//             repeat: -1
+//         });
+//     }
+// }
+
+// const config = {
+//     type: Phaser.WEBGL,
+//     width: 800,
+//     height: 600,
+//     backgroundColor: '#0a0067',
+//     parent: 'phaser-example',
+//     scene: Example,
+//     pipeline: { 'Gray': GrayScalePipeline }
+// };
+
+// let game = new Phaser.Game(config);
 
         </script>
     </main>

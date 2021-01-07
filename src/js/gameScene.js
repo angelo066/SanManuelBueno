@@ -16,6 +16,9 @@ export default class GameScene extends Phaser.Scene {
   //para cargar los recursos
   preload() 
   {
+    //filtro Gris camara
+    this.load.plugin('rexgrayscalepipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgrayscalepipelineplugin.min.js', true); 
+
     this.load.spritesheet({
     key:'player_idle', 
     url:'src/assets/sprites/unamuno/idle.png',
@@ -97,6 +100,9 @@ export default class GameScene extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    // let postFxPlugin = this.plugins.get('rexgrayscalepipelineplugin');
+    // this.cameraFilter = postFxPlugin.add(this.cameras.main, { intensity: 0 });
+
     let config={
       mute:false,
       volume:0.1,
