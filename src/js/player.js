@@ -240,8 +240,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.lifeStat -= amountDamage;
     this.cameraFilter.intensity += 0.05;
     this.thrustLeft(amountThrust*0.3);
-
-    if(posX <= this.x) this.thrustBack(amountThrust * -1);
+    if(posX >= this.x) this.thrustBack(amountThrust * -1);
     else this.thrustBack(amountThrust);
 
     this.scene.cameras.main.shake(300, 0.005);
