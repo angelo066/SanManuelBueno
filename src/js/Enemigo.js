@@ -16,7 +16,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   }
 
   Creapalabra(){
-    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y, -25, 0,'rosa', this.player, 'Satan');
+    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -25, 0, this.player);
     // palabra.setIgnoreGravity(true);
     // palabra.setVelocity(-25,0);
     
