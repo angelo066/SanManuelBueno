@@ -57,9 +57,14 @@ export default class Word extends Letter{
         }
     }
 
-    // preUpdate(time,delta){
-    //     super.preUpdate(time,delta);
-    // }
+
+    changePos(posX, posY)
+    {
+        this.container.x = posX;
+        this.container.y = posY;
+        this.scene.add.existing(this.container);
+    }
+    
     centerWordPosX(){
         return this.x-((this.i-1)*80/2);
     }

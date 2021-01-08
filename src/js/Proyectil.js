@@ -1,11 +1,11 @@
 import Word from './word.js';
 export default class Proyectil extends Phaser.Physics.Matter.Sprite{
     constructor(scene, x,y,key, velX, velY, player){
-        super (scene,x, y,key);
+        super (scene,x, y);
 
         //Para que lo empiece a renderizar
         this.scene.add.existing(this);
-
+        this.palabra = key;
         this.velocity = {};
         this.velocity.x = velX;
         this.velocity.y = velY;
@@ -22,13 +22,24 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
             height:128,
         });
 
+        this.objectWord = new Word({
+            scene: this.scene,
+            x:this.x,
+            y:this.y,
+            word: this.palabra,
+            interactive: true,
+            letter:null
+        });
+
         this.scene.matter.world.on('collisionstart',
         (event,BodyA, BodyB)=>{
             if(BodyA.label === 'Circle Body'  && BodyB.label === 'player' || BodyB.label === 'Circle Body' && BodyA.label === 'player' ){
-                this.destroy(this);
-                this.player.takeDamage(5,5,x);    
+                //hay que usar el BodyX.label.....takeDamage, no pasarle el player
+                this.player.takeDamage(5,5,5);   
+                this.destroy(true);
             }
         });
+        
     }
 
     preUpdate(){    
@@ -37,6 +48,8 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
             this.timer = this.tiempo;   
         }
         else this.timer--;
+
+        this.objectWord.changePos(this.x, this.y); 
     }
 
     //Como de heavy sería hacer las palabras físicas
@@ -44,7 +57,6 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.setVelocity(this.velocity.x,this.velocity.y);
         this.setIgnoreGravity(true);   
     }
-
 
     AlteraTrayectoria(){
         let abajo = 5;

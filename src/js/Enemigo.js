@@ -13,25 +13,32 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     this.proyectiles = {};
     this.numeroProyectiles =0;
     this.player = player; 
-  }
 
+
+    this.objectWord = new Word({
+      scene: this.scene,
+      x:this.x + 50,
+      y:this.y,
+      word: 'rosa',
+      interactive: true,
+      letter:null
+  });
+  }
+  
   Creapalabra(){
-    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -15, 0, this.player);
-    // palabra.setIgnoreGravity(true);
-    // palabra.setVelocity(-25,0);
+    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -8, 0, this.player);
     
     this.proyectiles[this.numeroProyectiles] = palabra;
 
     palabra.LanzaProyectil();
     this.numeroProyectiles++;
-    //let palabrita = new Word(this.scene, this.x + 50, this. y, 'Satan', false, null);
-    //let letrita = this.scene.matter.add.image(this.x + 50, this.y, this.lettersK);
 
   }
 
   preUpdate(){
     
     if(this.timer <= 0){
+      
       this.Creapalabra();
       this.timer = this.tiempo;   
     }
