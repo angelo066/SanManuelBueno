@@ -35,7 +35,7 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         (event,BodyA, BodyB)=>{
             if(BodyA.label === 'Circle Body'  && BodyB.label === 'player' || BodyB.label === 'Circle Body' && BodyA.label === 'player' ){
                 //hay que usar el BodyX.label.....takeDamage, no pasarle el player
-                this.player.takeDamage(5,5,5);   
+                this.player.takeDamage(5,5,x);   
                 this.destroy(true);
                 this.objectWord.container.destroy(true);
             }
