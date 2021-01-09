@@ -11,7 +11,7 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.velocity.y = velY;
         this.player = player;
 
-        this.tiempo= 30;
+        this.tiempo= 60;
         this.timer =this.tiempo;
         console.log(this.timer);
         //let ProyectilBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.width, (this.height/2) + 30, this.width * 0.75, this.height*0.7, {isSensor:true ,label:'Proyectil' });; 
@@ -37,6 +37,7 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
                 //hay que usar el BodyX.label.....takeDamage, no pasarle el player
                 this.player.takeDamage(5,5,5);   
                 this.destroy(true);
+                this.objectWord.container.destroy(true);
             }
         });
         
@@ -59,10 +60,10 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
     }
 
     AlteraTrayectoria(){
-        let abajo = 5;
-        let arriba= -5;
+        let abajo = 10;
+        let arriba= -10;
 
-        console.log(this.velocity.y);
+
         if(this.velocity.y === abajo)this.velocity.y = arriba;
         else this.velocity.y = abajo;
 
