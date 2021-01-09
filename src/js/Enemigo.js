@@ -10,29 +10,26 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     this.tiempo = 300;
     this.timer=this.tiempo;
     this.lettersK = lettersKey;
-    this.proyectiles = {};
-    this.numeroProyectiles =0;
     this.player = player; 
 
+    this.can = true;
 
-    this.objectWord = new Word({
-      scene: this.scene,
-      x:this.x + 50,
-      y:this.y,
-      word: 'rosa',
-      interactive: true,
-      letter:null
-  });
+    this.arrayProyectiles = {};
+    this.numProyectiles = 0;
+
+    this.cosas;
   }
   
-  Creapalabra(){
-    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this.player);
-    
-    this.proyectiles[this.numeroProyectiles] = palabra;
+  Creapalabra()
+  {
+    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this.player, this.numProyectiles, this);
 
     palabra.LanzaProyectil();
-    this.numeroProyectiles++;
+    this.arrayProyectiles[this.numProyectiles] = palabra;
+    
+    this.numProyectiles++;
 
+    console.log(palabra.body.id);
   }
 
   preUpdate(){
@@ -40,9 +37,16 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     if(this.timer <= 0){
       
       this.Creapalabra();
-      this.timer = this.tiempo;   
+      this.timer = this.tiempo;  
     }
     else this.timer--;
+  }
+
+  destroyProyectil(i)
+  {
+    console.log(i);
+    this.arrayProyectiles[i].objectWord.container.destroy(true);
+    this.numProyectiles--;
   }
 
 }

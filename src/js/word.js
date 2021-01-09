@@ -57,7 +57,6 @@ export default class Word extends Letter{
         }
     }
 
-
     changePos(posX, posY)
     {
         this.container.x = posX;

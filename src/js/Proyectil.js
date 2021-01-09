@@ -1,6 +1,6 @@
 import Word from './word.js';
 export default class Proyectil extends Phaser.Physics.Matter.Sprite{
-    constructor(scene, x,y,key, velX, velY, player){
+    constructor(scene, x,y, key, velX, velY, player, indice, enemigo){
         super (scene,x, y);
 
         //Para que lo empiece a renderizar
@@ -10,8 +10,10 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.velocity.x = velX;
         this.velocity.y = velY;
         this.player = player;
-
         this.tiempo= 60;
+        this.index = indice;
+        this.enemy = enemigo;
+
         this.timer =this.tiempo;
         console.log(this.timer);
         //let ProyectilBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.width, (this.height/2) + 30, this.width * 0.75, this.height*0.7, {isSensor:true ,label:'Proyectil' });; 
@@ -34,10 +36,11 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.scene.matter.world.on('collisionstart',
         (event,BodyA, BodyB)=>{
             if(BodyA.label === 'Circle Body'  && BodyB.label === 'player' || BodyB.label === 'Circle Body' && BodyA.label === 'player' ){
+
                 //hay que usar el BodyX.label.....takeDamage, no pasarle el player
                 this.player.takeDamage(5,5,x);   
                 this.destroy(true);
-                this.objectWord.container.destroy(true);
+                this.enemy.destroyProyectil(this.index);
             }
         });
         
