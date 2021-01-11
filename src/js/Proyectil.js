@@ -39,8 +39,9 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
 
                 //hay que usar el BodyX.label.....takeDamage, no pasarle el player
                 this.player.takeDamage(5,5,x);   
-                this.destroy(true);
-                this.enemy.destroyProyectil(this.index);
+                // this.enemy.destroyProyectil(this.index);
+                this.objectWord.container.destroy(true);
+                this.destroy(true); 
             }
         });
         
