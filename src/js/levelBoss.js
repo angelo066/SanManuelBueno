@@ -115,7 +115,7 @@ export default class Level2 extends  Phaser.Scene {
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
-    this.load.image(' 3', 'src/assets/bg/bg_iglesia.png');
+    this.load.image('bg3', 'src/assets/bg/bg_iglesia.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
@@ -214,7 +214,7 @@ export default class Level2 extends  Phaser.Scene {
     this.player.setDepth(15);
     
     this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.65,'Boss', 'rosa', this.player);
-    this.boss.setScale(0.2);
+    this.boss.setScale(0.15);
     this.boss.flipX = true;
 
     //Tumba
