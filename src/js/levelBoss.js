@@ -1,13 +1,16 @@
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
+import Enemigo from './Enemigo.js';
 export default class Level2 extends  Phaser.Scene {
   constructor() {
-    super({key: 'level2'});
+    super({key: 'Boss'});
   }
   //para cargar los recursos
   preload() 
   {
+    this.load.plugin('rexgrayscalepipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgrayscalepipelineplugin.min.js', true);  
+
     this.load.spritesheet({
     key:'player_idle', 
     url:'src/assets/sprites/unamuno/idle.png',
@@ -107,37 +110,37 @@ export default class Level2 extends  Phaser.Scene {
       }
     })
 
-    this.scene.anims.create({
+    this.anims.create({
       key:'Boss_idle1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 5}),
+      frames: this.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 5}),
       frameRate: 8,
       repeat: -1
     })
 
-    this.scene.anims.create({
+    this.anims.create({
       key:'Boss_idle2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2',{start: 0, end: 5}),
+      frames: this.anims.generateFrameNumbers('Boss_Idle2',{start: 0, end: 5}),
       frameRate: 8,
       repeat: -1
     })
 
-    this.scene.anims.create({
+    this.anims.create({
       key:'Boss_Death',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Death',{start: 0, end: 5}),
+      frames: this.anims.generateFrameNumbers('Boss_Death',{start: 0, end: 5}),
       frameRate: 8,
       repeat: -1
     })
 
-    this.scene.anims.create({
+    this.anims.create({
       key:'Boss_attk1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck1',{start: 0, end: 5}),
+      frames: this.anims.generateFrameNumbers('Boss_attck1',{start: 0, end: 5}),
       frameRate: 8,
       repeat: -1
     })
 
-    this.scene.anims.create({
+    this.anims.create({
       key:'Boss_attk2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck2',{start: 0, end: 5}),
+      frames: this.anims.generateFrameNumbers('Boss_attck2',{start: 0, end: 5}),
       frameRate: 8,
       repeat: -1
     })
@@ -245,6 +248,7 @@ export default class Level2 extends  Phaser.Scene {
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
     this.player.setDepth(15);
     
+    this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.55,'Boss', 'rosa', this.player);
     //Tumba
     this.tumba = this.add.sprite(this.mapWidth/2 + 470, this.mapHeight - 900, 'tumba', 0).setDepth(2);
     this.scaleThis(this.tumba, 1.5, 1.5);

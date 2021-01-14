@@ -29,6 +29,7 @@
           import MenuScene from "./src/js/menuScene.js";
           import GameScene from "./src/js/gameScene.js";
           import Level2 from "./src/js/level2.js";
+          import LevelBoss from "./src/js/levelBoss.js";
           let config = {
             type: Phaser.AUTO,
             parent: 'phaser-example',
@@ -42,7 +43,7 @@
               mode: Phaser.Scale.FIT,
               autoCenter: Phaser.Scale.CENTER_BOTH,
             },
-            scene: [GameScene, MenuScene ,Level2 , Level1],
+            scene: [LevelBoss, MenuScene ,Level2 , Level1],
             physics: {
               default: "matter",
               matter: { gravity: { y: 1 },

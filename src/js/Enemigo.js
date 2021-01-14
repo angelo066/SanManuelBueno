@@ -28,6 +28,41 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     });
 
     this.fase=false; //False cuando está en primera y true cuando está en segunda
+
+    this.scene.anims.create({
+      key:'Boss_idle1',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.scene.anims.create({
+      key:'Boss_idle2',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.scene.anims.create({
+      key:'Boss_Death',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Death',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.scene.anims.create({
+      key:'Boss_attk1',
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck1',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.scene.anims.create({
+      key:'Boss_attk2',
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck2',{start: 0, end: 5}),
+      frameRate: 8,
+      repeat: -1
+    })
   }
   
   Creapalabra()
