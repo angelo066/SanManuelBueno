@@ -31,14 +31,14 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.scene.anims.create({
       key:'Boss_idle1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 5}),
-      frameRate: 8,
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 8}),
+      frameRate: 100,
       repeat: -1
     })
 
     this.scene.anims.create({
       key:'Boss_idle2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2',{start: 0, end: 5}),
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2',{start: 0, end: 2}),
       frameRate: 8,
       repeat: -1
     })
@@ -52,14 +52,14 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.scene.anims.create({
       key:'Boss_attk1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck1',{start: 0, end: 5}),
-      frameRate: 8,
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck1',{start: 0, end: 7}),
+      frameRate: 100,
       repeat: -1
     })
 
     this.scene.anims.create({
       key:'Boss_attk2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck2',{start: 0, end: 5}),
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck2',{start: 0, end: 7}),
       frameRate: 8,
       repeat: -1
     })
@@ -81,8 +81,10 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   }
 
   preUpdate(){
-    if(!this.fase)this.anims.play('Boss_Idle1',true);
-    else this.anims.play('Boss_Idle2',true);
+    if(!this.fase){
+      this.anims.play('Boss_idle1',true);
+    }
+    else this.anims.play('Boss_idle2',true);
 
     if(this.timer <= 0){
       
