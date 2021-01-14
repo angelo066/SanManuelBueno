@@ -25,11 +25,16 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       word: '',
       interactive: true,
       letter:null
-  });
+    });
+
+    this.fase=false; //False cuando está en primera y true cuando está en segunda
   }
   
   Creapalabra()
   {
+    if(!this.fase)this.anims.play('Boss_attk1', true);
+    else this.anims.play('Boss_attk2', true);
+
     let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this.numProyectiles, this);
 
     palabra.LanzaProyectil();
@@ -41,7 +46,9 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   }
 
   preUpdate(){
-    
+    if(!this.fase)this.anims.play('Boss_idle1',true);
+    else this.anims.play('Boss_idle1',true);
+
     if(this.timer <= 0){
       
       this.Creapalabra();
@@ -51,8 +58,13 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     if(this.ActualWord.word === this.deadWord){
       //Animación cuando la haya
+      if(!this.fase)
+      {
+        this.anims.play('Boss_Death',true);
+        this.fase = true;
+      }
 
-      this.destroy(true);
+      if(this.fase)this.destroy(true);
     }
   }
 
