@@ -81,8 +81,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   }
 
   preUpdate(){
-    if(!this.fase)this.anims.play('Boss_idle1',true);
-    else this.anims.play('Boss_idle1',true);
+    if(!this.fase)this.anims.play('Boss_Idle1',true);
+    else this.anims.play('Boss_Idle2',true);
 
     if(this.timer <= 0){
       

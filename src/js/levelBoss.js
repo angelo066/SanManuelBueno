@@ -71,7 +71,7 @@ export default class Level2 extends  Phaser.Scene {
     //Boss SpriteSheets
     this.load.spritesheet({
       key:'Boss_Idle1',
-      url:'src/assets/sprites/Boss/donManuelIdle1SS',
+      url:'src/assets/sprites/Boss/donManuelIdle1SS.png',
       frameConfig:{
         frameWidth:875.2,
         frameHeight:1200
@@ -79,7 +79,7 @@ export default class Level2 extends  Phaser.Scene {
     })
     this.load.spritesheet({
       key:'Boss_Idle2',
-      url:'src/assets/sprites/Boss/donManuelIdle2SS',
+      url:'src/assets/sprites/Boss/donManuelIdle2SS.png',
       frameConfig:{
         frameWidth:814,
         frameHeight:1200
@@ -87,7 +87,7 @@ export default class Level2 extends  Phaser.Scene {
     })
     this.load.spritesheet({
       key:'Boss_Death',
-      url:'src/assets/sprites/Boss/donManuelDeathSS',
+      url:'src/assets/sprites/Boss/donManuelDeathSS.png',
       frameConfig:{
         frameWidth:1082,
         frameHeight:1922
@@ -95,7 +95,7 @@ export default class Level2 extends  Phaser.Scene {
     })
     this.load.spritesheet({
       key:'Boss_attck1',
-      url:'src/assets/sprites/Boss/attck1stSS',
+      url:'src/assets/sprites/Boss/attck1stSS.png',
       frameConfig:{
         frameWidth:1082,
         frameHeight:1922
@@ -103,46 +103,11 @@ export default class Level2 extends  Phaser.Scene {
     })
     this.load.spritesheet({
       key:'Boss_attck2',
-      url:'src/assets/sprites/Boss/attck2ndSS',
+      url:'src/assets/sprites/Boss/attck2ndSS.png',
       frameConfig:{
         frameWidth:1082,
         frameHeight:1922
       }
-    })
-
-    this.anims.create({
-      key:'Boss_idle1',
-      frames: this.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 5}),
-      frameRate: 8,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key:'Boss_idle2',
-      frames: this.anims.generateFrameNumbers('Boss_Idle2',{start: 0, end: 5}),
-      frameRate: 8,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key:'Boss_Death',
-      frames: this.anims.generateFrameNumbers('Boss_Death',{start: 0, end: 5}),
-      frameRate: 8,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key:'Boss_attk1',
-      frames: this.anims.generateFrameNumbers('Boss_attck1',{start: 0, end: 5}),
-      frameRate: 8,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key:'Boss_attk2',
-      frames: this.anims.generateFrameNumbers('Boss_attck2',{start: 0, end: 5}),
-      frameRate: 8,
-      repeat: -1
     })
 
 
@@ -248,7 +213,10 @@ export default class Level2 extends  Phaser.Scene {
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
     this.player.setDepth(15);
     
-    this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.55,'Boss', 'rosa', this.player);
+    this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.65,'Boss', 'rosa', this.player);
+    this.boss.setScale(0.2);
+    this.boss.flipX = true;
+
     //Tumba
     this.tumba = this.add.sprite(this.mapWidth/2 + 470, this.mapHeight - 900, 'tumba', 0).setDepth(2);
     this.scaleThis(this.tumba, 1.5, 1.5);
@@ -277,11 +245,11 @@ export default class Level2 extends  Phaser.Scene {
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-    this.rain.anims.play('rainanim', true);
-    this.guadalupe.anims.play('guadalupeanim', true);
+    //this.rain.anims.play('rainanim', true);
+    //this.guadalupe.anims.play('guadalupeanim', true);
     //this.puerta.anims.play('puertaAnim', true);
     //La lluvia siga al player
-    this.rain.setPosition(this.player.x, this.player.y-280);
+    //this.rain.setPosition(this.player.x, this.player.y-280);
 
     if(this.brote.objectSolved() && !this.complete){
       this.brote.changeImage('nogal');
