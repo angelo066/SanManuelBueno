@@ -19,7 +19,6 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.enemy = enemigo;
 
         this.timer =this.tiempo;
-        console.log(this.timer);
         //let ProyectilBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.width, (this.height/2) + 30, this.width * 0.75, this.height*0.7, {isSensor:true ,label:'Proyectil' });; 
         //this.compundBody = Phaser.Physics.Matter.Matter.Body.create(ProyectilBody);
         this.setBody({
@@ -43,10 +42,9 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
 
                 if(BodyA.label == "player")
                 {
-                    
                     if(BodyB.label === 'Circle Body' && this.body !== undefined && BodyB.id === this.body.id)
                     {
-                         BodyA.gameObject.takeDamage(0.1,0.2,x)
+                         BodyA.gameObject.takeDamage(0.4,0.2,x)
                          BodyB.gameObject.objectWord.container.destroy(true);
                          BodyB.destroy(true);
                     }
