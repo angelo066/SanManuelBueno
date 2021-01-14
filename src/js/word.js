@@ -38,6 +38,7 @@ export default class Word extends Letter{
             this.i++;
 
         });
+        
         this.container.setDepth(10);
         //Tecla de activacion de tachar
         this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);

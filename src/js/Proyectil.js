@@ -1,6 +1,6 @@
 import Word from './word.js';
 export default class Proyectil extends Phaser.Physics.Matter.Sprite{
-    constructor(scene, x,y, key, velX, velY, player, indice, enemigo){
+    constructor(scene, x,y, key, velX, velY, indice, enemigo){
         super (scene,x, y);
 
         //Para que lo empiece a renderizar
@@ -9,7 +9,6 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.velocity = {};
         this.velocity.x = velX;
         this.velocity.y = velY;
-        this.player = player;
         this.tiempo= 60;
         this.index = indice;
         this.enemy = enemigo;
@@ -37,23 +36,27 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         (event,BodyA, BodyB)=>{
             if(BodyA.label === 'Circle Body'  && BodyB.label === 'player' || BodyB.label === 'Circle Body' && BodyA.label === 'player' ){
 
-                this.player.takeDamage(5,5,x);   
-                
-                if(BodyB.label == 'Circle Body' && BodyB.id == this.body.id)
+                if(BodyA.label == "player")
                 {
-                    BodyB.gameObject.objectWord.container.destroy(true);
-                    BodyB.destroy(true);
+                    BodyA.gameObject.takeDamage(0.1,0.2,x)
+                    
+                    if(BodyB.label === 'Circle Body' && BodyB.id === this.body.id)
+                    {
+                         BodyB.gameObject.objectWord.container.destroy(true);
+                         BodyB.destroy(true);
+                    }
                 }
-                else if(BodyA.label == 'Circle Body' && BodyA.id == this.body.id)
+                else
                 {
-                    BodyA.gameObject.objectWord.container.destroy(true);
-                    BodyA.destroy(true);
+                    BodyB.gameObject.takeDamage(0.1,0.2,x)
+                    if(BodyA.label === 'Circle Body' && BodyA.id === this.body.id)
+                    {
+                         BodyA.gameObject.objectWord.container.destroy(true);
+                         BodyA.destroy(true);
+                    }
                 }
-
-                //hay que usar el BodyX.label.....takeDamage, no pasarle el player
             }
         });
-        
     }
 
     preUpdate(){    
