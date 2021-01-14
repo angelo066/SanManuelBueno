@@ -109,6 +109,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     });
 
     //Input
+      this.canMove = true;
       this.keycodeA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
       this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
       this.keycodeW =this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -158,6 +159,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     }
     else this.timer--;
 
+    if(this.lifeStat<=0)
+    {
+      this.death();
+    }
+
     super.preUpdate(time,delta);
     //Follow de la pluma
     this.feather.setX(this.x-this.fOffsetX);
@@ -172,60 +178,63 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.feather.flipX = true;
     }
     //Movement
-    if(this.keycodeA.isDown)
+    if(this.canMove)
     {
-      this.setVelocityX(-this.playerController.speed.run);
-      this.flipX = true;
+        if(this.keycodeA.isDown)
+      {
+        this.setVelocityX(-this.playerController.speed.run);
+        this.flipX = true;
 
-      this.anims.play('run',true);
-    }
-    else if(this.keycodeD.isDown)
-    {
-      this.setVelocityX(this.playerController.speed.run);
-      this.flipX = false;
+        this.anims.play('run',true);
+      }
+      else if(this.keycodeD.isDown)
+      {
+        this.setVelocityX(this.playerController.speed.run);
+        this.flipX = false;
+        
+        this.anims.play('run',true);
+      }
+      else
+        this.setVelocityX(0);
       
-      this.anims.play('run',true);
-    }
-    else
-      this.setVelocityX(0);
-    
-    if(this.keycodeW.isDown  && this.playerController.onFloor){
-      this.setVelocityY(-this.playerController.speed.jump);
+      if(this.keycodeW.isDown  && this.playerController.onFloor){
+        this.setVelocityY(-this.playerController.speed.jump);
 
-      this.playerController.onFloor = false;
-    }
-     if(this.body.velocity.x === 0 && this.playerController.onFloor){
-      this.anims.play('idle', true);
-    }
-    else if(this.body.velocity.x === 0){
-      this.anims.play('jump', true);
-    }
+        this.playerController.onFloor = false;
+      }
+      if(this.body.velocity.x === 0 && this.playerController.onFloor){
+        this.anims.play('idle', true);
+      }
+      else if(this.body.velocity.x === 0){
+        this.anims.play('jump', true);
+      }
 
-    if(this.damage.isDown)
-    {
-      this.takeDamage(0.5, 0.1, this.x - 3000);
-    }
-    
-    //Attack
-    this.attack.setX(this.x + this.width*0.5);
-    this.attack.setY(this.y);
-    if(!this.flipX){
-      this.attack.flipX = false;
-      this.attack.setX(this.x + this.width);
-    }
-    else{
-      this.attack.flipX = true;
-      this.attack.setX(this.x - this.width);
-    }
-    if(Phaser.Input.Keyboard.JustDown(this.keycodeSpace)){
-      this.attack.anims.play('attack',true);
-      this.playerController.onAttack = true;
-    }
-    if(this.playerController.onAttack){
-      this.attack.setExistingBody(this.bodyAttack);
-    }
-    else{
-      this.scene.matter.world.remove(this.attack.body);
+      if(this.damage.isDown)
+      {
+        this.takeDamage(0.5, 0.1, this.x - 3000);
+      }
+      
+      //Attack
+      this.attack.setX(this.x + this.width*0.5);
+      this.attack.setY(this.y);
+      if(!this.flipX){
+        this.attack.flipX = false;
+        this.attack.setX(this.x + this.width);
+      }
+      else{
+        this.attack.flipX = true;
+        this.attack.setX(this.x - this.width);
+      }
+      if(Phaser.Input.Keyboard.JustDown(this.keycodeSpace)){
+        this.attack.anims.play('attack',true);
+        this.playerController.onAttack = true;
+      }
+      if(this.playerController.onAttack){
+        this.attack.setExistingBody(this.bodyAttack);
+      }
+      else{
+        this.scene.matter.world.remove(this.attack.body);
+      }
     }
   }
 
@@ -260,11 +269,20 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
  cureHealth()
  {
-   this.lifeStat += 0.1;
+   if(this.lifeStat >0)
+   {
+      this.lifeStat += 0.1;
 
-   if(this.cameraFilter.intensity > 0)
-      this.cameraFilter.intensity-=0.05;
-  //proximamente 
+      if(this.cameraFilter.intensity > 0)
+        this.cameraFilter.intensity-=0.05;
+   }
+}
+
+ death()
+ {
+   this.canMove = false;
+
+   this.scene.scene.start('level1');
  }
 
   addLetter(letrita)
