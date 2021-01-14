@@ -16,10 +16,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       onFloor: false,
       onAttack:false
     };
+    //Para detectar el filtro Gris
     let postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
     this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0 });
-
     this.lifeStat = 1;
+
     let M = Phaser.Physics.Matter.Matter;
     let w = this.width;
     let h = this.height;
@@ -48,11 +49,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.attack.displayHeight = this.attack.height*0.8;
     this.attack.displayWidth = this.attack.width*0.8;
     this.attack.setExistingBody(this.bodyAttack);
-
+    //timer de curación
     this.time = 140;
     this.timer = this.time;
-
-
     //Inventario
     this.invent = new Inventory({
       scene:scene,
