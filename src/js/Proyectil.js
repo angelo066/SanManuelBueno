@@ -46,7 +46,7 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
                 {
                     BodyA.gameObject.takeDamage(0.1,0.2,x)
                     
-                    if(BodyB.label === 'Circle Body' && BodyB.id === this.body.id)
+                    if(BodyB.label === 'Circle Body' && this.body !== undefined && BodyB.id === this.body.id)
                     {
                          BodyB.gameObject.objectWord.container.destroy(true);
                          BodyB.destroy(true);
