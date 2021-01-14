@@ -7,7 +7,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.scene.add.existing(this);
 
-    this.tiempo = 300;      //Timepo que tarda en crear un proyectil
+    this.tiempo = 1000;      //Timepo que tarda en crear un proyectil
     this.timer=this.tiempo; //Timer para la creación
     this.lettersK = lettersKey;   //Para las letras
     this.player = player;     //Para hacerle daño
@@ -61,15 +61,36 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       frameRate: 8,
       repeat: 0
     })
-    this.atacando = false;
+
+    this.states = {
+      idle:true,
+      atacando:false,
+      muriendo:false
+    };
+
+    this.on('animationcomplete', function (anim, frame) {
+      this.emit('animationcomplete_' + anim.key, anim, frame);
+    }, this);
+    this.on('animationcomplete_Boss_attk1',()=> {
+      this.states.atacando=false;
+      this.states.idle=true;
+    });
+  }
+
+  ManejaEstados(){
+    if(this.states.idle){
+      if(!this.fase)this.anims.play('Boss_idle1', true);
+      else this.anims.play('Boss_Idle2', true);
+    }
+    else if(this.states.atacando){
+      if(!this.fase)this.anims.play('Boss_attk1',true);
+      else this.anims.play('Boss_attk2',true);
+    }
+    else this.anims.play('Boss_Death',true);
   }
   
   Creapalabra()
   {
-    if(!this.fase){
-      this.anims.play('Boss_attk2', true);      //Animación del ataque quiero que se ejecute pero dice que no le apetece
-    }
-    else this.anims.play('Boss_attk2', true);
     let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this);
 
     palabra.LanzaProyectil();
@@ -82,27 +103,21 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     if(this.timer <= 0){
       this.Creapalabra();
       this.timer = this.tiempo;  
-      this.atacando = true;
+      this.states.atacando = true;
+      this.states.idle=false;
     }
     else this.timer--;
 
-    //Compruebo si está modo panita
-    if(!this.fase && !this.atacando) this.anims.play('Boss_idle2',true);  //Ilde
-    else if(!this.atacando) this.anims.play('Boss_idle2',true);
-
-    if(this.anims.currentFrame.textureFrame === 7)this.atacando=false;
-
+    
     //Compruebo si se muere
     if(this.ActualWord.word === this.deadWord){
       //Animación y cambio de fase
-      if(!this.fase)
-      {
-        this.anims.play('Boss_Death',true);
-        this.fase = true;
-      }
-      else this.destroy(true);
+      if(!this.fase)this.fase = true;
+      else this.states.muriendo=true;
      
     }
+
+    this.ManejaEstados();
   }
 
 }
