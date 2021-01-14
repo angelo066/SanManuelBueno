@@ -282,7 +282,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
  {
    this.canMove = false;
 
-   this.scene.scene.start('level1');
+   this.scene.scene.start(this.scene.scene);
  }
 
   addLetter(letrita)
