@@ -37,11 +37,20 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         (event,BodyA, BodyB)=>{
             if(BodyA.label === 'Circle Body'  && BodyB.label === 'player' || BodyB.label === 'Circle Body' && BodyA.label === 'player' ){
 
-                //hay que usar el BodyX.label.....takeDamage, no pasarle el player
                 this.player.takeDamage(5,5,x);   
-                // this.enemy.destroyProyectil(this.index);
-                this.objectWord.container.destroy(true);
-                this.destroy(true); 
+                
+                if(BodyB.label == 'Circle Body' && BodyB.id == this.body.id)
+                {
+                    BodyB.gameObject.objectWord.container.destroy(true);
+                    BodyB.destroy(true);
+                }
+                else if(BodyA.label == 'Circle Body' && BodyA.id == this.body.id)
+                {
+                    BodyA.gameObject.objectWord.container.destroy(true);
+                    BodyA.destroy(true);
+                }
+
+                //hay que usar el BodyX.label.....takeDamage, no pasarle el player
             }
         });
         

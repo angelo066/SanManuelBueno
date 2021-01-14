@@ -100,8 +100,8 @@ export default class GameScene extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    // let postFxPlugin = this.plugins.get('rexgrayscalepipelineplugin');
-    // this.cameraFilter = postFxPlugin.add(this.cameras.main, { intensity: 0 });
+    let postFxPlugin = this.plugins.get('rexgrayscalepipelineplugin');
+    this.cameraFilter = postFxPlugin.add(this.cameras.main, { intensity: 0 });
 
     let config={
       mute:false,

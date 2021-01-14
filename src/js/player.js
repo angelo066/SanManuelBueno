@@ -16,7 +16,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       onFloor: false,
       onAttack:false
     };
-    
+    let postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
+    this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0 });
+
     this.lifeStat = 1;
     let M = Phaser.Physics.Matter.Matter;
     let w = this.width;
