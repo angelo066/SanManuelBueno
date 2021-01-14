@@ -12,9 +12,6 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     this.lettersK = lettersKey;   //Para las letras
     this.player = player;     //Para hacerle daño
 
-    this.arrayProyectiles = {};   //Para destruir los proyectiles 1 a 1
-    this.numProyectiles = 0;      //Lo mismo
-
     this.deadWord = deadWord;   //Palabra para derrotarlo
 
 
@@ -31,8 +28,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.scene.anims.create({
       key:'Boss_idle1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 8}),
-      frameRate: 100,
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 7}),
+      frameRate: 0,
       repeat: -1
     })
 
@@ -70,14 +67,9 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     if(!this.fase)this.anims.play('Boss_attk1', true);
     else this.anims.play('Boss_attk2', true);
 
-    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this.numProyectiles, this);
+    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this);
 
     palabra.LanzaProyectil();
-    this.arrayProyectiles[this.numProyectiles] = palabra;
-    
-    this.numProyectiles++;
-
-    console.log(palabra.body.id);
   }
 
   preUpdate(){
@@ -103,13 +95,6 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
       if(this.fase)this.destroy(true);
     }
-  }
-
-  destroyProyectil(i)
-  {
-    console.log(i);
-    this.arrayProyectiles[i].objectWord.container.destroy(true);
-    this.numProyectiles--;
   }
 
 }

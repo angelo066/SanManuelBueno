@@ -115,7 +115,7 @@ export default class Level2 extends  Phaser.Scene {
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
-    this.load.image('bg3', 'src/assets/bg/bg_iglesia.png');
+    this.load.image(' 3', 'src/assets/bg/bg_iglesia.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
