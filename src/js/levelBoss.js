@@ -73,16 +73,16 @@ export default class Level2 extends  Phaser.Scene {
       key:'Boss_Idle1',
       url:'src/assets/sprites/Boss/donManuelIdle1SS.png',
       frameConfig:{
-        frameWidth:875.2,
-        frameHeight:1200
+        frameWidth:1082,
+        frameHeight:1922
       }
     })
     this.load.spritesheet({
       key:'Boss_Idle2',
       url:'src/assets/sprites/Boss/donManuelIdle2SS.png',
       frameConfig:{
-        frameWidth:814,
-        frameHeight:1200
+        frameWidth:1082,
+        frameHeight:1922
       }
     })
     this.load.spritesheet({
