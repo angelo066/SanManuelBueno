@@ -30,7 +30,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       key:'Boss_idle1',
       frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 7}),
       frameRate: 0,
-      repeat: 0
+      repeat: -1
     })
 
     this.scene.anims.create({
@@ -79,11 +79,9 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     if(!this.fase) this.anims.play('Boss_idle1',true);  //Ilde
     else this.anims.play('Boss_idle2',true);
 
-    
     if(this.timer <= 0){
       if(!this.fase){
         this.anims.play('Boss_attk1', true);      //Animación del ataque quiero que se ejecute pero dice que no le apetece
-        console.log('Una chica una chica yeye que te compreeeeenda como yo');
       }
       else this.anims.play('Boss_attk2', true);
 

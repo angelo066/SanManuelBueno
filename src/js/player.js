@@ -19,6 +19,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     //Para detectar el filtro Gris
     let postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
     this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0 });
+
     this.lifeStat = 1;
 
     let M = Phaser.Physics.Matter.Matter;
@@ -151,7 +152,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
   preUpdate(time,delta)
   {
-
     if(this.timer <= 0)
     {
       this.cureHealth();
@@ -252,7 +252,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
  takeDamage(amountDamage, amountThrust, posX)
  {
     this.lifeStat -= amountDamage;
-    this.cameraFilter.intensity += 0.05;
+    this.cameraFilter.intensity += amountDamage*0.8;
 
     this.thrustLeft(amountThrust*0.3);
     if(posX >= this.x) this.thrustBack(amountThrust * -1);
