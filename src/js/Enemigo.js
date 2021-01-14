@@ -1,23 +1,31 @@
 import Word from'./word.js';
 import Proyectil from './Proyectil.js';
 export default class Enemigo extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, key, lettersKey, player)
+  constructor(scene, x, y, key, lettersKey, player, deadWord)
   {
     super(scene, x, y, key);
 
     this.scene.add.existing(this);
 
-    this.tiempo = 300;
-    this.timer=this.tiempo;
-    this.lettersK = lettersKey;
-    this.player = player; 
+    this.tiempo = 300;      //Timepo que tarda en crear un proyectil
+    this.timer=this.tiempo; //Timer para la creación
+    this.lettersK = lettersKey;   //Para las letras
+    this.player = player;     //Para hacerle daño
 
-    this.can = true;
+    this.arrayProyectiles = {};   //Para destruir los proyectiles 1 a 1
+    this.numProyectiles = 0;      //Lo mismo
 
-    this.arrayProyectiles = {};
-    this.numProyectiles = 0;
+    this.deadWord = deadWord;   //Palabra para derrotarlo
 
-    this.cosas;
+
+    this.ActualWord = new Word({      //Palabra formada actualmente
+      scene: this.scene,
+      x:this.x,
+      y:this.y,
+      word: '',
+      interactive: true,
+      letter:null
+  });
   }
   
   Creapalabra()
@@ -40,6 +48,12 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       this.timer = this.tiempo;  
     }
     else this.timer--;
+
+    if(this.ActualWord.word === this.deadWord){
+      //Animación cuando la haya
+
+      this.destroy(true);
+    }
   }
 
   destroyProyectil(i)
