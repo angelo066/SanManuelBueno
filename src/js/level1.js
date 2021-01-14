@@ -103,7 +103,7 @@ export default class level1 extends Phaser.Scene {
     this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
-    this.load.image('bg', 'src/assets/bg/lake.png');
+    this.load.image('bg1', 'src/assets/bg/lake.png');
     this.load.image('altar', 'src/assets/props/altar/altar.png'); 
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
@@ -157,7 +157,7 @@ export default class level1 extends Phaser.Scene {
     this.sky = this.add.tileSprite(3840,this.cameras.main.centerY, 0, 0, 'sky');
     this.scaleThis(this.sky,3,3);
 
-    this.bg = this.add.image(3840,this.cameras.main.centerY, 'bg');
+    this.bg = this.add.image(3840,this.cameras.main.centerY, 'bg1');
     this.scaleThis(this.bg,3,3);
     const map = this.make.tilemap({
       key:'tilemap_level1',

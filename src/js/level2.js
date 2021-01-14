@@ -95,7 +95,7 @@ export default class Level2 extends  Phaser.Scene {
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
-    this.load.image('bg', 'src/assets/bg/bg_iglesia.png');
+    this.load.image('bg2', 'src/assets/bg/bg_iglesia.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
@@ -132,7 +132,7 @@ export default class Level2 extends  Phaser.Scene {
     const tileset = map.addTilesetImage('tileset');
     
     //BG
-    this.background = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'bg');
+    this.background = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'bg2');
     this.scaleThis(this.background, 2, 2);
 
     //Rain
