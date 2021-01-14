@@ -100,9 +100,6 @@ export default class GameScene extends Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    
-    
-
     let config={
       mute:false,
       volume:0.1,

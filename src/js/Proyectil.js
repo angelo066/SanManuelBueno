@@ -9,6 +9,12 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.velocity = {};
         this.velocity.x = velX;
         this.velocity.y = velY;
+
+        //tiempo de vida
+        this.lifeTime = 800;
+        this.LivingTime = this.lifeTime;
+
+        //Tiempo trayectoria
         this.tiempo= 60;
         this.index = indice;
         this.enemy = enemigo;
@@ -66,7 +72,16 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         }
         else this.timer--;
 
-        this.objectWord.changePos(this.x, this.y); 
+        if(this.LivingTime<=0)
+        {
+            this.objectWord.container.destroy(true);
+            this.destroy(true);
+        }
+        else this.LivingTime--;
+
+        //Mover la pos de cada palabra
+        if(this.LivingTime>0)
+            this.objectWord.changePos(this.x, this.y); 
     }
 
     //Como de heavy sería hacer las palabras físicas
