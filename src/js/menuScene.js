@@ -65,9 +65,9 @@ export default class MenuScene extends  Phaser.Scene {
                 
                 this.playGame.wordAppear();
 
-                //Parapadeo de input
+                // Parapadeo de input
                 // timeline.add({
-                //     targets: this.playGame.objectWord,
+                //     targets: this.playGame,
                 //     alpha: { value: 1, duration: 1500 },
                 //     yoyo: true, // de 0 a 1 y de 1 a 0. Pero progresivo. Si es false va de 0 a 1 y luego de 0 a 1 progresivo
                 //     loop: -1
