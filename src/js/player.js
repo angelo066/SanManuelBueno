@@ -48,6 +48,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.attack.displayHeight = this.attack.height*0.8;
     this.attack.displayWidth = this.attack.width*0.8;
     this.attack.setExistingBody(this.bodyAttack);
+
+    this.time = 140;
+    this.timer = this.time;
+
+
     //Inventario
     this.invent = new Inventory({
       scene:scene,
@@ -146,11 +151,13 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
   preUpdate(time,delta)
   {
-    if(this.lifeStat< 1)
-    {
-      this.lifeStat+= 0.05;
-    }
 
+    if(this.timer <= 0)
+    {
+      this.cureHealth();
+      this.timer = this.time;
+    }
+    else this.timer--;
 
     super.preUpdate(time,delta);
     //Follow de la pluma
@@ -254,7 +261,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
  cureHealth()
  {
-   
+   this.lifeStat += 0.1;
+
+   if(this.cameraFilter.intensity > 0)
+      this.cameraFilter.intensity-=0.05;
   //proximamente 
  }
 
