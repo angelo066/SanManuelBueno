@@ -19,22 +19,43 @@
   </head>
 
   <body>
-      <div class = "header">
-        <img src = "./src/WebMedia/brands/logo.png" alt = "logo">
-      </div>
+    <div class = "header">
+      <img src = "./src/WebMedia/brands/logo.png" alt = "logo">
+    </div>
     <main>
-      <canvas id="phaser-game" style="border: 2px solid rgb(0, 0, 0)" ></canvas>
         <script type="module">
           import Level1 from "./src/js/level1.js";
           import MenuScene from "./src/js/menuScene.js";
           import GameScene from "./src/js/gameScene.js";
           import Level2 from "./src/js/level2.js";
           import LevelBoss from "./src/js/levelBoss.js";
+          const myCustomCanvas = document.createElement('canvas');
+
+          myCustomCanvas.id = 'myCustomCanvas';
+          myCustomCanvas.style = 'border: 8px solid black;';
+
+          document.body.appendChild(myCustomCanvas);
+
+          //  It's important to set the WebGL context values that Phaser needs:
+          const contextCreationConfig = {
+              alpha: false,
+              depth: true,
+              antialias: true,
+              premultipliedAlpha: true,
+              stencil: true,
+              preserveDrawingBuffer: false,
+              failIfMajorPerformanceCaveat: false,
+              powerPreference: 'default'
+          };
+
+          const myCustomContext = myCustomCanvas.getContext('webgl', contextCreationConfig);
           let config = {
-            type: Phaser.AUTO,
+            type: Phaser.WEBGL,
             parent: 'phaser-example',
             width: 1920,
             height: 1080,
+            canvas: myCustomCanvas,
+            context: myCustomContext,
             pixelArt: true,
             input: {
               gamepad: true,
@@ -43,7 +64,7 @@
               mode: Phaser.Scale.FIT,
               autoCenter: Phaser.Scale.CENTER_BOTH,
             },
-            scene: [Level2 ,Level1, LevelBoss , GameScene , MenuScene],
+            scene: [LevelBoss, Level2 ,Level1 , GameScene , MenuScene],
             physics: {
               default: "matter",
               matter: { gravity: { y: 1 },
@@ -52,10 +73,10 @@
               }
             },
           };
-          new Phaser.Game(config);
+          const game = new Phaser.Game(config);
         </script>
     </main>
-    <footer id ="footer" class = "footer">
+    <div id ="footer" class = "footer">
       <div class="footer-container">
         <div class = "footer-studio-logo">
           <img src = "./src/WebMedia/brands/studio.png" alt = "studio">
