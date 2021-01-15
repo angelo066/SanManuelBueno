@@ -111,19 +111,16 @@ export default class Level2 extends  Phaser.Scene {
     if(this.brote.objectSolved() && !this.complete){
       this.brote.changeImage('nogal');
       //Sombra
-      this.sombra = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'sombra', false, 280, 'sombra', 'rosa')
+      this.sombra = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'sombra', false, 280, 'sombra', 'rosa');
+      this.rosa=this.add.image(this.mapWidth/2 + 470, this.mapHeight - 740, 'rosa');
       this.sombra.changeAlpha(0.21);
       this.complete = true;
     }
     if(this.nuez.solved){
        this.player.addLetter(this.nuez.getLetter());
      }
-    if(this.complete){
-      if(this.sombra.objectSolved() && !this.complete2){
-        //Rosa
-        this.rosa = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'rosa', false, 1, '', '');
-        this.complete2 = true;
-      }
+    if(this.rosa != undefined && this.rosa.solved){
+      
     }
   }
 

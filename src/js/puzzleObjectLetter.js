@@ -90,6 +90,7 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
     giveLetter(){
         if(this.objectWord.container.getIndex(this.objectWord.container.last) === 0){
             this.objectWord.destroyWord();
+            this.sprite.destroy();
             return true;
         }
         else{
@@ -133,12 +134,13 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
 
     //Flag de puzzle resuelto, poner en el update
     objectSolved(){
-        if(this.sol === this.objectWord.word){
-
-            if(this.sprite !== undefined)
-                 this.scene.matter.world.remove(this.sprite.body);
-
-            this.objectWord.destroy();
+        if(this.objectWord.container.getIndex(this.objectWord.container.last) === 0){
+            
+            console.log('Hola buenos dias');
+            //if(this.sprite !== undefined)
+                 //this.scene.matter.world.remove(this.sprite.body);
+            this.objectWord.destroy(true);
+            this.sprite.destroy(true);
             return true;
         }
         else
