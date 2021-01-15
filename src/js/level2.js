@@ -28,14 +28,14 @@ export default class Level2 extends  Phaser.Scene {
       }
     })
     //Puerta
-    /*this.load.spritesheet({
+    this.load.spritesheet({
       key:'puerta',
-      url:'src/assets/sprites/gameObjects/PuertaSS.png',
+      url:'src/assets/sprites/game_objects/puerta.png',
       frameConfig:{
         frameWidth:619,
         frameHeight:1037
       }
-    })*/
+    })
 
     this.load.image('bg2', 'src/assets/bg/bg_iglesia.png');
     this.load.image('tileset','src/assets/tiles/tileset.png');
@@ -64,7 +64,7 @@ export default class Level2 extends  Phaser.Scene {
     //Rain
     this.rain = this.add.sprite(this.mapWidth/2, this.mapHeight/2, 'rainrain', 0);
     this.rain.setAlpha(0.34);
-    this.scaleThis(this.rain, 2.42, 3.5);
+    this.scaleThis(this.rain, 2.42, 5);
     this.rain.setDepth(1);
     this.anims.create({
       key:'rainanim',
@@ -129,15 +129,17 @@ export default class Level2 extends  Phaser.Scene {
 
   SetPuzzles() {
     //Nuez
-    this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 2 - 300, this.mapHeight - 700, 'nuez', false, 200, 'nuez', 'n');
+    this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 2 - 300, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
 
     //Árbol
     this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
   }
 
   SetImages() {
-    this.puerta = this.add.sprite(this.mapWidth / 2 + 2710, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
+    this.puerta = this.matter.add.sprite(this.mapWidth / 2 + 2820, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
+    this.puerta.setMass(8000);              //Porque matter es to divertido
     this.scaleThis(this.puerta, 0.27, 0.27);
+
     //Tumba
     this.tumba = this.add.sprite(this.mapWidth / 2 + 470, this.mapHeight - 900, 'tumba', 0).setDepth(2);
     this.scaleThis(this.tumba, 1.5, 1.5);

@@ -41,10 +41,10 @@ export default class Level2 extends  Phaser.Scene {
     this.benches = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'benches');
 
     //vale al parecer tiene gravedad
-    this.suelo = this.matter.add.image(0, 0, undefined, { isStatic: true });
-    let r = Phaser.Physics.Matter.Matter.Bodies.rectangle(122, this.game.config.height/4, 64 * 5, 64, { isStatic: true, label: 'ground' });
-    let suelobody = Phaser.Physics.Matter.Matter.Body.create({ parts: [r] });
-    this.suelo.setExistingBody(suelobody);
+    // this.suelo = this.matter.add.image(0, 0, undefined, { isStatic: true });
+    // let r = Phaser.Physics.Matter.Matter.Bodies.rectangle(122, this.game.config.height/4, 64 * 5, 64, { isStatic: true, label: 'ground' });
+    // let suelobody = Phaser.Physics.Matter.Matter.Body.create({ parts: [r] });
+    // this.suelo.setExistingBody(suelobody);
 
 
     //Layers del tileMap

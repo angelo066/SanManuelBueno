@@ -1,18 +1,24 @@
 import Word from './word.js';
 
 export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
-    constructor(scene, x, y, key,physicsEnabled, sensorRadius, word, letter){
+    constructor(scene, x, y, keyImagen,physicsEnabled, sensorRadius, word, letter)
+    {
         super(scene, x, y);
-        this.sprite = scene.matter.add.image(scene.matter.world, x, y, key,{isStatic:true});
-        if(physicsEnabled)//Objeto con fisicas
+        
+        if(keyImagen !== null)
+            this.sprite = this.scene.matter.add.image(x, y, keyImagen, {isStatic:true});
+
+        if(physicsEnabled && this.sprite !== undefined)//Objeto con fisicas
             this.sprite.isStatic(false);
         //Trigger
         let circle = new Phaser.Physics.Matter.Matter.Bodies.circle(x,y,sensorRadius,{isStatic:true,isSensor:true});
-        this.sprite.setExistingBody(circle);
+
+        if(this.sprite !== undefined)
+             this.sprite.setExistingBody(circle);
+
         //String palabra
         this.word = word;
         this.letter = letter;
-        this.objectWord = '';
         //Palabra del objeto
         this.objectWord = new Word({
             scene: this.scene,
@@ -24,12 +30,14 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
         });
         this.objectWord.container.setVisible(false);
         this.add(this.objectWord);
-        //Letra del objeto
-        this.letter = letter;
-        this.add(this.sprite);
+        // this.add(this.sprite); //esto al parecer provoca que no se vea
         this.scene.add.existing(this);
-        this.solved = false;
-        //Colisiones
+        //Comprobador de que el puzzle está terminado
+        this.complete = false;
+
+        //Comprobador de que puede eliminar letras del puzzle
+        this.canDelete = false;
+
         this.scene.matter.world.on('collisionstart', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -52,6 +60,7 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
                 }
             }
         });
+
         this.scene.matter.world.on('collisionend', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -71,6 +80,12 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
             }
         });
     }
+
+    preUpdate()
+    {
+
+    }
+
     //Flag para devolver letra o destruir las otras
     giveLetter(){
         if(this.objectWord.container.getIndex(this.objectWord.container.last) === 0){
@@ -114,5 +129,19 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
             duration: 1000
         });
         timeline.play();
+    }
+
+    //Flag de puzzle resuelto, poner en el update
+    objectSolved(){
+        if(this.sol === this.objectWord.word){
+
+            if(this.sprite !== undefined)
+                 this.scene.matter.world.remove(this.sprite.body);
+
+            this.objectWord.destroy();
+            return true;
+        }
+        else
+            return false;
     }
  }
