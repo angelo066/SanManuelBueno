@@ -14,7 +14,6 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.deadWord = deadWord;   //Palabra para derrotarlo
 
-
     this.ActualWord = new Word({      //Palabra formada actualmente
       scene: this.scene,
       x:this.x,
@@ -26,74 +25,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.fase=false; //False cuando está en primera y true cuando está en segunda
 
-    this.scene.anims.create({
-      key:'Boss_idle1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1',{start: 0, end: 7}),
-      frameRate: 3,
-      repeat: 0
-    })
-
-    this.scene.anims.create({
-      key:'Boss_idle2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2',{start: 0, end: 2}),
-      frameRate: 1,
-      repeat: 0
-    })
-
-    this.scene.anims.create({
-      key:'Boss_Death',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Death',{start: 0, end: 5}),
-      frameRate: 8,
-      repeat: 0
-    })
-
-    //Creación de la animación
-    this.scene.anims.create({
-      key:'Boss_attk1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck1',{start: 0, end: 7}),
-      frameRate: 8,
-      repeat: 0
-    })
-
-    this.scene.anims.create({
-      key:'Boss_attk2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck2',{start: 0, end: 7}),
-      frameRate: 8,
-      repeat: 0
-    })
-
-    this.states = {
-      idle:true,
-      atacando:false,
-      muriendo:false
-    };
-
-    this.on('animationcomplete', function (anim, frame) {
-      this.emit('animationcomplete_' + anim.key, anim, frame);
-    }, this);
-    this.on('animationcomplete_Boss_attk1',()=> {
-      this.states.atacando=false;
-      this.states.idle=true;
-    });
-  }
-
-  ManejaEstados(){
-    if(this.states.idle){
-      if(!this.fase)this.anims.play('Boss_idle1', true);
-      else this.anims.play('Boss_Idle2', true);
-    }
-    else if(this.states.atacando){
-      if(!this.fase)this.anims.play('Boss_attk1',true);
-      else this.anims.play('Boss_attk2',true);
-    }
-    else this.anims.play('Boss_Death',true);
-  }
-  
-  Creapalabra()
-  {
-    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this);
-
-    palabra.LanzaProyectil();
+    this.SetAnims();
   }
 
   preUpdate(time, delta){
@@ -118,6 +50,76 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     }
 
     this.ManejaEstados();
+  }
+
+  SetAnims() {
+    this.scene.anims.create({
+      key: 'Boss_idle1',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1', { start: 0, end: 7 }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_idle2',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2', { start: 0, end: 2 }),
+      frameRate: 1,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_Death',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Death', { start: 0, end: 5 }),
+      frameRate: 8,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_attk1',
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck1', { start: 0, end: 7 }),
+      frameRate: 8,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_attk2',
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck2', { start: 0, end: 7 }),
+      frameRate: 8,
+      repeat: 0
+    });
+
+    this.states = {
+      idle: true,
+      atacando: false,
+      muriendo: false
+    };
+
+    this.on('animationcomplete', function (anim, frame) {
+      this.emit('animationcomplete_' + anim.key, anim, frame);
+    }, this);
+    this.on('animationcomplete_Boss_attk1', () => {
+      this.states.atacando = false;
+      this.states.idle = true;
+    });
+  }
+
+  ManejaEstados(){
+    if(this.states.idle){
+      if(!this.fase)this.anims.play('Boss_idle1', true);
+      else this.anims.play('Boss_Idle2', true);
+    }
+    else if(this.states.atacando){
+      if(!this.fase)this.anims.play('Boss_attk1',true);
+      else this.anims.play('Boss_attk2',true);
+    }
+    else this.anims.play('Boss_Death',true);
+  }
+  
+  Creapalabra()
+  {
+    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this);
+
+    palabra.LanzaProyectil();
   }
 
 }

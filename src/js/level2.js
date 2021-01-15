@@ -8,65 +8,8 @@ export default class Level2 extends  Phaser.Scene {
   //para cargar los recursos
   preload() 
   {
-
-    this.load.plugin('rexgrayscalepipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgrayscalepipelineplugin.min.js', true);  
-    
-    this.load.spritesheet({
-    key:'player_idle', 
-    url:'src/assets/sprites/unamuno/idle.png',
-    frameConfig:{
-      frameWidth:120,
-      frameHeight:200
-    }
-  });
-    this.load.spritesheet({
-      key:'player_run', 
-      url:'src/assets/sprites/unamuno/run.png',
-      frameConfig:{
-        frameWidth:120,
-        frameHeight:200
-      }
-    });
-    this.load.spritesheet({
-      key:'player_jump', 
-      url:'src/assets/sprites/unamuno/jump.png',
-      frameConfig:{
-        frameWidth:120,
-        frameHeight:200
-      }
-    });
-    this.load.spritesheet({
-      key:'player_attack', 
-      url:'src/assets/sprites/unamuno/attack.png',
-      frameConfig:{
-        frameWidth:180,
-        frameHeight:180
-      }
-    });
-    this.load.spritesheet({//Letras normales
-      key:'letters', 
-      url:'src/assets/sprites/letters/normal.png',
-      frameConfig:{
-        frameWidth:120,
-        frameHeight:120
-      }
-    });
-    this.load.spritesheet({//Letras tachadas
-      key:'strikedletters', 
-      url:'src/assets/sprites/letters/striked.png',
-      frameConfig:{
-        frameWidth:120,
-        frameHeight:120
-      }
-    });
-    this.load.spritesheet({//Letras agrietadas
-      key:'crackedletters', 
-      url:'src/assets/sprites/letters/cracked.png',
-      frameConfig:{
-        frameWidth:120,
-        frameHeight:120
-      }
-    });
+    this.LoadEssentialAssets();
+    //Lluvia
     this.load.spritesheet({
       key:'rainrain',
       url:'src/assets/sprites/particles/rain.png',
@@ -75,6 +18,7 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight:374
       }
     })
+    //Guadalupe
     this.load.spritesheet({
       key:'guadalupe',
       url:'src/assets/sprites/game_objects/sraguadalupe.png',
@@ -83,6 +27,7 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight:171.8
       }
     })
+    //Puerta
     /*this.load.spritesheet({
       key:'puerta',
       url:'src/assets/sprites/gameObjects/PuertaSS.png',
@@ -91,45 +36,26 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight:1037
       }
     })*/
-    this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
-    this.load.image('inventory', 'src/assets/inventory/pergamino.png');
-    this.load.image('selection', 'src/assets/inventory/selector.png');
-    this.load.image('ground', 'src/assets/platforms/grass.png');
+
     this.load.image('bg2', 'src/assets/bg/bg_iglesia.png');
-    this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
     this.load.image('tileset','src/assets/tiles/tileset.png');
-    this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
-    this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
-    this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
+    this.load.image('ground', 'src/assets/platforms/grass.png');
     this.load.image('rosa', 'src/assets/puzzle_objects/rosa.png');
-    this.load.image('marchita', 'src/assets/puzzle_objects/rosa_marchita.png');
     this.load.image('nuez', 'src/assets/puzzle_objects/nuez.png');
+    this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
     this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
+    this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
     this.load.image('tumba', 'src/assets/sprites/game_objects/tumba.png');
+    this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
+    this.load.image('marchita', 'src/assets/puzzle_objects/rosa_marchita.png');
+    this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    let config={
-      mute:false,
-      volume:1,
-      rate:1,
-      detune:0,
-      seek:0,
-      loop:true,
-      delay:0
-    };
-    let musiquita = this.sound.add('bandaSonora',config);
-    musiquita.play();
+    this.InitSounds();
     
-    const map = this.make.tilemap({
-      key:'tilemap_level2',
-      tileWidth:64,
-      tileHeight:64
-    });
-    this.mapWidth = map.width*64;
-    this.mapHeight = map.height*64;
-    const tileset = map.addTilesetImage('tileset');
+    this.SetTileMap(); 
     
     //BG
     this.background = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'bg2');
@@ -163,58 +89,13 @@ export default class Level2 extends  Phaser.Scene {
       repeat: -1
     })
 
-    //Layers del tileMap
-    const inviwall = map.createDynamicLayer('inviWall',tileset,0,0).setDepth(0);
-    const ground = map.createDynamicLayer('ground',tileset,0,0).setDepth(1);
-    map.createDynamicLayer('fillbghouse',tileset,0,0).setDepth(2);
-    map.createDynamicLayer('bghouse',tileset,0,0).setDepth(3);
-    const fghouse = map.createDynamicLayer('foregroundhouse',tileset,0,0).setDepth(4);
-    map.createDynamicLayer('window',tileset,0,0).setDepth(5);
-    map.createDynamicLayer('roofhouse',tileset,0,0).setDepth(6);
-    const houseFloor = map.createDynamicLayer('grass',tileset,0,0).setDepth(7);
-
-    //Implementacion de colisiones
-    inviwall.setCollisionByProperty({collides:true});
-    ground.setCollisionByProperty({collides:true});
-    fghouse.setCollisionByProperty({collides:true});
-    houseFloor.setCollisionByProperty({collides:true});
-
-    //convertir colisiones a matter
-    this.matter.world.convertTilemapLayer(inviwall);
-    this.matter.world.convertTilemapLayer(ground);
-    this.matter.world.convertTilemapLayer(fghouse); 
-    this.matter.world.convertTilemapLayer(houseFloor); 
-    
-    //Puerta
-    this.puerta = this.add.sprite(this.mapWidth/2 + 2710, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
-    this.scaleThis(this.puerta, 0.27, 0.27);
-
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
     this.player.setDepth(15);
     
-    //Tumba
-    this.tumba = this.add.sprite(this.mapWidth/2 + 470, this.mapHeight - 900, 'tumba', 0).setDepth(2);
-    this.scaleThis(this.tumba, 1.5, 1.5);
+    this.SetImages();
 
-    //RosasMarchitas
-    this.marchita1 = this.add.sprite(this.mapWidth/2 + 500, this.mapHeight - 850, 'marchita', 0).setDepth(2);
-    this.scaleThis(this.marchita1, 2, 2);
-    this.marchita2 = this.add.sprite(this.mapWidth/2 + 470, this.mapHeight - 850, 'marchita', 0).setDepth(2);
-    this.scaleThis(this.marchita2, 2, 2);
-    this.marchita3 = this.add.sprite(this.mapWidth/2 + 440, this.mapHeight - 850, 'marchita', 0).setDepth(2);
-    this.scaleThis(this.marchita3, 2, 2);
-
-    //SEÑORAGUADALUPESACAMEDEAQUI
-    this.guadalupe = this.add.sprite(this.mapWidth/2 + 2000, this.mapHeight - 1000, 'guadalupe', 0);
-    this.scaleThis(this.guadalupe, 1.2, 1.2);
-    this.guadalupe.flipX = true;
-
-    //Nuez
-    this.nuez = new PuzzleObjectLetter(this, this.mapWidth/2 - 300, this.mapHeight - 700, 'nuez', false, 200, 'nuez', 'n');
-
-    //Árbol
-    this.brote = new PuzzleObjectWord(this, this.mapWidth/2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
+    this.SetPuzzles();
 
     this.FadeIn();
   }
@@ -246,6 +127,152 @@ export default class Level2 extends  Phaser.Scene {
     }
   }
 
+  SetPuzzles() {
+    //Nuez
+    this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 2 - 300, this.mapHeight - 700, 'nuez', false, 200, 'nuez', 'n');
+
+    //Árbol
+    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
+  }
+
+  SetImages() {
+    this.puerta = this.add.sprite(this.mapWidth / 2 + 2710, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
+    this.scaleThis(this.puerta, 0.27, 0.27);
+    //Tumba
+    this.tumba = this.add.sprite(this.mapWidth / 2 + 470, this.mapHeight - 900, 'tumba', 0).setDepth(2);
+    this.scaleThis(this.tumba, 1.5, 1.5);
+    //RosasMarchitas
+    this.marchita1 = this.add.sprite(this.mapWidth / 2 + 500, this.mapHeight - 850, 'marchita', 0).setDepth(2);
+    this.scaleThis(this.marchita1, 2, 2);
+    this.marchita2 = this.add.sprite(this.mapWidth / 2 + 470, this.mapHeight - 850, 'marchita', 0).setDepth(2);
+    this.scaleThis(this.marchita2, 2, 2);
+    this.marchita3 = this.add.sprite(this.mapWidth / 2 + 440, this.mapHeight - 850, 'marchita', 0).setDepth(2);
+    this.scaleThis(this.marchita3, 2, 2);
+    //SEÑORAGUADALUPESACAMEDEAQUI
+    this.guadalupe = this.add.sprite(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 'guadalupe', 0);
+    this.scaleThis(this.guadalupe, 1.2, 1.2);
+    this.guadalupe.flipX = true;
+  }
+
+  SetTileMap() {
+    const map = this.make.tilemap({
+      key: 'tilemap_level2',
+      tileWidth: 64,
+      tileHeight: 64
+    });
+    this.mapWidth = map.width * 64;
+    this.mapHeight = map.height * 64;
+    const tileset = map.addTilesetImage('tileset');
+    //Layers del tileMap
+    const inviwall = map.createDynamicLayer('inviWall', tileset, 0, 0).setDepth(0);
+    const ground = map.createDynamicLayer('ground', tileset, 0, 0).setDepth(1);
+    map.createDynamicLayer('fillbghouse', tileset, 0, 0).setDepth(2);
+    map.createDynamicLayer('bghouse', tileset, 0, 0).setDepth(3);
+    const fghouse = map.createDynamicLayer('foregroundhouse', tileset, 0, 0).setDepth(4);
+    map.createDynamicLayer('window', tileset, 0, 0).setDepth(5);
+    map.createDynamicLayer('roofhouse', tileset, 0, 0).setDepth(6);
+    const houseFloor = map.createDynamicLayer('grass', tileset, 0, 0).setDepth(7);
+
+    //Implementacion de colisiones
+    inviwall.setCollisionByProperty({ collides: true });
+    ground.setCollisionByProperty({ collides: true });
+    fghouse.setCollisionByProperty({ collides: true });
+    houseFloor.setCollisionByProperty({ collides: true });
+
+    //convertir colisiones a matter
+    this.matter.world.convertTilemapLayer(inviwall);
+    this.matter.world.convertTilemapLayer(ground);
+    this.matter.world.convertTilemapLayer(fghouse);
+    this.matter.world.convertTilemapLayer(houseFloor);
+  }
+
+  InitSounds() {
+    let config = {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    };
+    let musiquita = this.sound.add('bandaSonora', config);
+    musiquita.play();
+  }
+
+  LoadEssentialAssets() 
+  {
+    //Filtro Gris
+    this.load.plugin('rexgrayscalepipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgrayscalepipelineplugin.min.js', true);
+    //Player Idle
+    this.load.spritesheet({
+      key: 'player_idle',
+      url: 'src/assets/sprites/unamuno/idle.png',
+      frameConfig: {
+        frameWidth: 120,
+        frameHeight: 200
+      }
+    });
+    //Player Run
+    this.load.spritesheet({
+      key: 'player_run',
+      url: 'src/assets/sprites/unamuno/run.png',
+      frameConfig: {
+        frameWidth: 120,
+        frameHeight: 200
+      }
+    });
+    //Player Jumop
+    this.load.spritesheet({
+      key: 'player_jump',
+      url: 'src/assets/sprites/unamuno/jump.png',
+      frameConfig: {
+        frameWidth: 120,
+        frameHeight: 200
+      }
+    });
+    //Player Attack
+    this.load.spritesheet({
+      key: 'player_attack',
+      url: 'src/assets/sprites/unamuno/attack.png',
+      frameConfig: {
+        frameWidth: 180,
+        frameHeight: 180
+      }
+    });
+    //Letras
+    this.load.spritesheet({
+      key: 'letters',
+      url: 'src/assets/sprites/letters/normal.png',
+      frameConfig: {
+        frameWidth: 120,
+        frameHeight: 120
+      }
+    });
+    //Letras tachadas
+    this.load.spritesheet({
+      key: 'strikedletters',
+      url: 'src/assets/sprites/letters/striked.png',
+      frameConfig: {
+        frameWidth: 120,
+        frameHeight: 120
+      }
+    });
+    //Letras rotas
+    this.load.spritesheet({
+      key: 'crackedletters',
+      url: 'src/assets/sprites/letters/cracked.png',
+      frameConfig: {
+        frameWidth: 120,
+        frameHeight: 120
+      }
+    });
+
+    this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
+    this.load.image('inventory', 'src/assets/inventory/pergamino.png');
+    this.load.image('selection', 'src/assets/inventory/selector.png');
+  }
+
   FadeIn()
   {
     //Camara
@@ -260,7 +287,7 @@ export default class Level2 extends  Phaser.Scene {
 
     this.complete = false;
   }
-
+  //Crear particulas
   createParticles(particleSprite)
   {
     //Particles

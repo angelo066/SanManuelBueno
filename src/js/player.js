@@ -16,12 +16,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       onFloor: false,
       onAttack:false
     };
-    //Para detectar el filtro Gris
-    let postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
-    this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0 });
 
+    //#region Physics Stats
     this.lifeStat = 1;
-
     let M = Phaser.Physics.Matter.Matter;
     let w = this.width;
     let h = this.height;
@@ -39,10 +36,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     });
     this.bodyAttack = M.Body.create({parts:[this.playerController.sensors.right],      friction: 0.01,      restitution: 0.05})
     this.setExistingBody(compoundBody).setFixedRotation() // Sets max inertia to prevent rotation
+    //#endregion
+
+    //Para detectar el filtro Gris
+    let postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
+    this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0 });
     //Pluma Unamuno
     this.fOffsetX = w;
     this.fOffsetY = h*0.25
-    this.feather = this.scene.add.image(x,y,'feather');
+    this.feather = this.scene.add.image(x,y-this.fOffsetY,'feather');
     this.feather.displayHeight = h* 0.4;
     this.feather.displayWidth = w *0.4;
     //Ataque Unamuno
@@ -54,19 +56,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.time = 140;
     this.timer = this.time;
     //Inventario
-    this.invent = new Inventory({
-      scene:scene,
-      x: 0,
-      y: this.scene.cameras.main.height*1.05,
-      l:{},
-    })
+    this.SetInventory(scene);
 
-    this.invent.AddLetter("W");
-    this.invent.AddLetter("A");
-    this.invent.AddLetter("R");
-
-    this.invent.setScrollFactor(0);
-    this.invent.setDepth(20);
     //Creacion de las colisiones    
     //Colisiones de suelo y pegar
     this.scene.matter.world.on('collisionstart',(event)=>{
@@ -109,49 +100,17 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         }
     });
 
+    this.InitInput()
     //Input
-      this.canMove = true;
-      this.keycodeA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-      this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-      this.keycodeW =this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-      this.keycodeSpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-      this.damage = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
-    //animaciones
-    this.scene.anims.create({
-      key:'idle',
-      frames: this.scene.anims.generateFrameNumbers('player_idle',{start: 0, end: 5}),
-      frameRate: 8,
-      repeat: -1
-    })
-    this.scene.anims.create({
-      key:'run',
-      frames: this.scene.anims.generateFrameNumbers('player_run',{start: 0, end: 39}),
-      frameRate: 60,
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key:'jump',
-      frames: [{key: 'player_jump', frame: 0}],
-      frameRate: 24
-    });
-    this.scene.anims.create({
-      key:'attack',
-      frames: this.scene.anims.generateFrameNumbers('player_attack',{start: 0, end: 7}),
-      frameRate: 24,
-      showOnStart:true,
-      hideOnComplete: true
-    });
-    //Control animaciones
-    this.attack.on('animationcomplete', function (anim, frame) {
-      this.emit('animationcomplete_' + anim.key, anim, frame);
-    }, this.attack);
-    this.attack.on('animationcomplete_attack',()=> {
-      this.playerController.onAttack = false;
-    });
-  }
 
+    //animaciones
+    this.InitAnims();
+  }
+  
   preUpdate(time,delta)
   {
+    super.preUpdate(time,delta);
+    
     if(this.timer <= 0)
     {
       this.cureHealth();
@@ -163,92 +122,151 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     {
       this.death();
     }
-
-    super.preUpdate(time,delta);
+    
     //Follow de la pluma
-    this.feather.setX(this.x-this.fOffsetX);
-    this.feather.setY(this.y - 80);
-    this.featherFloat();
-    if(!this.flipX){
+    this.ControlFeather();
+
+    //Movement
+    this.ControlInput();
+  }
+  
+//Controla la posicion de la pluma y su flip
+  ControlFeather() {
+    this.feather.setX(this.x - this.fOffsetX);
+    this.feather.y = this.y - this.fOffsetY * 2;
+    // this.featherFloat();
+    if (!this.flipX) {
       this.fOffsetX = this.width;
       this.feather.flipX = false;
+
     }
-    else{
+    else {
       this.fOffsetX = -this.width;
       this.feather.flipX = true;
     }
-    //Movement
-    if(this.canMove)
-    {
-        if(this.keycodeA.isDown)
-      {
+  }
+
+  //Crea y ajusta el inventario a la clase actual
+  SetInventory(scene) {
+    this.invent = new Inventory({
+      scene: scene,
+      x: 0,
+      y: this.scene.cameras.main.height * 1.05,
+      l: {},
+    });
+
+    this.invent.AddLetter("W");
+    this.invent.AddLetter("A");
+    this.invent.AddLetter("R");
+
+    this.invent.setScrollFactor(0);
+    this.invent.setDepth(20);
+  }
+  //Maneja los eventos de inputs del jugador
+  ControlInput() {
+    if (this.canMove) {
+      if (this.keycodeA.isDown) {
         this.setVelocityX(-this.playerController.speed.run);
         this.flipX = true;
 
-        this.anims.play('run',true);
+        this.anims.play('run', true);
       }
-      else if(this.keycodeD.isDown)
-      {
+      else if (this.keycodeD.isDown) {
         this.setVelocityX(this.playerController.speed.run);
         this.flipX = false;
-        
-        this.anims.play('run',true);
+
+        this.anims.play('run', true);
       }
+
       else
         this.setVelocityX(0);
-      
-      if(this.keycodeW.isDown  && this.playerController.onFloor){
+
+      if (this.keycodeW.isDown && this.playerController.onFloor) {
         this.setVelocityY(-this.playerController.speed.jump);
 
         this.playerController.onFloor = false;
       }
-      if(this.body.velocity.x === 0 && this.playerController.onFloor){
+      if (this.body.velocity.x === 0 && this.playerController.onFloor) {
         this.anims.play('idle', true);
       }
-      else if(this.body.velocity.x === 0){
+      else if (this.body.velocity.x === 0) {
         this.anims.play('jump', true);
       }
 
-      if(this.damage.isDown)
-      {
+      if (this.damage.isDown) {
         this.takeDamage(0.5, 0.1, this.x - 3000);
       }
-      
+
       //Attack
-      this.attack.setX(this.x + this.width*0.5);
+      this.attack.setX(this.x + this.width * 0.5);
       this.attack.setY(this.y);
-      if(!this.flipX){
+      if (!this.flipX) {
         this.attack.flipX = false;
         this.attack.setX(this.x + this.width);
       }
-      else{
+      else {
         this.attack.flipX = true;
         this.attack.setX(this.x - this.width);
       }
-      if(Phaser.Input.Keyboard.JustDown(this.keycodeSpace)){
-        this.attack.anims.play('attack',true);
+      if (Phaser.Input.Keyboard.JustDown(this.keycodeSpace)) {
+        this.attack.anims.play('attack', true);
         this.playerController.onAttack = true;
       }
-      if(this.playerController.onAttack){
+      if (this.playerController.onAttack) {
         this.attack.setExistingBody(this.bodyAttack);
       }
-      else{
+      else {
         this.scene.matter.world.remove(this.attack.body);
       }
     }
   }
 
+//Inicializa las animaciones del jugador
+  InitAnims() {
+    this.scene.anims.create({
+      key: 'idle',
+      frames: this.scene.anims.generateFrameNumbers('player_idle', { start: 0, end: 5 }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.scene.anims.create({
+      key: 'run',
+      frames: this.scene.anims.generateFrameNumbers('player_run', { start: 0, end: 39 }),
+      frameRate: 60,
+      repeat: -1
+    });
+    this.scene.anims.create({
+      key: 'jump',
+      frames: [{ key: 'player_jump', frame: 0 }],
+      frameRate: 24
+    });
+    this.scene.anims.create({
+      key: 'attack',
+      frames: this.scene.anims.generateFrameNumbers('player_attack', { start: 0, end: 7 }),
+      frameRate: 24,
+      showOnStart: true,
+      hideOnComplete: true
+    });
+    //Control animaciones
+    this.attack.on('animationcomplete', function (anim, frame) {
+      this.emit('animationcomplete_' + anim.key, anim, frame);
+    }, this.attack);
+    this.attack.on('animationcomplete_attack', () => {
+      this.playerController.onAttack = false;
+    });
+  }
+//Es la pluma flotando
   featherFloat(){
     this.scene.tweens.add({
       targets: this.feather,
-      y: {from:this.feather.y - 15, to:this.feather.y+10},
+      y: {from:this.feather.y+15, to:this.feather.y},
       duration:500,
       yoyo: true,
       loop:-1
   }); 
   }
 
-//amount must be a number from 0 to 1 | dirX is the position of the damager
+//amount debe ser un numero de 0 a 1 | posX es la posicion de quien realiza el daño
  takeDamage(amountDamage, amountThrust, posX)
  {
     this.lifeStat -= amountDamage;
@@ -266,7 +284,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
     this.scene.cameras.main.fadeOut(150, 100);
  }
-
+//Cura la vida del jugador cada lifeTime, constante inicializada en la constructora
  cureHealth()
  {
    if(this.lifeStat >0)
@@ -277,23 +295,38 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         this.cameraFilter.intensity-=0.05;
    }
 }
-
+//Detiene el input del jugador y reinicia el nivel
  death()
  {
+   const helloButton = this.add.text(this.x, this.y, 'Hello Phaser!', { fill: '#0f0' });
+   hellowButton.setDepth(20);
+   helloButton.setInteractive();
+   
+   helloButton.on('pointerdown', () => { console.log(this.scene.scene.start(this.scene.scene)); });
+
    this.canMove = false;
-
-   this.scene.scene.start(this.scene.scene);
- }
-
+  }
+  //Añade una letra al inventario
   addLetter(letrita)
   {
     console.log(letrita);
     this.invent.AddLetter(letrita);
   }
-
+//cambia la pos de jugador dada  las coordenadas
   restorePos(_x, _y)
   {
     this.x = _x;
     this.y = _y;
   }
+//inicializa el input del jugador
+  InitInput()
+  {
+    this.canMove = true;
+    this.keycodeA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keycodeW =this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keycodeSpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.damage = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
+  }
+
 }

@@ -148,6 +148,10 @@ export default class GameScene extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(ground);
     this.matter.world.convertTilemapLayer(waterfall);
     this.matter.world.convertTilemapLayer(cave);
+
+    const helloButton = this.add.text(this.x, this.y, 'Hello Phaser!', { fill: '#0f0' }).setDepth(20);
+    
+    helloButton.setScrollFactor(0);
     //DEBUG   
     
     // this.bg2 = this.add.image(this.cameras.main.centerX + this.bg.width - 650,this.cameras.main.centerY, 'background').setFlipX(true);
