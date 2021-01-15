@@ -30,7 +30,6 @@ export default class MenuScene extends  Phaser.Scene {
     let video = this.add.video(this.game.config.width/2,this.game.config.height/2,'logo_anim');
     video.play(false);  //No loop
     
-    
     this.playGame = new PuzzleObjectWord(this,this.game.config.width/2,this.game.config.height*0.9,null, false, 2000, 'lpay', 'play').setScale(1.3).setAlpha(0);
 
     video.on('complete', (video)=>{

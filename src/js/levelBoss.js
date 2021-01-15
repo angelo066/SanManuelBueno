@@ -40,13 +40,6 @@ export default class Level2 extends  Phaser.Scene {
 
     this.benches = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'benches');
 
-    //vale al parecer tiene gravedad
-    // this.suelo = this.matter.add.image(0, 0, undefined, { isStatic: true });
-    // let r = Phaser.Physics.Matter.Matter.Bodies.rectangle(122, this.game.config.height/4, 64 * 5, 64, { isStatic: true, label: 'ground' });
-    // let suelobody = Phaser.Physics.Matter.Matter.Body.create({ parts: [r] });
-    // this.suelo.setExistingBody(suelobody);
-
-
     //Layers del tileMap
     const inviwall = map.createDynamicLayer('inviWall',tileset,0,0).setDepth(0);
     const ground = map.createDynamicLayer('ground',tileset,0,0).setDepth(1);
@@ -136,6 +129,15 @@ export default class Level2 extends  Phaser.Scene {
       frameConfig: {
         frameWidth: 180,
         frameHeight: 180
+      }
+    });
+     //Player Death
+     this.load.spritesheet({
+      key: 'player_death',
+      url: 'src/assets/sprites/unamuno/death.png',
+      frameConfig: {
+        frameWidth: 200,
+        frameHeight: 200
       }
     });
     //Letras

@@ -7,8 +7,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.scene.add.existing(this);
 
-    this.tiempo = 1000;      //Timepo que tarda en crear un proyectil
-    this.timer=this.tiempo; //Timer para la creación
+    this.time = 1500;      //Timepo que tarda en crear un proyectil
     this.lettersK = lettersKey;   //Para las letras
     this.player = player;     //Para hacerle daño
 
@@ -26,27 +25,27 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     this.fase=false; //False cuando está en primera y true cuando está en segunda
 
     this.SetAnims();
+
+    var timer = scene.time.addEvent({
+      delay: this.time,                // ms
+      callback: () => {
+        this.Creapalabra();
+        this.states.atacando = true;
+        this.states.idle=false;
+      },
+      loop: true
+    });
+
   }
 
   preUpdate(time, delta){
     super.preUpdate(time,delta);
 
-    //Compruebo si le toca atacar
-    if(this.timer <= 0){
-      this.Creapalabra();
-      this.timer = this.tiempo;  
-      this.states.atacando = true;
-      this.states.idle=false;
-    }
-    else this.timer--;
-
-    
     //Compruebo si se muere
     if(this.ActualWord.word === this.deadWord){
       //Animación y cambio de fase
       if(!this.fase)this.fase = true;
       else this.states.muriendo=true;
-     
     }
 
     this.ManejaEstados();

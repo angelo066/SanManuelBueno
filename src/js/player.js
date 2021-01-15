@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 50,
+        run: 8,
         jump: 12
       },
       onFloor: false,
@@ -53,7 +53,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.attack.displayWidth = this.attack.width*0.8;
     this.attack.setExistingBody(this.bodyAttack);
     //timer de curación
-    this.time = 140;
+    this.time = 2000;
     this.timer = this.time;
     //Inventario
     this.SetInventory(scene);
@@ -92,36 +92,47 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
             if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
             {
               this.playerController.onFloor = false;
-              
               this.restorePos(this.scene.cameras.main.width*0.125, this.scene.cameras.main.height);
-
             }
           }
         }
     });
 
-    this.InitInput()
     //Input
+    this.InitInput();
+    
+    //Texto Muerte
+    this.text = this.scene.add.text(this.x, this.y-this.height, 'Oh...Una lectura nueva?!').setFont('32px Arial Black').setFill('#ffffff').setShadow(2, 2, "#333333", 2).setDepth(20);
+    this.text.setAlpha(0);
+    
+    this.text.on('pointerover', () => { this.text.setFill('#cb2821'); });
+    this.text.on('pointerout', () => {this.text.setFill('#ffffff');});
+    this.text.on('pointerdown', () => { this.scene.scene.start(this.scene.scene.key) });
 
     //animaciones
     this.InitAnims();
-  }
+
+    //Timer de curación
+    var timer = scene.time.addEvent({
+      delay: this.timer,// ms
+      callback: () => {
+        this.cureHealth();
+        this.timer = this.time;
+      },
+      loop: true
+    });
+    }
   
   preUpdate(time,delta)
   {
     super.preUpdate(time,delta);
     
-    if(this.timer <= 0)
-    {
-      this.cureHealth();
-      this.timer = this.time;
-    }
-    else this.timer--;
+    this.text.setX(this.x);
+    this.text.setY(this.y - this.height);
+    this.scene.add.existing(this.text);
 
-    if(this.lifeStat<=0)
-    {
-      this.death();
-    }
+    if(this.lifeStat<=0 && this.canMove)
+        this.death();
     
     //Follow de la pluma
     this.ControlFeather();
@@ -247,6 +258,13 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       showOnStart: true,
       hideOnComplete: true
     });
+    this.scene.anims.create({
+      key: 'death',
+      frames: this.scene.anims.generateFrameNumbers('player_death', { start: 0, end: 7 }),
+      frameRate: 4,
+      showOnStart: true,
+      hideOnComplete: false
+    });
     //Control animaciones
     this.attack.on('animationcomplete', function (anim, frame) {
       this.emit('animationcomplete_' + anim.key, anim, frame);
@@ -254,18 +272,21 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.attack.on('animationcomplete_attack', () => {
       this.playerController.onAttack = false;
     });
-  }
-//Es la pluma flotando
-  featherFloat(){
-    this.scene.tweens.add({
-      targets: this.feather,
-      y: {from:this.feather.y+15, to:this.feather.y},
-      duration:500,
-      yoyo: true,
-      loop:-1
-  }); 
-  }
 
+    //Muerte
+    this.once('animationcomplete_death', () => {
+
+     console.log("he");
+
+      this.scene.tweens.add({
+        targets: this.text,
+        alpha: { from: 0, to: 1 },
+        duration: 1000,
+        ease: 'Sine.easeInOut'
+      });
+
+    });
+  }
 //amount debe ser un numero de 0 a 1 | posX es la posicion de quien realiza el daño
  takeDamage(amountDamage, amountThrust, posX)
  {
@@ -298,12 +319,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 //Detiene el input del jugador y reinicia el nivel
  death()
  {
-   const helloButton = this.add.text(this.x, this.y, 'Hello Phaser!', { fill: '#0f0' });
-   hellowButton.setDepth(20);
-   helloButton.setInteractive();
-   
-   helloButton.on('pointerdown', () => { console.log(this.scene.scene.start(this.scene.scene)); });
-
+   this.anims.play('death', false);
+   this.text.alpha = 1;
+   this.text.setInteractive();
    this.canMove = false;
   }
   //Añade una letra al inventario

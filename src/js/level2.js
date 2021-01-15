@@ -272,6 +272,15 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight: 180
       }
     });
+     //Player Death
+     this.load.spritesheet({
+      key: 'player_death',
+      url: 'src/assets/sprites/unamuno/death.png',
+      frameConfig: {
+        frameWidth: 200,
+        frameHeight: 200
+      }
+    });
     //Letras
     this.load.spritesheet({
       key: 'letters',
