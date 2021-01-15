@@ -137,7 +137,6 @@ export default class Word extends Letter{
     activateStrikeMode(modeOn)
     {
         this.strikeMode = modeOn;
-
         if(this.strikeMode === true){
             this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
             this.mode.setOrigin(0);
@@ -163,4 +162,5 @@ export default class Word extends Letter{
         this.i++;
 
     }
+
 }

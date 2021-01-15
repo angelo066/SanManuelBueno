@@ -115,6 +115,7 @@ export default class Level2 extends  Phaser.Scene {
       this.rosa=this.add.image(this.mapWidth/2 + 470, this.mapHeight - 740, 'rosa');
       this.sombra.changeAlpha(0.21);
       this.complete = true;
+
     }
     if(this.nuez.solved){
        this.player.addLetter(this.nuez.getLetter());
