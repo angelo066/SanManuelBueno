@@ -78,6 +78,7 @@ export default class level1 extends Phaser.Scene {
       repeat: -1
     });
 
+
     //Musica
     this.InitSounds();
     

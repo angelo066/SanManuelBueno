@@ -5,7 +5,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         super(scene, x, y);
         
         if(keyImage !== null)
-            this.sprite = scene.matter.add.image(x, y, keyImage, {isStatic:true});
+            this.sprite = scene.matter.add.sprite(x, y, keyImage, {isStatic:true});
 
         if(physicsEnabled && this.sprite !== undefined)//Objeto con fisicas
             this.sprite.isStatic(false);

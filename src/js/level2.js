@@ -36,6 +36,15 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight:1037
       }
     })
+    //Caldera
+    this.load.spritesheet({
+      key:'caldera',
+      url:'src/assets/sprites/game_objects/chimenea.png',
+      frameConfig:{
+        frameWidth:1071,
+        frameHeight:1061
+      }
+    })
 
     this.load.image('bg2', 'src/assets/bg/bg_iglesia.png');
     this.load.image('tileset','src/assets/tiles/tileset.png');
@@ -53,6 +62,7 @@ export default class Level2 extends  Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    
     this.InitSounds();
     
     this.SetTileMap(); 
@@ -60,12 +70,20 @@ export default class Level2 extends  Phaser.Scene {
     //BG
     this.background = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'bg2');
     this.scaleThis(this.background, 2, 2);
-
+    
     //Rain
     this.rain = this.add.sprite(this.mapWidth/2, this.mapHeight/2, 'rainrain', 0);
     this.rain.setAlpha(0.34);
     this.scaleThis(this.rain, 2.42, 5);
     this.rain.setDepth(1);
+
+    this.anims.create({
+      key:'PuertaAbre',
+      frames: this.anims.generateFrameNumbers('puerta',{start: 0, end: 5}),
+      frameRate: 3,
+      repeat: 0
+    });
+
     this.anims.create({
       key:'rainanim',
       frames: this.anims.generateFrameNumbers('rainrain',{start: 0, end: 4}),
@@ -84,9 +102,15 @@ export default class Level2 extends  Phaser.Scene {
     //animacionPUERTA
     this.anims.create({
       key:'puertaAnim',
-      frames: this.anims.generateFrameNumbers('puertaAnim',{start: 0, end: 5}),
+      frames: this.anims.generateFrameNumbers('puerta',{start: 0, end: 5}),
       frameRate: 8,
-      repeat: -1
+    })
+
+    //AnimacionCaldera
+    this.anims.create({
+      key:'calderaAnim',
+      frames: this.anims.generateFrameNumbers('caldera',{start: 0, end: 1}),
+      frameRate: 8,
     })
 
     //Player
@@ -102,6 +126,7 @@ export default class Level2 extends  Phaser.Scene {
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
+    this.caldera.sprite.anims.play('calderaAnim',true);
     this.rain.anims.play('rainanim', true);
     this.guadalupe.anims.play('guadalupeanim', true);
     //this.puerta.anims.play('puertaAnim', true);
@@ -121,7 +146,7 @@ export default class Level2 extends  Phaser.Scene {
        this.player.addLetter(this.nuez.getLetter());
      }
     if(this.rosa != undefined && this.rosa.solved){
-      
+      this.anims.play('puertaAnim',true);
     }
   }
 
@@ -131,6 +156,11 @@ export default class Level2 extends  Phaser.Scene {
 
     //Árbol
     this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
+
+    //Caldera 
+    this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central');
+    this.caldera.setScaleSprite(0.3,0.3);
+    this.caldera.sprite.setDepth(14);
   }
 
   SetImages() {
@@ -152,6 +182,8 @@ export default class Level2 extends  Phaser.Scene {
     this.guadalupe = this.add.sprite(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 'guadalupe', 0);
     this.scaleThis(this.guadalupe, 1.2, 1.2);
     this.guadalupe.flipX = true;
+
+    
   }
 
   SetTileMap() {
