@@ -165,7 +165,7 @@ export default class Level2 extends  Phaser.Scene {
     this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 2 - 100, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
 
     //Árbol
-    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal',this.player);
+    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lagon', 'nogal',this.player);
 
     //Caldera 
     this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central',this.player);

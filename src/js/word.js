@@ -44,13 +44,14 @@ export default class Word extends Letter{
         this.strikeMode = false;
         //Input de raton
         if(interactive){
-            this.scene.input.on('gameobjectdown',(pointer, gameObject)=>{
+            this.scene.input.on('gameobjectup', (pointer, gameObject, event)=>{
                 if(this.strikeMode){
                     this.deleteLetter(gameObject);
                 }
                 else{
                     this.selectLetter(gameObject);
                 }
+                event.stopPropagation();
             });
         }
     }

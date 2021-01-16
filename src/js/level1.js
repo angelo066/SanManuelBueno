@@ -90,7 +90,7 @@ export default class level1 extends Phaser.Scene {
     this.SetTileMap(); 
 
     //Dialogo
-    this.dialogo = new Dialogue(this,["Ah si, Valverde de Lucerna","Tengo unos maravillosos recuerdos de este lugar"]);
+    this.dialogo = new Dialogue(this,["Ah si, Valverde de Lucerna"/*,"Tengo unos maravillosos recuerdos de este lugar"*/]);
     this.dialogo.onDialogue = true; //flag de activar dialogo
     
     //Player
@@ -110,7 +110,7 @@ export default class level1 extends Phaser.Scene {
       this.vaquitas[i].anims.play('idlee', true);
     }
     //Animación de las velas
-    this.velas.sprite.anims.play('velasMuevan', true);
+    // this.velas.sprite.anims.play('velasMuevan', true);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
@@ -134,15 +134,16 @@ export default class level1 extends Phaser.Scene {
     //   this.velaAnima.anims.play('velasMuevan',true);
     
     //Comprobación de la solución de las vacas
-    if(this.vacas.objectSolved() && !this.vacas.complete){
-      this.suelo.destroy();
-    }
-    //COmprobación de la solución de las velas
-    if(this.velas.objectSolved() && !this.velas.complete){
-      this.cascade.destroy();
-      this.waterfall.destroy(true);
-      this.waterfall2.destroy(true);
-    }
+    // if(this.vacas.objectSolved() && !this.vacas.complete){
+      // this.suelo.destroy();
+    // }
+
+    // //COmprobación de la solución de las velas
+    // if(this.velas.objectSolved() && !this.velas.complete){
+    //   this.cascade.destroy();
+    //   this.waterfall.destroy(true);
+    //   this.waterfall2.destroy(true);
+    // }
     
   }
 
@@ -254,9 +255,9 @@ export default class level1 extends Phaser.Scene {
     //#endregion
 
     //#region Puzzle 2
-    this.vacas = new PuzzleObjectWord(this, this.game.config.width * 2.8, this.game.config.height / 1.05, 'cow', false, 190, 'vacas', 'cavas',this.player);
-    this.vacas.sprite.setDepth(1);
-    this.scaleThis(this.vacas.sprite, 4, 4);
+    // this.vacas = new PuzzleObjectWord(this, this.game.config.width * 2.8, this.game.config.height / 1.05, 'cow', false, 190, 'vacas', 'cavas',this.player);
+    // this.vacas.sprite.setDepth(1);
+    // this.scaleThis(this.vacas.sprite, 4, 4);
 
     this.vaquitas = {};
     this.vaquitas[0] = this.add.sprite(this.game.config.width * 2.75, this.game.config.height / 1.05, 'vacaCome', 0).setDepth(2);
@@ -278,9 +279,9 @@ export default class level1 extends Phaser.Scene {
     //#endregion
 
     //#region Puzzle 3
-    this.velas = new PuzzleObjectWord(this, this.game.config.width * 2.9, this.game.config.height / 0.53, undefined, false, 4000, 'ceras', 'secar',this.player);
-    this.velas.sprite.setDepth(1);
-    this.scaleThis(this.velas.sprite, 0.1, 0.1);
+    // this.velas = new PuzzleObjectWord(this, this.game.config.width * 2.9, this.game.config.height / 0.53, undefined, false, 4000, 'ceras', 'secar',this.player);
+    // this.velas.sprite.setDepth(1);
+    // this.scaleThis(this.velas.sprite, 0.1, 0.1);
 
     this.velaAnima = this.add.sprite(this.game.config.width * 2.9, this.game.config.height / 0.53, 'vela', 0).setDepth(1);
     this.scaleThis(this.velaAnima, 0.1, 0.1);

@@ -7,7 +7,6 @@ export default class Intro extends  Phaser.Scene {
   preload(){
     this.load.image('text_bg','src/assets/bg/text_bg.png');
     this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml');
-    
 
     this.load.spritesheet({
       key:'intro',
