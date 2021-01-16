@@ -66,14 +66,14 @@ export default class level1 extends Phaser.Scene {
     //Idle de la vaca
     this.anims.create({
       key:'idlee',
-      frames: this.anims.generateFrameNumbers('vacaCome',{start: 0, end: 4}),
+      frames: this.anims.generateFrameNumbers('vacaCome',{start: 0, end: 3}),
       frameRate: 6,
       repeat: -1
     });
     //velas
     this.anims.create({
       key:'velasMuevan',
-      frames: this.anims.generateFrameNumbers('velas',{start: 0, end: 3}),
+      frames: this.anims.generateFrameNumbers('velas',{start: 0, end: 2}),
       frameRate: 3,
       repeat: -1
     });
@@ -275,17 +275,17 @@ export default class level1 extends Phaser.Scene {
     const tileset = map.addTilesetImage('tileset');
 
     //Layers del tileMap
-    const inviwalls = map.createDynamicLayer('inviWall', tileset).setDepth(0);
-    const water = map.createDynamicLayer('water', tileset).setDepth(0);
-    map.createDynamicLayer('waterplant', tileset).setDepth(0);
-    const ground = map.createDynamicLayer('ground', tileset, 0, 0).setDepth(0);
-    this.waterfall2 = map.createDynamicLayer('waterfall2', tileset, 0, 0).setDepth(1);
-    this.waterfall = map.createDynamicLayer('waterfall', tileset, 0, 0).setDepth(1);
-    map.createDynamicLayer('foamWaterFall', tileset, 0, 0).setDepth(1);
-    map.createDynamicLayer('backgroundcave', tileset, 0, 0).setDepth(1);
-    const cave = map.createDynamicLayer('foregroundcave', tileset, 0, 0).setDepth(3);
-    map.createDynamicLayer('entrycave', tileset, 0, 0).setDepth(3);
-    map.createDynamicLayer('grass', tileset, 0, 0).setDepth(3);
+    const inviwalls = map.createLayer('inviWall', tileset).setDepth(0);
+    const water = map.createLayer('water', tileset).setDepth(0);
+    map.createLayer('waterplant', tileset).setDepth(0);
+    const ground = map.createLayer('ground', tileset, 0, 0).setDepth(0);
+    this.waterfall2 = map.createLayer('waterfall2', tileset, 0, 0).setDepth(1);
+    this.waterfall = map.createLayer('waterfall', tileset, 0, 0).setDepth(1);
+    map.createLayer('foamWaterFall', tileset, 0, 0).setDepth(1);
+    map.createLayer('backgroundcave', tileset, 0, 0).setDepth(1);
+    const cave = map.createLayer('foregroundcave', tileset, 0, 0).setDepth(3);
+    map.createLayer('entrycave', tileset, 0, 0).setDepth(3);
+    map.createLayer('grass', tileset, 0, 0).setDepth(3);
     //Implementacion de colisiones
     inviwalls.setCollisionByProperty({ collides: true });
     water.setCollisionByProperty({ collides: true });

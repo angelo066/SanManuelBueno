@@ -64,20 +64,7 @@ export default class MenuScene extends  Phaser.Scene {
                 
                 this.playGame.wordAppear();
 
-                // Parapadeo de input
-                // timeline.add({
-                //     targets: this.playGame,
-                //     alpha: { value: 1, duration: 1500 },
-                //     yoyo: true, // de 0 a 1 y de 1 a 0. Pero progresivo. Si es false va de 0 a 1 y luego de 0 a 1 progresivo
-                //     loop: -1
-                // });
-
                 timeline.play();
-
-                //Si recibe input pasa a la siguiente escena cuando termine de fundir a negro
-                // this.input.keyboard.on('keydown', ()=> {this.cameras.main.fadeOut(1000, 0, 0, 0)});
-                //O cualquier click, se pasa de escena
-                // this.input.on('pointerdown', ()=> {this.cameras.main.fadeOut(1000, 0, 0, 0)});
 
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
                     this.scene.start('level1');

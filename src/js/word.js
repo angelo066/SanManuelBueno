@@ -140,6 +140,7 @@ export default class Word extends Letter{
         if(this.strikeMode === true){
             this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
             this.mode.setOrigin(0);
+            this.mode.setDepth(20);
             this.mode.setScrollFactor(0);
         }
         else {

@@ -152,10 +152,10 @@ export default class Level2 extends  Phaser.Scene {
 
   SetPuzzles() {
     //Nuez
-    this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 2 - 300, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
+    this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 4 - 300, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
 
     //Árbol
-    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
+    this.brote = new PuzzleObjectWord(this, this.mapWidth / 4, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
 
     //Caldera 
     this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central');
@@ -196,14 +196,14 @@ export default class Level2 extends  Phaser.Scene {
     this.mapHeight = map.height * 64;
     const tileset = map.addTilesetImage('tileset');
     //Layers del tileMap
-    const inviwall = map.createDynamicLayer('inviWall', tileset, 0, 0).setDepth(0);
-    const ground = map.createDynamicLayer('ground', tileset, 0, 0).setDepth(1);
-    map.createDynamicLayer('fillbghouse', tileset, 0, 0).setDepth(2);
-    map.createDynamicLayer('bghouse', tileset, 0, 0).setDepth(3);
-    const fghouse = map.createDynamicLayer('foregroundhouse', tileset, 0, 0).setDepth(4);
-    map.createDynamicLayer('window', tileset, 0, 0).setDepth(5);
-    map.createDynamicLayer('roofhouse', tileset, 0, 0).setDepth(6);
-    const houseFloor = map.createDynamicLayer('grass', tileset, 0, 0).setDepth(7);
+    const inviwall = map.createLayer('inviWall', tileset, 0, 0).setDepth(0);
+    const ground = map.createLayer('ground', tileset, 0, 0).setDepth(1);
+    map.createLayer('fillbghouse', tileset, 0, 0).setDepth(2);
+    map.createLayer('bghouse', tileset, 0, 0).setDepth(3);
+    const fghouse = map.createLayer('foregroundhouse', tileset, 0, 0).setDepth(4);
+    map.createLayer('window', tileset, 0, 0).setDepth(5);
+    map.createLayer('roofhouse', tileset, 0, 0).setDepth(6);
+    const houseFloor = map.createLayer('grass', tileset, 0, 0).setDepth(7);
 
     //Implementacion de colisiones
     inviwall.setCollisionByProperty({ collides: true });
