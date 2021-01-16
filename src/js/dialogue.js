@@ -12,6 +12,7 @@ export default class Dialogue extends Phaser.GameObjects.Container{
         this.dialogue = this.scene.add.bitmapText((this.bg.x - this.bg.width/2) - 120,(this.bg.y-this.bg.height/2)+60,'dialogue_font',message[this.i],80,0).setDepth(30);
         this.dialogue.setScrollFactor(0);
         this.counter = 0;
+        this.endMessage = message.length;
         //flag de dialogo activo
         this.onDialogue = false;
         this.scene.input.on('pointerdown', ()=> {
