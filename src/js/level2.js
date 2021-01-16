@@ -169,7 +169,9 @@ export default class Level2 extends  Phaser.Scene {
 
   SetImages() {
     this.puerta = this.matter.add.sprite(this.mapWidth / 2 + 2850, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
-    this.puerta.setMass(8000000);              //Porque matter es to divertido
+    let puertaBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.puerta.x,this.puerta.y,500,500,{isStatic:true});
+    this.puerta.setExistingBody(puertaBody);
+    //this.puerta.setMass(8000000);              //Porque matter es to divertido
     this.scaleThis(this.puerta, 0.27, 0.27);
 
     //Tumba
