@@ -14,7 +14,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         jump: 12
       },
       onFloor: false,
-      onAttack:false  
+      onAttack:false,
+      isStriking:false
     };
 
     //#region Physics Stats
@@ -126,6 +127,16 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.text.setX(this.x);
     this.text.setY(this.y - this.height);
     this.scene.add.existing(this.text);
+    if (Phaser.Input.Keyboard.JustDown(this.keycodeShift)){
+      this.playerController.isStriking = !this.playerController.isStriking;
+      if(this.playerController.isStriking){
+        this.mode = this.scene.add.text(this.scene.cameras.main.width*-0.05, this.scene.cameras.main.height*0.8, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' }).setDepth(20);
+        this.mode.setScrollFactor(0);
+      }
+      else if(this.mode !== undefined){
+              this.mode.destroy();
+      }
+    }
 
     if(this.lifeStat<=0 && this.canMove)
         this.death();
@@ -357,6 +368,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.keycodeW =this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keycodeSpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.damage = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
+    this.keycodeShift = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
   }
 
 }

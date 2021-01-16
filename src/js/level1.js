@@ -106,13 +106,6 @@ export default class level1 extends Phaser.Scene {
     if(this.altar.objectSolved() && !this.altar.complete)
     {
       this.arbol.anims.play('talado',true);     
-
-      this.arbol.setPosition(this.arbol.x, this.arbol.y + 50);
-      let puente = this.matter.add.image(this.arbol.x,this.arbol.y);
-      let rectangle = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.arbol.x,this.arbol.y,64*6,64,{isStatic:true,label:'ground'});
-      let puenteBody = Phaser.Physics.Matter.Matter.Body.create({parts:[rectangle]});
-      puente.setExistingBody(puenteBody).setFixedRotation();
-      
       this.altar.complete=true;
       
     }
@@ -218,17 +211,26 @@ export default class level1 extends Phaser.Scene {
   SetPuzzles() {
 
     //#region Puzzle 1
-    this.altar = new PuzzleObjectWord(this, this.game.config.width / 3, this.game.config.height * 1.37, 'altar', false, 2000, 'Altar', 'talar');
+    this.altar = new PuzzleObjectWord(this, this.game.config.width / 3, this.game.config.height * 1.37, 'altar', false, 2000, 'Altar', 'talar',this.player);
     this.altar.sprite.setDepth(1);
     this.scaleThis(this.altar.sprite, 0.10, 0.10);
 
     this.arbol = this.add.sprite(this.game.config.width * 0.7, this.game.config.height * 1.05, 'arbol', 0).setDepth(1);
     this.arbol.flipX = true;
     this.arbol.setDepth(1); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
+    //cuando termine la animacion del arbol se crea el collide
+    this.arbol.on('animationcomplete',(anim)=>{
+      if(anim.key === 'talado'){
+        this.arbol.setPosition(this.arbol.x, this.arbol.y + 50);
+        let puente = this.matter.add.image(this.arbol.x,this.arbol.y);
+        let rectangle = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.arbol.x,this.arbol.y+this.arbol.height*0.45,64*6,32,{isStatic:true});
+        puente.setExistingBody(rectangle).setFixedRotation();
+      }
+    },this.arbol)
     //#endregion
 
     //#region Puzzle 2
-    this.vacas = new PuzzleObjectWord(this, this.game.config.width * 2.8, this.game.config.height / 1.05, 'cow', false, 190, 'vacas', 'cavas');
+    this.vacas = new PuzzleObjectWord(this, this.game.config.width * 2.8, this.game.config.height / 1.05, 'cow', false, 190, 'vacas', 'cavas',this.player);
     this.vacas.sprite.setDepth(1);
     this.scaleThis(this.vacas.sprite, 4, 4);
 
@@ -246,20 +248,20 @@ export default class level1 extends Phaser.Scene {
     this.scaleThis(this.vaquitas[3], 4, 4);
 
     this.suelo = this.matter.add.image(74 * 64, 17 * 64, undefined, { isStatic: true });
-    let r = Phaser.Physics.Matter.Matter.Bodies.rectangle(76 * 64 + 32, 17 * 64 + 30, 64 * 5, 64, { isStatic: true, label: 'ground' });
+    let r = Phaser.Physics.Matter.Matter.Bodies.rectangle(76 * 64 + 32, 17 * 64 + 30, 64 * 5, 64, { isStatic: true});
     let suelobody = Phaser.Physics.Matter.Matter.Body.create({ parts: [r] });
     this.suelo.setExistingBody(suelobody);
     //#endregion
 
     //#region Puzzle 3
-    this.velas = new PuzzleObjectWord(this, this.game.config.width * 2.9, this.game.config.height / 0.53, undefined, false, 4000, 'ceras', 'secar');
+    this.velas = new PuzzleObjectWord(this, this.game.config.width * 2.9, this.game.config.height / 0.53, undefined, false, 4000, 'ceras', 'secar',this.player);
     this.velas.sprite.setDepth(1);
     this.scaleThis(this.velas.sprite, 0.1, 0.1);
 
     this.velaAnima = this.add.sprite(this.game.config.width * 2.9, this.game.config.height / 0.53, 'vela', 0).setDepth(1);
     this.scaleThis(this.velaAnima, 0.1, 0.1);
 
-    let cascadebody = Phaser.Physics.Matter.Matter.Bodies.rectangle(101 * 64 + 32, 30 * 64 + 30, 64, 64 * 9, { isStatic: true, label: 'ground' });
+    let cascadebody = Phaser.Physics.Matter.Matter.Bodies.rectangle(101 * 64 + 32, 30 * 64 + 30, 64, 64 * 9, { isStatic: true});
     this.cascade = this.matter.add.image(74 * 64, 17 * 64, undefined);
     this.cascade.setExistingBody(cascadebody);
     //#endregion
@@ -364,7 +366,7 @@ export default class level1 extends Phaser.Scene {
     let M = Phaser.Physics.Matter.Matter;
     let w = image.width;
     let h = image.height;
-    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true, label:'ground'});
+    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true});
     image.setExistingBody(newBody);
   }
 }

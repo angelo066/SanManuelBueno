@@ -118,7 +118,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   //Dir: Para saber si es izq o derecha
   Creapalabra(dir)
   {
-      let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4*dir, 0, this);
+    // if(this.player.x < this.x)
+      let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,this.lettersK, -4*dir, 0, this);
       palabra.LanzaProyectil();
   }
 

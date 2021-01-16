@@ -1,7 +1,7 @@
 import Word from './word.js';
 
 export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
-    constructor(scene, x, y, keyImage, physicsEnabled, sensorRadius, word, sol){
+    constructor(scene, x, y, keyImage, physicsEnabled, sensorRadius, word, sol,player){
         super(scene, x, y);
         
         if(keyImage !== null)
@@ -34,11 +34,8 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         this.sol = sol;
         //Comprobador de que el puzzle está terminado
         this.complete = false;
-
-        //Comprobador de que puede eliminar letras del puzzle
-        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        this.canDelete = false;
-
+        //Player
+        this.player = player;
         //Variable para que el jugador pueda añadir letras cuando colisione con el puzzle
         //Colisiones
 
@@ -101,11 +98,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
 
     preUpdate()
     {
-        if (Phaser.Input.Keyboard.JustDown(this.keycode) )
-        {
-            this.canDelete = !this.canDelete;
-            this.objectWord.activateStrikeMode(this.canDelete);
-        }
+        this.objectWord.activateStrikeMode(this.player.playerController.isStriking);
     }
 
     //Flag de puzzle resuelto, poner en el update

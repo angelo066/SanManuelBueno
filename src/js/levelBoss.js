@@ -13,12 +13,11 @@ export default class Level2 extends  Phaser.Scene {
 
     this.loadBossAssets();
 
-    this.load.image('bg3', 'src/assets/iglesia/church.png');
+    this.load.image('boss_bg', 'src/assets/iglesia/church.png');
     this.load.image('tileset','src/assets/tiles/tileset.png');
-    this.load.image('ground', 'src/assets/platforms/grass.png');
     this.load.image('benches', 'src/assets/iglesia/church_bench.png')
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
-    this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
+    this.load.tilemapTiledJSON('tilemap_level_boss', 'src/assets/tiles/level_boss.json');
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
@@ -26,7 +25,7 @@ export default class Level2 extends  Phaser.Scene {
     this.InitSound();
     
     const map = this.make.tilemap({
-      key:'tilemap_level2',
+      key:'tilemap_level_boss',
       tileWidth:64,
       tileHeight:64
     });
@@ -35,38 +34,24 @@ export default class Level2 extends  Phaser.Scene {
     const tileset = map.addTilesetImage('tileset');
     
     //BG
-    this.background = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'bg3');
-    this.scaleThis(this.background, 1, 1);
+    this.background = this.add.image(this.mapWidth/2, this.mapHeight/2, 'boss_bg').setDepth(0);
 
-    this.benches = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'benches');
+    this.benches = this.add.image(this.mapWidth/2, this.mapHeight/2, 'benches').setDepth(2);
 
     //Layers del tileMap
-    const inviwall = map.createLayer('inviWall',tileset,0,0).setDepth(0);
-    const ground = map.createLayer('ground',tileset,0,0).setDepth(1);
-    map.createLayer('fillbghouse',tileset,0,0).setDepth(2);
-    map.createLayer('bghouse',tileset,0,0).setDepth(3);
-    const fghouse = map.createLayer('foregroundhouse',tileset,0,0).setDepth(4);
-    map.createLayer('window',tileset,0,0).setDepth(5);
-    map.createLayer('roofhouse',tileset,0,0).setDepth(6);
-    const houseFloor = map.createLayer('grass',tileset,0,0).setDepth(7);
+    const colliders = map.createLayer('colliders',tileset,0,0).setDepth(0);
 
     //Implementacion de colisiones
-    inviwall.setCollisionByProperty({collides:true});
-    ground.setCollisionByProperty({collides:true});
-    fghouse.setCollisionByProperty({collides:true});
-    houseFloor.setCollisionByProperty({collides:true});
+    colliders.setCollisionByProperty({collides:true});
 
     //convertir colisiones a matter
-    this.matter.world.convertTilemapLayer(inviwall);
-    this.matter.world.convertTilemapLayer(ground);
-    this.matter.world.convertTilemapLayer(fghouse); 
-    this.matter.world.convertTilemapLayer(houseFloor); 
+    this.matter.world.convertTilemapLayer(colliders);
 
     //Player
     this.player = new Player(this, 0, this.cameras.main.height, 'player_run', 0);
     this.player.setDepth(15);
     
-    this.boss= new Enemigo(this, this.mapWidth*0.3 , this.mapHeight*0.65,'Boss', 'rosa', this.player);
+    this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss', 'Ñ', this.player);
     this.boss.setScale(0.15);
     this.boss.flipX = true;
 
@@ -258,7 +243,7 @@ export default class Level2 extends  Phaser.Scene {
     let M = Phaser.Physics.Matter.Matter;
     let w = image.width;
     let h = image.height;
-    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true, label:'ground'});
+    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true});
     image.setExistingBody(newBody);
   }
 }

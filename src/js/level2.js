@@ -114,8 +114,7 @@ export default class Level2 extends  Phaser.Scene {
     })
 
     //Player
-    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0);
-    this.player.setDepth(15);
+    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0).setDepth(15);
     
     this.SetImages();
 
@@ -155,10 +154,10 @@ export default class Level2 extends  Phaser.Scene {
     this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 4 - 300, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
 
     //Árbol
-    this.brote = new PuzzleObjectWord(this, this.mapWidth / 4, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
+    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal',this.player);
 
     //Caldera 
-    this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central');
+    this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central',this.player);
     this.caldera.setScaleSprite(0.3,0.3);
     this.caldera.sprite.setDepth(14);
   }
@@ -355,7 +354,7 @@ export default class Level2 extends  Phaser.Scene {
     let M = Phaser.Physics.Matter.Matter;
     let w = image.width;
     let h = image.height;
-    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true, label:'ground'});
+    let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true});
     image.setExistingBody(newBody);
   }
 }

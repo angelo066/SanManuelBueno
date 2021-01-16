@@ -40,9 +40,6 @@ export default class Word extends Letter{
         });
         
         this.container.setDepth(10);
-        //Tecla de activacion de tachar
-        this.keycode = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-
         //Modo quitar letra = true y modo intercambiar letras = false
         this.strikeMode = false;
         //Input de raton
@@ -112,6 +109,7 @@ export default class Word extends Letter{
         let temp = [this.letter_selected.texture,this.letter_selected.frame.name];
         this.letter_selected.setTexture(gameObject.texture,gameObject.frame.name);
         gameObject.setTexture(temp[0], temp[1]);
+        console.log("desselecioando");
         this.letter_selected = null;
     }
     //Nueva palabra al cambiar letras
@@ -137,15 +135,6 @@ export default class Word extends Letter{
     activateStrikeMode(modeOn)
     {
         this.strikeMode = modeOn;
-        if(this.strikeMode === true){
-            this.mode = this.scene.add.text(250, this.scene.game.config.height -200, 'Strike Mode Activated', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '35px' });
-            this.mode.setOrigin(0);
-            this.mode.setDepth(20);
-            this.mode.setScrollFactor(0);
-        }
-        else {
-                this.mode.destroy();
-        }
     }
 
     AddLetter(l, offset, interactivo )
