@@ -119,7 +119,7 @@ export default class Level2 extends  Phaser.Scene {
     })
     //Dialogo de prueba
     this.dialogo = new Dialogue(this,["dawedwadawda\nwdwaddawd", "awsfdawedawda\nfweofiewufhseuohfuwehf"]);
-    this.dialogo.onDialogue = true; //flag de activar dialogo
+    this.dialogo.onDialogue = false; //flag de activar dialogo
     //Player
     this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0, this.dialogo).setDepth(15);
     
@@ -142,18 +142,19 @@ export default class Level2 extends  Phaser.Scene {
     if(this.brote.objectSolved() && !this.brote.complete){
       this.brote.changeImage('nogal');
       //Sombra
-      this.sombra = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'sombra', false, 280, 'sombra', 'rosa');
+      this.sombra = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'sombra', false, 280, 'sombra', 'rosa',this.player);
       this.rosa= this.add.image(this.mapWidth/2 + 470, this.mapHeight - 740, 'rosa');
       this.sombra.changeAlpha(0.21);
-      this.complete = true;
+      this.brote.complete = true;
 
     }
     if(this.nuez.solved){
        this.player.addLetter(this.nuez.getLetter());
      }
-    if(this.rosa!= undefined && this.rosa.objectSolved() && !this.rosa.solved){
+    if(this.sombra!== undefined && this.sombra.objectSolved() && !this.sombra.complete){
       this.anims.play('puertaAnim',true);
       this.puerta.body.destroy();
+      this.sombra.complete = true;
     }
     if(this.caldera.solved){
       
@@ -165,7 +166,7 @@ export default class Level2 extends  Phaser.Scene {
     this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 2 - 100, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
 
     //Árbol
-    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lagon', 'nogal',this.player);
+    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal',this.player);
 
     //Caldera 
     this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central',this.player);

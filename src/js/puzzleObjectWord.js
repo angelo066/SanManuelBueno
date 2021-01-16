@@ -52,12 +52,11 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                 if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                 {
                     this.wordAppear();
-
+                    this.wordInteractive(true);
                     if(bodyA.label === 'player')
                     {
                         bodyA.gameObject.invent.canAdd = true;
                         bodyA.gameObject.invent.puzzleToInteract = this;
-                        
                     }
                     
                     if(bodyB.label === 'player')
@@ -82,6 +81,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                     if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))
                     {
                         this.wordDisappear();
+                        this.wordInteractive(false);
                         
                         if(bodyB.label === 'player')
                         {
@@ -101,6 +101,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     preUpdate()
     {
         this.objectWord.activateStrikeMode(this.player.playerController.isStriking);
+        console.log(this.objectWord.interactive);
     }
 
     //Flag de puzzle resuelto, poner en el update
@@ -156,6 +157,10 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         });
         timeline.play();
         // this.objectWord.container.setVisible(false);
+    }
+
+    wordInteractive(bool){
+        this.objectWord.interactive = bool;
     }
 
  }

@@ -123,7 +123,6 @@ export default class level1 extends Phaser.Scene {
     {
       this.arbol.anims.play('talado',true);     
       this.altar.complete=true;
-      
     }
 
     //Animación de las vacas

@@ -16,7 +16,7 @@ export default class Word extends Letter{
         //Crea los sprites de letras y los hace hijos de palabra
         this.i = 0;
         let letterKey = 'letters';
-        this.interactive = interactive;
+        this.interactive = false;
         this.word.split('').forEach(l=>{
             l = l.toLowerCase();
             //Si la palabra no es interactiva(solo es para dar una letr al jugador)
@@ -44,14 +44,15 @@ export default class Word extends Letter{
         this.strikeMode = false;
         //Input de raton
         if(interactive){
-            this.scene.input.on('gameobjectup', (pointer, gameObject, event)=>{
-                if(this.strikeMode){
-                    this.deleteLetter(gameObject);
+            this.scene.input.on('gameobjectdown', (pointer, gameObject)=>{
+                if(this.interactive){
+                    if(this.strikeMode){
+                        this.deleteLetter(gameObject);
+                    }
+                    else{
+                        this.selectLetter(gameObject);
+                    }
                 }
-                else{
-                    this.selectLetter(gameObject);
-                }
-                event.stopPropagation();
             });
         }
     }
