@@ -68,7 +68,7 @@ export default class MenuScene extends  Phaser.Scene {
                 timeline.play();
 
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-                    this.scene.start('level1');
+                    this.scene.start('Intro');
                 })
             });
         },this);

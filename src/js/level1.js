@@ -1,4 +1,5 @@
 import Player from './player.js';
+import Dialogue from './dialogue.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
 
@@ -9,7 +10,7 @@ export default class level1 extends Phaser.Scene {
   //para cargar los recursos
   preload() 
   {
-    //filtro Gris camara
+    //filtro Gris camara y bitmap
     this.LoadEssentialAssets();
     //Arbol
     this.load.spritesheet({
@@ -79,7 +80,6 @@ export default class level1 extends Phaser.Scene {
       repeat: -1
     });
 
-
     //Musica
     this.InitSounds();
     
@@ -88,9 +88,13 @@ export default class level1 extends Phaser.Scene {
 
     //TileMap
     this.SetTileMap(); 
+
+    //Dialogo
+    this.dialogo = new Dialogue(this,["Ah si, Valverde de Lucerna","Tengo unos maravillosos recuerdos de este lugar"]);
+    this.dialogo.onDialogue = true; //flag de activar dialogo
     
     //Player
-    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height, 'player_run', 0,undefined).setDepth(2);
+    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height, 'player_run', 0,this.dialogo).setDepth(2);
 
     //Crea los puzzles
     this.SetPuzzles();
@@ -146,6 +150,10 @@ export default class level1 extends Phaser.Scene {
   {
     //Filtro Gris
     this.load.plugin('rexgrayscalepipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgrayscalepipelineplugin.min.js', true);
+    //BitMap de dialogos
+    this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml');
+    //Fondo de dialogos
+    this.load.image('text_bg','src/assets/bg/text_bg.png');
     //Player Idle
     this.load.spritesheet({
       key: 'player_idle',
