@@ -54,8 +54,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.attack.displayWidth = this.attack.width*0.8;
     this.attack.setExistingBody(this.bodyAttack);
     //timer de curación
-    this.time = 2000;
-    this.timer = this.time;
+    this.timer = 500;
     //Inventario
     this.SetInventory(scene);
 
@@ -107,6 +106,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
     //animaciones
     this.InitAnims();
+
     //Eventos de animacion y botones
     this.setEvents();
     //Timer de curación
@@ -286,14 +286,18 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     }, this);
 }
 //amount debe ser un numero de 0 a 1 | posX es la posicion de quien realiza el daño
- takeDamage(amountDamage, amountThrust, posX)
+ takeDamage(amountDamage)
  {
     this.lifeStat -= amountDamage;
-    this.cameraFilter.intensity += amountDamage*0.8;
+    const fin = this.cameraFilter.intensity + amountDamage*0.9;
 
-    this.thrustLeft(amountThrust*0.3);
-    if(posX >= this.x) this.thrustBack(amountThrust * -1);
-    else this.thrustBack(amountThrust);
+    //Para que se vea que baja poco a poco
+    this.scene.tweens.add({
+      targets: this.cameraFilter,
+      intensity: { from: this.cameraFilter.intensity , to: fin },
+      duration: 1000,
+      ease: 'Expo'
+     });
 
     this.scene.cameras.main.shake(300, 0.005);
 

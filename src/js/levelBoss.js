@@ -41,14 +41,14 @@ export default class Level2 extends  Phaser.Scene {
     this.benches = this.add.image(this.mapWidth/2 -5000, this.mapHeight/2-200, 'benches');
 
     //Layers del tileMap
-    const inviwall = map.createDynamicLayer('inviWall',tileset,0,0).setDepth(0);
-    const ground = map.createDynamicLayer('ground',tileset,0,0).setDepth(1);
-    map.createDynamicLayer('fillbghouse',tileset,0,0).setDepth(2);
-    map.createDynamicLayer('bghouse',tileset,0,0).setDepth(3);
-    const fghouse = map.createDynamicLayer('foregroundhouse',tileset,0,0).setDepth(4);
-    map.createDynamicLayer('window',tileset,0,0).setDepth(5);
-    map.createDynamicLayer('roofhouse',tileset,0,0).setDepth(6);
-    const houseFloor = map.createDynamicLayer('grass',tileset,0,0).setDepth(7);
+    const inviwall = map.createLayer('inviWall',tileset,0,0).setDepth(0);
+    const ground = map.createLayer('ground',tileset,0,0).setDepth(1);
+    map.createLayer('fillbghouse',tileset,0,0).setDepth(2);
+    map.createLayer('bghouse',tileset,0,0).setDepth(3);
+    const fghouse = map.createLayer('foregroundhouse',tileset,0,0).setDepth(4);
+    map.createLayer('window',tileset,0,0).setDepth(5);
+    map.createLayer('roofhouse',tileset,0,0).setDepth(6);
+    const houseFloor = map.createLayer('grass',tileset,0,0).setDepth(7);
 
     //Implementacion de colisiones
     inviwall.setCollisionByProperty({collides:true});
@@ -184,7 +184,7 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight:1922
       }
     })
-    this.load.spritesheet({
+    this.load.spritesheet({ 
       key:'Boss_Idle2',
       url:'src/assets/sprites/Boss/donManuelIdle2SS.png',
       frameConfig:{
@@ -205,7 +205,7 @@ export default class Level2 extends  Phaser.Scene {
       url:'src/assets/sprites/Boss/attck1stSST.png',
       frameConfig:{
         frameWidth:1282,
-        frameHeight:1922
+        frameHeight:1907
       }
     })
     this.load.spritesheet({

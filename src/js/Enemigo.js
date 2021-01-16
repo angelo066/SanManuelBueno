@@ -115,13 +115,11 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     }
     else this.anims.play('Boss_Death',true);
   }
-  //Para saber si es izq o derecha
+  //Dir: Para saber si es izq o derecha
   Creapalabra(dir)
   {
-    // if(this.player.x < this.x)
       let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4*dir, 0, this);
       palabra.LanzaProyectil();
-
   }
 
 }
