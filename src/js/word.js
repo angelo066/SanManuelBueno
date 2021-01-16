@@ -92,7 +92,6 @@ export default class Word extends Letter{
     //Quitar una letra de la palabra
     removeLetter(selection, i)
     {
-        // console.log("removing child number " + selection);
         let letra = this.container.getAt(selection).frame.name;
         this.container.bringToTop(this.container.getAt(selection));
 
@@ -111,7 +110,6 @@ export default class Word extends Letter{
         let temp = [this.letter_selected.texture,this.letter_selected.frame.name];
         this.letter_selected.setTexture(gameObject.texture,gameObject.frame.name);
         gameObject.setTexture(temp[0], temp[1]);
-        console.log("desselecioando");
         this.letter_selected = null;
     }
     //Nueva palabra al cambiar letras

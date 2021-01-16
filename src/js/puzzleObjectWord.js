@@ -101,7 +101,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
     preUpdate()
     {
         this.objectWord.activateStrikeMode(this.player.playerController.isStriking);
-        console.log(this.objectWord.interactive);
     }
 
     //Flag de puzzle resuelto, poner en el update

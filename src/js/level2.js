@@ -152,6 +152,7 @@ export default class Level2 extends  Phaser.Scene {
        this.player.addLetter(this.nuez.getLetter());
      }
     if(this.sombra!== undefined && this.sombra.objectSolved() && !this.sombra.complete){
+      console.log("facilito estoy en level2 linea 155");
       this.anims.play('puertaAnim',true);
       this.puerta.body.destroy();
       this.sombra.complete = true;
