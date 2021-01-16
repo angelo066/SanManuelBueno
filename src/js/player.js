@@ -1,6 +1,6 @@
 import Inventory from "./inventory.js";
 export default class Player extends Phaser.Physics.Matter.Sprite{
-  constructor(scene, x, y, key, frame)
+  constructor(scene, x, y, key, frame, dialogue)
   {
     super(scene.matter.world, x, y, key, frame);
     this.scene.add.existing(this);
@@ -13,9 +13,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         run: 20,
         jump: 12
       },
+      canMove: true,
       onFloor: false,
       onAttack:false,
-      isStriking:false
+      isStriking:false,
+      onDialogue:dialogue
     };
 
     //#region Physics Stats
@@ -38,7 +40,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.bodyAttack = M.Body.create({parts:[this.playerController.sensors.right],      friction: 0.01,      restitution: 0.05})
     this.setExistingBody(compoundBody).setFixedRotation() // Sets max inertia to prevent rotation
     //#endregion
-
     //Para detectar el filtro Gris
     let postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
     this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0 });
@@ -57,7 +58,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     //timer de curación
     this.timer = 500;
     //Inventario
-    this.SetInventory(scene);
+    this.SetInventory(scene,dialogue);
 
     //Colisiones    
     //Colisiones de suelo y pegar
@@ -120,10 +121,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   preUpdate(time,delta)
   {
     super.preUpdate(time,delta);
-    
-    this.text.setX(this.x);
-    this.text.setY(this.y - this.height);
-    this.scene.add.existing(this.text);
     if (Phaser.Input.Keyboard.JustDown(this.keycodeShift)){
       this.playerController.isStriking = !this.playerController.isStriking;
       if(this.playerController.isStriking){
@@ -131,11 +128,17 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         this.mode.setScrollFactor(0);
       }
       else if(this.mode !== undefined){
-              this.mode.destroy();
+        this.mode.destroy();
       }
     }
+    //Si esta en dialogo no se puede mover
+    console.log(this.playerController.onDialogue.onDialogue);
+    if(this.playerController.onDialogue.onDialogue)
+      this.playerController.canMove = false;
+    else
+      this.playerController.canMove = true;
 
-    if(this.lifeStat<=0 && this.canMove)
+    if(this.lifeStat<=0 && this.playerController.canMove)
         this.death();
     
     //Follow de la pluma
@@ -162,12 +165,13 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   }
 
   //Crea y ajusta el inventario a la clase actual
-  SetInventory(scene) {
+  SetInventory(scene, dialogue) {
     this.invent = new Inventory({
       scene: scene,
       x: this.scene.cameras.main.width*0.14,
       y: this.scene.cameras.main.height * 0.95,
       l: {},
+      dialogue:dialogue
     });
 
     this.invent.AddLetter("W");
@@ -181,7 +185,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   }
   //Maneja los eventos de inputs del jugador
   ControlInput() {
-    if (this.canMove) {
+    if (this.playerController.canMove) {
       if (this.keycodeA.isDown) {
         this.setVelocityX(-this.playerController.speed.run);
         this.flipX = true;
@@ -340,9 +344,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
  {
    this.anims.play('death', false);
    //No usamos el this.input.keyboard.shutdown();ya que  no nos ejecuta las animaciones de muerte.
-   
-  
-   this.canMove = false;
+   this.playerController.canMove = false;
   }
   //Añade una letra al inventario
   addLetter(letrita)
@@ -359,7 +361,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 //inicializa el input del jugador
   InitInput()
   {
-    this.canMove = true;
     this.keycodeA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keycodeD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keycodeW =this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);

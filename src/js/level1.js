@@ -90,7 +90,7 @@ export default class level1 extends Phaser.Scene {
     this.SetTileMap(); 
     
     //Player
-    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height, 'player_run', 0).setDepth(2);
+    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height, 'player_run', 0,undefined).setDepth(2);
 
     //Crea los puzzles
     this.SetPuzzles();

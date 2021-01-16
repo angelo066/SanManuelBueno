@@ -4,7 +4,7 @@ import Word from './word.js';
 export default class Inventory extends Phaser.GameObjects.Sprite{
     constructor(data){
  
-        const {scene,x, y, l} = data;
+        const {scene,x, y, l, dialogue} = data;
         super (scene,x, y,'inventory');
       
         this.originX = x-300;
@@ -26,7 +26,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
         //Puzzle para pasar la letra seleccionada
         this.puzzleToInteract = null;
-
+        this.dialogue = dialogue;
 
         this.word = new Word({
             scene:this.scene,
@@ -84,6 +84,19 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
                     this.puzzleToInteract.objectWord.AddLetter(n, this.puzzleToInteract.objectWord.offSetLetter, true);
             }
             // this.moveSelection(this.originX + this.selector *this.offset);
+        }
+        //El inventario desaparece en dialogos
+        if(this.dialogue !== undefined){
+            if(this.dialogue.onDialogue){
+                this.setAlpha(0);
+                this.selection.setAlpha(0);
+                this.word.container.setAlpha(0);
+            }
+            else{
+                this.setAlpha(0.7);
+                this.selection.setAlpha(1);
+                this.word.container.setAlpha(1);
+            }
         }
     }
 

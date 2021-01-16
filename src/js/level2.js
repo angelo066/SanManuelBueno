@@ -1,6 +1,7 @@
 import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
+import Dialogue from './dialogue.js';
 export default class Level2 extends  Phaser.Scene {
   constructor() {
     super({key: 'level2'});
@@ -45,7 +46,10 @@ export default class Level2 extends  Phaser.Scene {
         frameHeight:1061
       }
     })
-
+    //Assets dialogos
+    this.load.image('text_bg','src/assets/bg/text_bg.png');
+    this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml')
+    //otros assets
     this.load.image('bg2', 'src/assets/bg/bg_iglesia.png');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
@@ -113,9 +117,11 @@ export default class Level2 extends  Phaser.Scene {
       frames: this.anims.generateFrameNumbers('caldera',{start: 0, end: 1}),
       frameRate: 8,
     })
-
+    //Dialogo de prueba
+    this.dialogo = new Dialogue(this,["dawedwadawda\nwdwaddawd", "awsfdawedawda\nfweofiewufhseuohfuwehf"]);
+    this.dialogo.onDialogue = true; //flag de activar dialogo
     //Player
-    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0).setDepth(15);
+    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0, this.dialogo).setDepth(15);
     
     this.SetImages();
 
@@ -164,7 +170,7 @@ export default class Level2 extends  Phaser.Scene {
     //Caldera 
     this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central',this.player);
     this.caldera.setScaleSprite(0.3,0.3);
-    this.caldera.sprite.setDepth(14);
+    this.caldera.sprite.setDepth(3);
   }
 
   SetImages() {

@@ -48,7 +48,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.matter.world.convertTilemapLayer(colliders);
 
     //Player
-    this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0);
+    this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0,undefined);
     this.player.setDepth(1);
     
     this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss', 'Ñ', this.player);
