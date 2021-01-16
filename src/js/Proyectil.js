@@ -1,7 +1,7 @@
 import Word from './word.js';
 import DestructibleWord from './puzzleObjectLetter.js';
 export default class Proyectil extends Phaser.Physics.Matter.Sprite{
-    constructor(scene, x,y, key, velX, velY, enemigo){
+    constructor(scene, x,y, key, velX, velY, enemigo, player){
         super (scene,x, y);
 
         //Para que lo empiece a renderizar
@@ -11,6 +11,8 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.velocity.x = velX;
         this.velocity.y = velY;
 
+        this.player = player;
+
         //tiempo de vida
         this.lifeTime = 800;
         this.LivingTime = this.lifeTime;
@@ -19,14 +21,25 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         this.tiempo= 60;
         this.enemy = enemigo;
 
+        const vectorActual = new Phaser.Math.Vector2(this.x, this.y);
+        const vectroPlayer = new Phaser.Math.Vector2(player.x, player.y);
+        const lenght = vectorActual.distance(vectroPlayer);
+
+        this.dirY = player.y - this.y;
+
+
+        this.dirY = this.dirY / lenght;
+
         this.timer =this.tiempo;
         //let ProyectilBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.width, (this.height/2) + 30, this.width * 0.75, this.height*0.7, {isSensor:true ,label:'Proyectil' });; 
         //this.compundBody = Phaser.Physics.Matter.Matter.Body.create(ProyectilBody);
         this.setBody({
             type:'circle',
-            width:128,
-            height:128,
+            width:64,
+            height:64,
         });
+
+        this.body.isSensor = true;
 
         this.objectWord = new Word({
             scene: this.scene,
@@ -90,13 +103,13 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
 
     AlteraTrayectoria(){
         //const value = Phaser.Math.Between(-10, 0);
-        let arriba = 10;
+        let arriba = 15;
         //const value2 = Phaser.Math.Between(0, 10);
-        let abajo = -10;
+        let abajo = -15;
 
         if(this.velocity.y === abajo)this.velocity.y = arriba;
         else this.velocity.y = abajo;
 
-        this.setVelocity(this.velocity.x, this.velocity.y);
+        this.setVelocity(this.velocity.x, this.dirY+0.3);
     }
 }

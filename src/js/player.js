@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 20,
+        run: 8,
         jump: 12
       },
       canMove: true,
@@ -330,7 +330,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 //Cura la vida del jugador cada lifeTime, constante inicializada en la constructora
  cureHealth()
  {
-   if(this.lifeStat >0)
+   if(this.lifeStat >0 && this.lifeStat < 1)
    {
       this.lifeStat += 0.1;
 
@@ -341,6 +341,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 //Detiene el input del jugador y reinicia el nivel
  death()
  {
+
    this.anims.play('death', false);
    //No usamos el this.input.keyboard.shutdown();ya que  no nos ejecuta las animaciones de muerte.
    this.playerController.canMove = false;

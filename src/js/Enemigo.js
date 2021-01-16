@@ -1,14 +1,16 @@
 import Word from'./word.js';
 import Proyectil from './Proyectil.js';
 export default class Enemigo extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, key, lettersKey, player, deadWord)
+  constructor(scene, x, y, key, player, deadWord)
   {
     super(scene, x, y, key);
 
     this.scene.add.existing(this); //Para que se renderice
 
     this.time = 1500;      //Timepo que tarda en crear un proyectil
-    this.lettersK = lettersKey;   //Para las letras
+
+    this.lettersK = ["A" , "M", "I", "P", "Y"];   //Para las letras
+  
     this.player = player;     //Para comprobar su posicion
 
     this.deadWord = deadWord;   //Palabra para derrotarlo
@@ -78,8 +80,11 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   //Dir: Para saber si es izq o derecha
   Creapalabra(dir)
   {
-    // if(this.player.x < this.x)
-      let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,this.lettersK, -4*dir, 0, this);
+      const letter  = Phaser.Math.Between(0,this.lettersK.length-1);
+
+      const posY = (this.y + this.player.y) / 2;
+
+      let palabra = new Proyectil(this.scene.matter.world,this.x + 50, posY ,this.lettersK[letter], -4*dir, 0, this, this.player);
       palabra.LanzaProyectil();
   }
 

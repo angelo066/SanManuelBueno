@@ -143,7 +143,7 @@ export default class Level2 extends  Phaser.Scene {
       this.brote.changeImage('nogal');
       //Sombra
       this.sombra = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'sombra', false, 280, 'sombra', 'rosa');
-      this.rosa=this.add.image(this.mapWidth/2 + 470, this.mapHeight - 740, 'rosa');
+      this.rosa= this.add.image(this.mapWidth/2 + 470, this.mapHeight - 740, 'rosa');
       this.sombra.changeAlpha(0.21);
       this.complete = true;
 

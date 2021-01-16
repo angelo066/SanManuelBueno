@@ -52,8 +52,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0,undefined);
     this.player.setDepth(1);
     
-    //Enemigo
-    this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss', 'Ñ', this.player);
+    this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss',this.player, "voz");
     this.boss.setScale(0.15);
     this.boss.flipX = true;
 
