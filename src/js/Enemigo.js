@@ -9,7 +9,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.time = 1500;      //Timepo que tarda en crear un proyectil
     this.lettersK = lettersKey;   //Para las letras
-    this.player = player;     //Para hacerle daño
+    this.player = player;     //Para comprobar su posicion
 
     this.deadWord = deadWord;   //Palabra para derrotarlo
 
@@ -29,7 +29,9 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     var timer = scene.time.addEvent({
       delay: this.time,                // ms
       callback: () => {
-        this.Creapalabra();
+        if(this.player.x < this.x)
+            this.Creapalabra(1);
+        else this.Creapalabra(-1);
         this.states.atacando = true;
         this.states.idle=false;
       },
@@ -113,12 +115,13 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     }
     else this.anims.play('Boss_Death',true);
   }
-  
-  Creapalabra()
+  //Para saber si es izq o derecha
+  Creapalabra(dir)
   {
-    let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4, 0, this);
+    // if(this.player.x < this.x)
+      let palabra = new Proyectil(this.scene.matter.world,this.x + 50, this. y,'rosa', -4*dir, 0, this);
+      palabra.LanzaProyectil();
 
-    palabra.LanzaProyectil();
   }
 
 }

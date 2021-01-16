@@ -4,23 +4,27 @@ import Word from './word.js';
 export default class Inventory extends Phaser.GameObjects.Sprite{
     constructor(data){
             //Letras   //Número de elemtos
-        let {scene,x, y, l} = data;
+        const {scene,x, y, l} = data;
         super (scene,x, y,'inventory');
       
-        this.selector = 0;
-        this.originX = x-(this.width/2)*0.04 + 60;
+        this.originX = x-300;
         this.scene.add.existing(this);
-        this.sprite = this.scene.add.image(this.originX , this.y, 'selection', {isStatic:true}).setDepth(21);
-        this.sprite.setScale(0.55);
-        this.sprite.setScrollFactor(0);
+        
+        this.selector = 0;
+        this.selection = this.scene.add.image(this.originX , this.y, 'selection', {isStatic:true}).setDepth(21);
+        this.selection.setScale(0.9);
+        this.selection.setScrollFactor(0);
+
         this.Letters=l;
-        this.offset = 50;
+        this.offset = 95;
+        this.Letteroffset = 60;
         this.NumElems = 0;
         this.limit = 6;
+        this.canAdd = false;
 
+        //Puzzle para pasar la letra seleccionada
         this.puzzleToInteract = null;
 
-        this.canAdd = false;
 
         this.word = new Word({
             scene:this.scene,
@@ -30,13 +34,13 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             interactive: false,
             letter: null
           });
-          
+        //Tamaño de las letras
         this.word.container.setScrollFactor(0);
-        this.word.container.setScale(0.5)
+        this.word.container.setScale(0.8)
         this.word.container.setDepth(21);
-
-        this.setScale(0.04);
-        this.setAlpha(0.6);
+        //Tamaño del inventario 
+        this.setScale(0.08);
+        this.setAlpha(0.7);
         this.keycodeC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         this.keycodeV = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
         this.keycodeF = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -83,7 +87,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
     {
         if(this.NumElems< this.limit)
         {
-            this.word.AddLetter(letrita, this.offset*2, false);
+            this.word.AddLetter(letrita, this.Letteroffset*2, false);
         
             this.NumElems++;
         }
@@ -93,6 +97,6 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
     moveSelection(x)
     {
-        this.sprite.setX(x);
+        this.selection.setX(x);
     }
 }

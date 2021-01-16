@@ -58,7 +58,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     //Inventario
     this.SetInventory(scene);
 
-    //Creacion de las colisiones    
+    //Colisiones    
     //Colisiones de suelo y pegar
     this.scene.matter.world.on('collisionstart',(event)=>{
       let bottom = this.playerController.sensors.bottom;
@@ -102,12 +102,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.InitInput();
     
     //Texto Muerte
-    this.text = this.scene.add.text(this.x, this.y-this.height, 'Oh...Una lectura nueva?!').setFont('32px Arial Black').setFill('#ffffff').setShadow(2, 2, "#333333", 2).setDepth(20);
-    this.text.setAlpha(0);
-    
-    this.text.on('pointerover', () => { this.text.setFill('#cb2821'); });
-    this.text.on('pointerout', () => {this.text.setFill('#ffffff');});
-    this.text.on('pointerdown', () => { this.scene.scene.start(this.scene.scene.key) });
+    this.CreateTextDeath();
 
     //animaciones
     this.InitAnims();
@@ -122,7 +117,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       loop: true
     });
     }
-  
+
+
   preUpdate(time,delta)
   {
     super.preUpdate(time,delta);
@@ -161,14 +157,16 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   SetInventory(scene) {
     this.invent = new Inventory({
       scene: scene,
-      x: 0,
-      y: this.scene.cameras.main.height * 1.05,
+      x: this.scene.cameras.main.width*0.14,
+      y: this.scene.cameras.main.height * 0.95,
       l: {},
     });
 
     this.invent.AddLetter("W");
     this.invent.AddLetter("A");
     this.invent.AddLetter("R");
+    this.invent.AddLetter("N");
+    this.invent.AddLetter("T");
 
     this.invent.setScrollFactor(0);
     this.invent.setDepth(20);
@@ -305,6 +303,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
     this.scene.cameras.main.fadeOut(150, 100);
  }
+  //Crea los eventos y el texto de la muerte del jugador
+ CreateTextDeath() {
+  this.text = this.scene.add.text(this.x, this.y - this.height, 'Oh...Una lectura nueva?!').setFont('32px Arial Black').setFill('#ffffff').setShadow(2, 2, "#333333", 2).setDepth(20);
+  this.text.setAlpha(0);
+
+  this.text.on('pointerover', () => { this.text.setFill('#cb2821'); });
+  this.text.on('pointerout', () => { this.text.setFill('#ffffff'); });
+  this.text.on('pointerdown', () => { this.scene.scene.start(this.scene.scene.key); });
+}
 //Cura la vida del jugador cada lifeTime, constante inicializada en la constructora
  cureHealth()
  {
