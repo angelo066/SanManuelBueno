@@ -83,7 +83,6 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
                 if(this.puzzleToInteract !== null)
                     this.puzzleToInteract.objectWord.AddLetter(n, this.puzzleToInteract.objectWord.offSetLetter, true);
             }
-            // this.moveSelection(this.originX + this.selector *this.offset);
         }
         //El inventario desaparece en dialogos
         if(this.dialogue !== undefined){

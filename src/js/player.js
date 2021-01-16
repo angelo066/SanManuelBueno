@@ -130,8 +130,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         this.mode.destroy();
       }
     }
+    //Si esta en dialogo no se puede mover
+    console.log(this.playerController.onDialogue.onDialogue);
+    if(this.playerController.onDialogue.onDialogue)
+      this.playerController.canMove = false;
+    else
+      this.playerController.canMove = true;
+    
     //Para que no se ejecute la muerte infinitamente
-    if(this.lifeStat<=0 && this.canMove)
+    if(this.lifeStat<=0 && this.playerController.canMove)
         this.death();
     
     //Follow de la pluma
@@ -179,7 +186,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   //Maneja los eventos de inputs del jugador
   ControlInput() {
     //Correr
-    if (this.canMove) {
+    if (this.playerController.canMove) {
       //A la izquierda
       if (this.keycodeA.isDown) {
         this.setVelocityX(-this.playerController.speed.run);
