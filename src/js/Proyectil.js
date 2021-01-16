@@ -88,10 +88,10 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
     }
 
     AlteraTrayectoria(){
-        const value = Phaser.Math.Between(-10, 0);
-        let arriba = value;
-        const value2 = Phaser.Math.Between(0, 10);
-        let abajo = value2;
+        //const value = Phaser.Math.Between(-10, 0);
+        let arriba = 10;
+        //const value2 = Phaser.Math.Between(0, 10);
+        let abajo = -10;
 
         if(this.velocity.y === abajo)this.velocity.y = arriba;
         else this.velocity.y = abajo;

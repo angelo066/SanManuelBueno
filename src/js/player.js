@@ -2,7 +2,7 @@ import Inventory from "./inventory.js";
 export default class Player extends Phaser.Physics.Matter.Sprite{
   constructor(scene, x, y, key, frame)
   {
-    super(scene.matter.world, 1100, y, key, frame);
+    super(scene.matter.world, x, y, key, frame);
     this.scene.add.existing(this);
     this.playerController = {
       sensors: {
@@ -69,13 +69,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
           let bodyB = event.pairs[i].bodyB;
           if ((bodyA === bottom && bodyB.label === 'Rectangle Body') || (bodyB === bottom && bodyA.label === 'Rectangle Body'))
           {
-            if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "ground") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "ground"))
-                this.playerController.onFloor = true;
-            
+            this.playerController.onFloor = true;
             if((bodyA.gameObject.tile !== undefined && bodyA.gameObject.tile.layer.name === "water") || (bodyB.gameObject.tile !== undefined && bodyB.gameObject.tile.layer.name === "water"))
               {
                 this.playerController.onFloor = false;
-                console.log(this);
                 this.restorePos(this.scene.cameras.main.width*0.125, this.scene.cameras.main.height);
               }
           }
