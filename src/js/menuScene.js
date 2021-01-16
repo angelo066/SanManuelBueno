@@ -30,8 +30,9 @@ export default class MenuScene extends  Phaser.Scene {
     const video = this.add.video(this.game.config.width/2,this.game.config.height/2,'logo_anim');
     video.play(false);  //No loop
     
+    //Puzzle de inicio
     this.playGame = new PuzzleObjectWord(this,this.game.config.width/2,this.game.config.height*0.9,null, false, 2000, 'jugra', 'jugar').setScale(1.3).setAlpha(0);
-
+    //Video inicial
     video.on('complete', (video)=>{
             video.destroy();
             //BG
@@ -75,8 +76,10 @@ export default class MenuScene extends  Phaser.Scene {
     }
     update()
     {
+        //Movimiento del cielo
         this.sky.setTilePosition(this.sky.tilePositionX + 0.1); 
         
+        //Control del puzzle
         if(this.playGame.objectSolved() && !this.playGame.complete)
         {
             this.cameras.main.fadeOut(1000, 0, 0, 0);

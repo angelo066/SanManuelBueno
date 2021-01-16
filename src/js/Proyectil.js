@@ -1,4 +1,5 @@
 import Word from './word.js';
+import DestructibleWord from './puzzleObjectLetter.js';
 export default class Proyectil extends Phaser.Physics.Matter.Sprite{
     constructor(scene, x,y, key, velX, velY, enemigo){
         super (scene,x, y);

@@ -99,9 +99,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
     //Input
     this.InitInput();
-    
-    //Texto Muerte
-    this.CreateTextDeath();
+
 
     //animaciones
     this.InitAnims();
@@ -121,6 +119,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   preUpdate(time,delta)
   {
     super.preUpdate(time,delta);
+    //Para detectar cuando se puede tachar
     if (Phaser.Input.Keyboard.JustDown(this.keycodeShift)){
       this.playerController.isStriking = !this.playerController.isStriking;
       if(this.playerController.isStriking){
@@ -131,14 +130,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         this.mode.destroy();
       }
     }
-    //Si esta en dialogo no se puede mover
-    console.log(this.playerController.onDialogue.onDialogue);
-    if(this.playerController.onDialogue.onDialogue)
-      this.playerController.canMove = false;
-    else
-      this.playerController.canMove = true;
-
-    if(this.lifeStat<=0 && this.playerController.canMove)
+    //Para que no se ejecute la muerte infinitamente
+    if(this.lifeStat<=0 && this.canMove)
         this.death();
     
     //Follow de la pluma
@@ -185,35 +178,41 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   }
   //Maneja los eventos de inputs del jugador
   ControlInput() {
-    if (this.playerController.canMove) {
+    //Correr
+    if (this.canMove) {
+      //A la izquierda
       if (this.keycodeA.isDown) {
         this.setVelocityX(-this.playerController.speed.run);
         this.flipX = true;
 
         this.anims.play('run', true);
       }
+      //A la derecha
       else if (this.keycodeD.isDown) {
         this.setVelocityX(this.playerController.speed.run);
         this.flipX = false;
 
         this.anims.play('run', true);
       }
-
+      //Quieto
       else
         this.setVelocityX(0);
 
+      //Saltar
       if (this.keycodeW.isDown && this.playerController.onFloor) {
         this.setVelocityY(-this.playerController.speed.jump);
 
         this.playerController.onFloor = false;
       }
+      //Idle
       if (this.body.velocity.x === 0 && this.playerController.onFloor) {
         this.anims.play('idle', true);
       }
+      //Animación de salto
       else if (this.body.velocity.x === 0) {
         this.anims.play('jump', true);
       }
-
+      //Para depurar el daño(Borrar)
       if (this.damage.isDown) {
         this.takeDamage(0.5, 0.1, this.x - 3000);
       }
