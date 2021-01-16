@@ -87,7 +87,7 @@ export default class Word extends Letter{
         }
         this.newWord();
     }
-
+    //Quitar una letra de la palabra
     removeLetter(selection, i)
     {
         // console.log("removing child number " + selection);
@@ -136,7 +136,7 @@ export default class Word extends Letter{
     {
         this.strikeMode = modeOn;
     }
-
+    //Añadir una letra a la palabra
     AddLetter(l, offset, interactivo )
     {
         l = l.toLowerCase();

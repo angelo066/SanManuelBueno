@@ -24,6 +24,7 @@ export default class LevelBoss extends  Phaser.Scene {
   {
     this.InitSound();
     
+    //TileMap
     const map = this.make.tilemap({
       key:'tilemap_level_boss',
       tileWidth:64,
@@ -51,6 +52,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0,undefined);
     this.player.setDepth(1);
     
+    //Enemigo
     this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss', 'Ñ', this.player);
     this.boss.setScale(0.15);
     this.boss.flipX = true;
@@ -59,6 +61,7 @@ export default class LevelBoss extends  Phaser.Scene {
 
     this.SetAnims();
   }
+  //Inicia la banda sonora
   InitSound() {
     let config = {
       mute: false,
@@ -250,6 +253,7 @@ export default class LevelBoss extends  Phaser.Scene {
   }
 
   SetAnims() {
+    //Animaciones del jefe
     this.anims.create({
       key: 'Boss_idle1',
       frames: this.anims.generateFrameNumbers('Boss_Idle1', { start: 0, end: 7 }),

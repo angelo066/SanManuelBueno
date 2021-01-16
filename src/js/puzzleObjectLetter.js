@@ -37,7 +37,8 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
 
         //Comprobador de que puede eliminar letras del puzzle
         this.canDelete = false;
-
+        
+        //Para que aparezca cuando estamos cerca
         this.scene.matter.world.on('collisionstart', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
@@ -61,6 +62,7 @@ export default class PuzzleObjectLetter extends Phaser.GameObjects.Container{
             }
         });
 
+        //Para que desaparezca cuando nos alejamos
         this.scene.matter.world.on('collisionend', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)

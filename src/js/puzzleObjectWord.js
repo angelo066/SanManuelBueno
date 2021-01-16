@@ -39,6 +39,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         //Variable para que el jugador pueda añadir letras cuando colisione con el puzzle
         //Colisiones
 
+        //Para que cuando se entre en el radio de acción de la palabra esta aparezca y se pueda editar
         this.scene.matter.world.on('collisionstart', (event)=>{
 
             let wordBody = this.sprite.body;
@@ -68,6 +69,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             }
         });
 
+        //Para que cuando se salga del campo de colisión con la palabra esta desaparezca y ya no se pueda editar
         this.scene.matter.world.on('collisionend', (event)=>{
             let wordBody = this.sprite.body;
             for (let i = 0; i < event.pairs.length; i++)
