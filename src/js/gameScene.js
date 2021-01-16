@@ -2,6 +2,7 @@
 
 //SE COMENTA EL CóDIGO CRACKS(COJONES DICE GUILLE) >:()
 
+//Escena exclusivamente para hacer pruebas
 
 import Player from './player.js';
 import Enemigo from './Enemigo.js';

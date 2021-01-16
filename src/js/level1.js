@@ -39,6 +39,7 @@ export default class level1 extends Phaser.Scene {
       }
     });
     
+    //Cargamos imagenes
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('bg1', 'src/assets/bg/lake.png');
     this.load.image('cow', 'src/assets/props/vacas/cow.png',);
@@ -85,6 +86,7 @@ export default class level1 extends Phaser.Scene {
     //BG
     this.SetBackGround();
 
+    //TileMap
     this.SetTileMap(); 
     
     //Player
@@ -96,13 +98,23 @@ export default class level1 extends Phaser.Scene {
     //Particulas
     this.createParticles('leaves'); 
    
+    //Efecto de la cámara
     this.FadeIn();
+
+    //Animación de las vacas
+    for(let i=0; i<4; i++){
+      this.vaquitas[i].anims.play('idlee', true);
+    }
+    //Animación de las velas
+    this.velas.sprite.anims.play('velasMuevan', true);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
+    //Movimiento del cielo
     this.sky.setTilePosition(this.sky.tilePositionX + 0.1);
 
+    //Comprobación de si está resuelto el primer puzzle
     if(this.altar.objectSolved() && !this.altar.complete)
     {
       this.arbol.anims.play('talado',true);     
@@ -110,14 +122,18 @@ export default class level1 extends Phaser.Scene {
       
     }
 
-    for(let i = 0; i < 4; i++)
-      this.vaquitas[i].anims.play('idlee', true);
-      this.velaAnima.anims.play('velasMuevan',true);
-    
+    //Animación de las vacas
+    // for(let i = 0; i < 4; i++)
+    //   this.vaquitas[i].anims.play('idlee', true);
 
+    //   //Animación de las velas
+    //   this.velaAnima.anims.play('velasMuevan',true);
+    
+    //Comprobación de la solución de las vacas
     if(this.vacas.objectSolved() && !this.vacas.complete){
       this.suelo.destroy();
     }
+    //COmprobación de la solución de las velas
     if(this.velas.objectSolved() && !this.velas.complete){
       this.cascade.destroy();
       this.waterfall.destroy(true);

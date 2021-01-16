@@ -5,7 +5,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   {
     super(scene, x, y, key);
 
-    this.scene.add.existing(this);
+    this.scene.add.existing(this); //Para que se renderice
 
     this.time = 1500;      //Timepo que tarda en crear un proyectil
     this.lettersK = lettersKey;   //Para las letras
@@ -26,6 +26,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     //his.SetAnims();
 
+
+    //Timer de phaser
     var timer = scene.time.addEvent({
       delay: this.time,                // ms
       callback: () => {
@@ -54,6 +56,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   }
 
   ManejaEstados(){
+    //Método para que las animaciones no se pisen las unas a las otras y poder así ejecutarlas corretamente
+
     if(this.states.idle){
       if(!this.fase)this.anims.play('Boss_idle1', true);
       else this.anims.play('Boss_Idle2', true);

@@ -122,18 +122,18 @@ export default class Level2 extends  Phaser.Scene {
     this.SetPuzzles();
 
     this.FadeIn();
+
+    this.caldera.sprite.anims.play('calderaAnim',true);
+    this.rain.anims.play('rainanim', true);
+    this.guadalupe.anims.play('guadalupeanim', true);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
-    this.caldera.sprite.anims.play('calderaAnim',true);
-    this.rain.anims.play('rainanim', true);
-    this.guadalupe.anims.play('guadalupeanim', true);
-    //this.puerta.anims.play('puertaAnim', true);
     //La lluvia siga al player
     this.rain.setPosition(this.player.x, this.player.y-280);
 
-    if(this.brote.objectSolved() && !this.complete){
+    if(this.brote.objectSolved() && !this.brote.complete){
       this.brote.changeImage('nogal');
       //Sombra
       this.sombra = new PuzzleObjectWord(this, this.mapWidth/2 + 470, this.mapHeight - 740, 'sombra', false, 280, 'sombra', 'rosa');
@@ -145,7 +145,7 @@ export default class Level2 extends  Phaser.Scene {
     if(this.nuez.solved){
        this.player.addLetter(this.nuez.getLetter());
      }
-    if(this.rosa != undefined && this.rosa.solved){
+    if(this.rosa.objectSolved() && !this.rosa.solved){
       this.anims.play('puertaAnim',true);
     }
     if(this.caldera.solved){

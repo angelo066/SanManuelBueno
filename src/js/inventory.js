@@ -3,14 +3,16 @@ import Word from './word.js';
 
 export default class Inventory extends Phaser.GameObjects.Sprite{
     constructor(data){
-            //Letras   //Número de elemtos
+ 
         const {scene,x, y, l} = data;
         super (scene,x, y,'inventory');
       
         this.originX = x-300;
-        this.scene.add.existing(this);
+        this.scene.add.existing(this); //Para que empiece a renderizar
         
-        this.selector = 0;
+        this.selector = 0;      //Indice del vector de letras donde estamos
+
+        //Objeto que nos indica donde estamos del inventario
         this.selection = this.scene.add.image(this.originX , this.y, 'selection', {isStatic:true}).setDepth(21);
         this.selection.setScale(0.9);
         this.selection.setScrollFactor(0);
@@ -19,8 +21,8 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         this.offset = 95;
         this.Letteroffset = 60;
         this.NumElems = 0;
-        this.limit = 6;
-        this.canAdd = false;
+        this.limit = 6;     //Límite para que no se salgan de la imagen del inventario
+        this.canAdd = false;    //Boleano para no poder eliminarte letras fuera un puzzle
 
         //Puzzle para pasar la letra seleccionada
         this.puzzleToInteract = null;
@@ -48,6 +50,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
     preUpdate()
     {
+        //Moverse a la izquierda en el inventario
         if (Phaser.Input.Keyboard.JustDown(this.keycodeV)){
             
             if(this.selector < this.limit - 1)
@@ -57,7 +60,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
                 this.moveSelection(this.originX + this.selector *this.offset);
             }
         }
-
+        //Moverse a la derecha
         if (Phaser.Input.Keyboard.JustDown(this.keycodeC)){
             if(this.selector>0)
                 this.selector--;
@@ -65,6 +68,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             this.moveSelection(this.originX + this.selector *this.offset);
         }
 
+        //Añadir (si se puede) una letra a un puzzle
         if (Phaser.Input.Keyboard.JustDown(this.keycodeF) && this.canAdd)
         {
 
@@ -85,6 +89,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
     AddLetter(letrita)
     {
+        //Añadir una letra al inventario
         if(this.NumElems< this.limit)
         {
             this.word.AddLetter(letrita, this.Letteroffset*2, false);
