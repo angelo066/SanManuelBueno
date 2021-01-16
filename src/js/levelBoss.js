@@ -250,53 +250,47 @@ export default class LevelBoss extends  Phaser.Scene {
   }
 
   SetAnims() {
-    this.scene.anims.create({
+    this.anims.create({
       key: 'Boss_idle1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1', { start: 0, end: 7 }),
+      frames: this.anims.generateFrameNumbers('Boss_Idle1', { start: 0, end: 7 }),
       frameRate: 3,
       repeat: 0
     });
 
-    this.scene.anims.create({
+    this.anims.create({
       key: 'Boss_idle2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2', { start: 0, end: 2 }),
+      frames: this.anims.generateFrameNumbers('Boss_Idle2', { start: 0, end: 2 }),
       frameRate: 1,
       repeat: 0
     });
 
-    this.scene.anims.create({
+    this.anims.create({
       key: 'Boss_Death',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Death', { start: 0, end: 5 }),
+      frames: this.anims.generateFrameNumbers('Boss_Death', { start: 0, end: 5 }),
       frameRate: 8,
       repeat: 0
     });
 
-    this.scene.anims.create({
+    this.anims.create({
       key: 'Boss_attk1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck1', { start: 0, end: 7 }),
+      frames: this.anims.generateFrameNumbers('Boss_attck1', { start: 0, end: 7 }),
       frameRate: 8,
       repeat: 0
     });
 
-    this.scene.anims.create({
+    this.anims.create({
       key: 'Boss_attk2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck2', { start: 0, end: 7 }),
+      frames: this.anims.generateFrameNumbers('Boss_attck2', { start: 0, end: 7 }),
       frameRate: 8,
       repeat: 0
     });
 
-    this.states = {
-      idle: true,
-      atacando: false,
-      muriendo: false
-    };
-
-    this.on('animationcomplete', function (anim, frame) {
-      this.emit('animationcomplete_' + anim.key, anim, frame);
+    this.boss.on('animationcomplete', function (anim, frame) {
+      this.boss.emit('animationcomplete_' + anim.key, anim, frame);
     }, this);
-    this.on('animationcomplete_Boss_attk1', () => {
-      this.states.atacando = false;
-      this.states.idle = true;
+    this.boss.on('animationcomplete_Boss_attk1', () => {
+      this.boss.states.atacando = false;
+      this.boss.states.idle = true;
     });
   }
 }

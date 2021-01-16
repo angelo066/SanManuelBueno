@@ -40,6 +40,13 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       loop: true
     });
 
+    
+    this.states = {
+      idle: true,
+      atacando: false,
+      muriendo: false
+    };
+
   }
 
   preUpdate(time, delta){
