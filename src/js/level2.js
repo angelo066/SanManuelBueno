@@ -58,6 +58,7 @@ export default class Level2 extends  Phaser.Scene {
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
     this.load.image('marchita', 'src/assets/puzzle_objects/rosa_marchita.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
+    this.load.image('llaves','src/assets/sprites/game_objects/tumba.png');
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
@@ -147,14 +148,17 @@ export default class Level2 extends  Phaser.Scene {
     if(this.rosa != undefined && this.rosa.solved){
       this.anims.play('puertaAnim',true);
     }
+    if(this.caldera.solved){
+
+    }
   }
 
   SetPuzzles() {
     //Nuez
-    this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 4 - 300, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
+    this.nuez = new PuzzleObjectLetter(this, this.mapWidth / 2 - 100, this.mapHeight - 820, 'nuez', false, 200, 'nuez', 'n');
 
     //Árbol
-    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal',this.player);
+    this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal');
 
     //Caldera 
     this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central',this.player);
@@ -163,8 +167,8 @@ export default class Level2 extends  Phaser.Scene {
   }
 
   SetImages() {
-    this.puerta = this.matter.add.sprite(this.mapWidth / 2 + 2820, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
-    this.puerta.setMass(8000);              //Porque matter es to divertido
+    this.puerta = this.matter.add.sprite(this.mapWidth / 2 + 2850, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
+    this.puerta.setMass(8000000);              //Porque matter es to divertido
     this.scaleThis(this.puerta, 0.27, 0.27);
 
     //Tumba
@@ -182,7 +186,8 @@ export default class Level2 extends  Phaser.Scene {
     this.scaleThis(this.guadalupe, 1.2, 1.2);
     this.guadalupe.flipX = true;
 
-    
+    this.llaver = this.add.sprite(this.mapWidth / 2 + 2950, this.mapHeight - 1200, 'puerta', 0)
+
   }
 
   SetTileMap() {

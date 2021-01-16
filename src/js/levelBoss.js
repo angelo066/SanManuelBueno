@@ -2,7 +2,7 @@ import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
 import Enemigo from './Enemigo.js';
-export default class Level2 extends  Phaser.Scene {
+export default class LevelBoss extends  Phaser.Scene {
   constructor() {
     super({key: 'Boss'});
   }
@@ -56,6 +56,8 @@ export default class Level2 extends  Phaser.Scene {
     this.boss.flipX = true;
 
     this.FadeIn();
+
+    this.SetAnims();
   }
   InitSound() {
     let config = {
@@ -245,5 +247,56 @@ export default class Level2 extends  Phaser.Scene {
     let h = image.height;
     let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true});
     image.setExistingBody(newBody);
+  }
+
+  SetAnims() {
+    this.scene.anims.create({
+      key: 'Boss_idle1',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1', { start: 0, end: 7 }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_idle2',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2', { start: 0, end: 2 }),
+      frameRate: 1,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_Death',
+      frames: this.scene.anims.generateFrameNumbers('Boss_Death', { start: 0, end: 5 }),
+      frameRate: 8,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_attk1',
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck1', { start: 0, end: 7 }),
+      frameRate: 8,
+      repeat: 0
+    });
+
+    this.scene.anims.create({
+      key: 'Boss_attk2',
+      frames: this.scene.anims.generateFrameNumbers('Boss_attck2', { start: 0, end: 7 }),
+      frameRate: 8,
+      repeat: 0
+    });
+
+    this.states = {
+      idle: true,
+      atacando: false,
+      muriendo: false
+    };
+
+    this.on('animationcomplete', function (anim, frame) {
+      this.emit('animationcomplete_' + anim.key, anim, frame);
+    }, this);
+    this.on('animationcomplete_Boss_attk1', () => {
+      this.states.atacando = false;
+      this.states.idle = true;
+    });
   }
 }

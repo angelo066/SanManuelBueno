@@ -24,7 +24,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.fase=false; //False cuando está en primera y true cuando está en segunda
 
-    this.SetAnims();
+    //his.SetAnims();
 
     var timer = scene.time.addEvent({
       delay: this.time,                // ms
@@ -51,57 +51,6 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     }
 
     this.ManejaEstados();
-  }
-
-  SetAnims() {
-    this.scene.anims.create({
-      key: 'Boss_idle1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle1', { start: 0, end: 7 }),
-      frameRate: 3,
-      repeat: 0
-    });
-
-    this.scene.anims.create({
-      key: 'Boss_idle2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Idle2', { start: 0, end: 2 }),
-      frameRate: 1,
-      repeat: 0
-    });
-
-    this.scene.anims.create({
-      key: 'Boss_Death',
-      frames: this.scene.anims.generateFrameNumbers('Boss_Death', { start: 0, end: 5 }),
-      frameRate: 8,
-      repeat: 0
-    });
-
-    this.scene.anims.create({
-      key: 'Boss_attk1',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck1', { start: 0, end: 7 }),
-      frameRate: 8,
-      repeat: 0
-    });
-
-    this.scene.anims.create({
-      key: 'Boss_attk2',
-      frames: this.scene.anims.generateFrameNumbers('Boss_attck2', { start: 0, end: 7 }),
-      frameRate: 8,
-      repeat: 0
-    });
-
-    this.states = {
-      idle: true,
-      atacando: false,
-      muriendo: false
-    };
-
-    this.on('animationcomplete', function (anim, frame) {
-      this.emit('animationcomplete_' + anim.key, anim, frame);
-    }, this);
-    this.on('animationcomplete_Boss_attk1', () => {
-      this.states.atacando = false;
-      this.states.idle = true;
-    });
   }
 
   ManejaEstados(){
