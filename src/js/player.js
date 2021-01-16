@@ -131,7 +131,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       }
     }
     //Si esta en dialogo no se puede mover
-    console.log(this.playerController.onDialogue.onDialogue);
     if(this.playerController.onDialogue.onDialogue)
       this.playerController.canMove = false;
     else
