@@ -2,7 +2,7 @@ import Inventory from "./inventory.js";
 export default class Player extends Phaser.Physics.Matter.Sprite{
   constructor(scene, x, y, key, frame)
   {
-    super(scene.matter.world, x, y, key, frame);
+    super(scene.matter.world, 1100, y, key, frame);
     this.scene.add.existing(this);
     this.playerController = {
       sensors: {
@@ -14,7 +14,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         jump: 12
       },
       onFloor: false,
-      onAttack:false
+      onAttack:false  
     };
 
     //#region Physics Stats
@@ -48,6 +48,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.feather.displayHeight = h* 0.4;
     this.feather.displayWidth = w *0.4;
     //Ataque Unamuno
+    this.playerSprite = this;
     this.attack = this.scene.matter.add.sprite(x,y,undefined);
     this.attack.displayHeight = this.attack.height*0.8;
     this.attack.displayWidth = this.attack.width*0.8;
@@ -272,18 +273,18 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     });
 
     //Muerte
-    this.once('animationcomplete_death', () => {
+    this.on('animationcomplete', function (anim, frame) {
 
-     console.log("he");
-
-      this.scene.tweens.add({
-        targets: this.text,
-        alpha: { from: 0, to: 1 },
-        duration: 1000,
-        ease: 'Sine.easeInOut'
-      });
-
-    });
+      if(anim.key === 'death')
+      {
+          this.scene.tweens.add({
+          targets: this.text,
+          alpha: { from: 0, to: 1 },
+          duration: 1000,
+          ease: 'Sine.easeInOut'
+        });
+      }
+    }, this);
   }
 //amount debe ser un numero de 0 a 1 | posX es la posicion de quien realiza el daño
  takeDamage(amountDamage, amountThrust, posX)
@@ -327,7 +328,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
  death()
  {
    this.anims.play('death', false);
-   this.text.alpha = 1;
+   //No usamos el this.input.keyboard.shutdown();ya que  no nos ejecuta las animaciones de muerte.
+   
    this.text.setInteractive();
    this.canMove = false;
   }
