@@ -145,11 +145,12 @@ export default class Level2 extends  Phaser.Scene {
     if(this.nuez.solved){
        this.player.addLetter(this.nuez.getLetter());
      }
-    if(this.rosa.objectSolved() && !this.rosa.solved){
+    if(this.rosa!= undefined && this.rosa.objectSolved() && !this.rosa.solved){
       this.anims.play('puertaAnim',true);
+      this.puerta.body.destroy();
     }
     if(this.caldera.solved){
-
+      
     }
   }
 
@@ -186,7 +187,7 @@ export default class Level2 extends  Phaser.Scene {
     this.scaleThis(this.guadalupe, 1.2, 1.2);
     this.guadalupe.flipX = true;
 
-    this.llaver = this.add.sprite(this.mapWidth / 2 + 2950, this.mapHeight - 1200, 'puerta', 0)
+    //this.llaver = this.add.sprite(this.mapWidth / 2 + 2950, this.mapHeight - 1200, 'puerta', 0);
 
   }
 
