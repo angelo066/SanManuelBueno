@@ -44,13 +44,13 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.cameraFilter = postFxPlugin.add(scene.cameras.main, { intensity: 0 });
     //Pluma Unamuno
     this.fOffsetX = w;
-    this.fOffsetY = h*0.25
+    this.fOffsetY = h*0.25;
     this.feather = this.scene.add.image(x,y-this.fOffsetY,'feather');
     this.feather.displayHeight = h* 0.4;
     this.feather.displayWidth = w *0.4;
     //Ataque Unamuno
     this.playerSprite = this;
-    this.attack = this.scene.matter.add.sprite(x,y,undefined);
+    this.attack = this.scene.matter.add.sprite(x,y,undefined).setDepth(10);
     this.attack.displayHeight = this.attack.height*0.8;
     this.attack.displayWidth = this.attack.width*0.8;
     this.attack.setExistingBody(this.bodyAttack);
