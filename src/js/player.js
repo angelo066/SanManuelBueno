@@ -107,18 +107,17 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
     //animaciones
     this.InitAnims();
-
+    //Eventos de animacion y botones
+    this.setEvents();
     //Timer de curación
     var timer = scene.time.addEvent({
       delay: this.timer,// ms
       callback: () => {
         this.cureHealth();
-        this.timer = this.time;
       },
       loop: true
     });
     }
-
 
   preUpdate(time,delta)
   {
@@ -264,6 +263,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       showOnStart: true,
       hideOnComplete: false
     });
+  }
+
+  setEvents()
+{
     //Control animaciones
     this.attack.on('animationcomplete', function (anim, frame) {
       this.emit('animationcomplete_' + anim.key, anim, frame);
@@ -273,19 +276,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     });
 
     //Muerte
-    this.on('animationcomplete', function (anim, frame) {
+    this.on('animationcomplete', function (anim) {
 
       if(anim.key === 'death')
       {
-          this.scene.tweens.add({
-          targets: this.text,
-          alpha: { from: 0, to: 1 },
-          duration: 1000,
-          ease: 'Sine.easeInOut'
-        });
+        this.scene.scene.pause(this.scene.scene.key);
+        this.scene.scene.launch('deathBox',this.scene.scene.key);
       }
     }, this);
-  }
+}
 //amount debe ser un numero de 0 a 1 | posX es la posicion de quien realiza el daño
  takeDamage(amountDamage, amountThrust, posX)
  {
@@ -330,7 +329,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
    this.anims.play('death', false);
    //No usamos el this.input.keyboard.shutdown();ya que  no nos ejecuta las animaciones de muerte.
    
-   this.text.setInteractive();
+  
    this.canMove = false;
   }
   //Añade una letra al inventario
