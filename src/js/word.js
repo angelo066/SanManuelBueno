@@ -71,9 +71,12 @@ export default class Word extends Letter{
     selectLetter(gameObject){
         if (this.letter_selected === null){
             this.letter_selected = gameObject;
+            this.selector = this.scene.add.image(this.container.x + this.letter_selected.x,this.container.y + this.letter_selected.y - 5,'selection').setDepth(20);
+            this.selector.setTint(0xb80014);
         }
         else{
             this.swapLetters(gameObject);
+            this.selector.destroy();
         }
         this.newWord();
     }
