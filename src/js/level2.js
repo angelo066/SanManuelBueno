@@ -157,6 +157,9 @@ export default class Level2 extends  Phaser.Scene {
       this.sombra.complete = true;
       this.guadalupe.anims.stop();
       this.guadalupe.setTexture(this.guadalupe.texture);
+
+      this.GuadalupeNuevoDialogo();
+
     }
     if(this.caldera.solved){
       
@@ -393,5 +396,26 @@ export default class Level2 extends  Phaser.Scene {
       this.guadalupe.body.destroy(true);
     }
   });
-}
-}
+  }
+
+
+  GuadalupeNuevoDialogo(){
+    this.dialogoGuadalupeFinal = new Dialogue(this, ["Señora Guadalupe: Muchas Gracias buen señor, ahora Pedro descansa en paz",
+    "Pase a mi casa a refugiarse de la lluvia y a calentarse junto al fuego"]);
+    this.senSorGuadalupe2 = Phaser.Physics.Matter.Matter.Bodies.circle(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 500,{isSensor:true,isStatic:true});
+    this.senSorGuadalupe2.label = 'DialogoGuadalupeFinal';
+
+    this.guadalupe.setExistingBody(this.senSorGuadalupe2);
+
+    this.matter.world.on('collisionstart',
+      (event,BodyA, BodyB)=>{
+        if(BodyA.label === 'DialogoGuadalupeFinal'  && BodyB.label === 'player' || BodyB.label === 'DialogoGuadalupeFinal' && BodyA.label === 'player' ){
+          this.dialogoGuadalupeFinal.onDialogue = true;
+          this.player.invent.changeDialogue(this.dialogoGuadalupeFinal);
+          this.guadalupe.body.destroy(true);
+        }
+      });
+    
+    } 
+  }
+
