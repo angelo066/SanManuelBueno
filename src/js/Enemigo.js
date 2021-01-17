@@ -33,9 +33,9 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     var timer = scene.time.addEvent({
       delay: this.time,                // ms
       callback: () => {
-        if(this.player.x < this.x)
-            this.Creapalabra(1);
-        else this.Creapalabra(-1);
+        // if(this.player.x < this.x)
+        //     this.Creapalabra(1);
+        // else this.Creapalabra(-1);
         this.states.atacando = true;
         this.states.idle=false;
       },

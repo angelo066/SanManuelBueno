@@ -14,6 +14,9 @@ export default class LevelBoss extends  Phaser.Scene {
 
     this.loadBossAssets();
 
+    this.load.image('text_bg','src/assets/bg/text_bg.png');
+    this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml')
+
     this.load.image('boss_bg', 'src/assets/iglesia/church.png');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.image('benches', 'src/assets/iglesia/church_bench.png')
@@ -23,6 +26,7 @@ export default class LevelBoss extends  Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    
     this.InitSound();
     
     //TileMap
@@ -37,28 +41,29 @@ export default class LevelBoss extends  Phaser.Scene {
     
     //BG
     this.background = this.add.image(this.mapWidth/2, this.mapHeight/2, 'boss_bg').setDepth(0);
-
+    
     this.benches = this.add.image(this.mapWidth/2, this.mapHeight/2, 'benches').setDepth(2);
-
+    
     //Layers del tileMap
     const colliders = map.createLayer('colliders',tileset,0,0).setDepth(0);
-
+    
     //Implementacion de colisiones
     colliders.setCollisionByProperty({collides:true});
-
+    
     //convertir colisiones a matter
     this.matter.world.convertTilemapLayer(colliders);
-
-    //Player
-    this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0,undefined);
-    this.player.setDepth(1);
-    
     this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss',this.player, "voz");
     this.boss.setScale(0.15);
     this.boss.flipX = true;
-
+    
+    this.SetDialogues();
+    //Player
+    this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0,this.dialogoInicial);
+    this.player.setDepth(1);
+    
+    
     this.FadeIn();
-
+    
     this.SetAnims();
   }
   //Inicia la banda sonora
@@ -300,20 +305,20 @@ export default class LevelBoss extends  Phaser.Scene {
 
   SetDialogues(){
 
-    this.inicial=this.matter.add.image(his.mapWidth / 2 + 2000, this.mapHeight - 1000);
+    this.trigger = this.matter.add.sprite(this.boss.x , this.boss.y);
     this.dialogoInicial = new Dialogue(this, ["Don Manuel: Buenas, hijo mio,¿Qué te trae por nuestra iglesia?","He oido Padre, que es usted especial",
     "Don Manuel:Pues has debido oir mal hijo mio", "Don Manuel:Pues no soy más que un hombre de Dios", "He oido que ha perdido usted la fe Padre",
     "Don Manuel:¡No digas sandeces... Yo no... Yo nunca..."]);
-    this.sensorInicial = haser.Physics.Matter.Matter.Bodies.circle(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 500,{isSensor:true,isStatic:true});
+    this.sensorInicial = Phaser.Physics.Matter.Matter.Bodies.circle(this.boss.x , this.boss.y, 900,{isSensor:true,isStatic:true});
     this.sensorInicial.label = "inicial";
 
-    this.inicial.setExistingBody(this.sensorInicial);
+    this.trigger.setExistingBody(this.sensorInicial);
 
     this.matter.world.on('collisionstart',
     (event,BodyA, BodyB)=>{
       if(BodyA.label === 'inicial'  && BodyB.label === 'player' || BodyB.label === 'inicial' && BodyA.label === 'player' ){
         this.dialogoInicial.onDialogue = true;
-        this.inicial.body.destroy(true);
+        //this.inicial.body.destroy(true);
       }
     });
   
