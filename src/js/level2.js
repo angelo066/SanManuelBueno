@@ -133,6 +133,12 @@ export default class Level2 extends  Phaser.Scene {
     this.rain.anims.play('rainanim', true);
     this.guadalupe.anims.play('guadalupeanim', true);
 
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+      this.scene.start('Boss');
+    });
+
+    this.SetEnd();
+
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
@@ -410,6 +416,21 @@ export default class Level2 extends  Phaser.Scene {
       this.guadalupe.body.destroy(true);
     }
   });
+  }
+
+  SetEnd(){
+    this.final=this.matter.add.image(this.mapWidth -200, this.mapHeight - 1030,);
+    this.senSorFinal = Phaser.Physics.Matter.Matter.Bodies.circle(this.mapWidth -200, this.mapHeight - 1030, 200,{isSensor:true,isStatic:true});
+    this.senSorFinal.label = 'Final';
+
+    this.final.setExistingBody(this.senSorFinal);
+
+    this.matter.world.on('collisionstart',
+    (event,BodyA, BodyB)=>{
+      if(BodyA.label === 'Final'  && BodyB.label === 'player' || BodyB.label === 'Final' && BodyA.label === 'player' ){
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+      }
+    });
   }
 
 

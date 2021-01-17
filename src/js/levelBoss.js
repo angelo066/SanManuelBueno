@@ -2,6 +2,7 @@ import Player from './player.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 import PuzzleObjectLetter from './puzzleObjectLetter.js';
 import Enemigo from './Enemigo.js';
+import Dialogue from './dialogue.js';
 export default class LevelBoss extends  Phaser.Scene {
   constructor() {
     super({key: 'Boss'});
@@ -295,5 +296,45 @@ export default class LevelBoss extends  Phaser.Scene {
       this.boss.states.atacando = false;
       this.boss.states.idle = true;
     });
+  }
+
+  SetDialogues(){
+
+    this.inicial=this.matter.add.image(his.mapWidth / 2 + 2000, this.mapHeight - 1000);
+    this.dialogoInicial = new Dialogue(this, ["Don Manuel: Buenas, hijo mio,¿Qué te trae por nuestra iglesia?","He oido Padre, que es usted especial",
+    "Don Manuel:Pues has debido oir mal hijo mio", "Don Manuel:Pues no soy más que un hombre de Dios", "He oido que ha perdido usted la fe Padre",
+    "Don Manuel:¡No digas sandeces... Yo no... Yo nunca..."]);
+    this.sensorInicial = haser.Physics.Matter.Matter.Bodies.circle(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 500,{isSensor:true,isStatic:true});
+    this.sensorInicial.label = "inicial";
+
+    this.inicial.setExistingBody(this.sensorInicial);
+
+    this.matter.world.on('collisionstart',
+    (event,BodyA, BodyB)=>{
+      if(BodyA.label === 'inicial'  && BodyB.label === 'player' || BodyB.label === 'inicial' && BodyA.label === 'player' ){
+        this.dialogoInicial.onDialogue = true;
+        this.inicial.body.destroy(true);
+      }
+    });
+  
+    this.dialogoIntermedio = new Dialogue(this,["DOn Manuel: ¡Aléjate de mi templo y de mi rabaño!"]);
+
+    this.dialogoFinal = new Dialogue(this, ["...","...", "Así es hijo mío", "No creo más en Dios",
+    "¿Has hablado con Lázaro? es un hombre de ciencia del pueblo", "Me ha hablado tanto de ciencia",
+    "Tantas cosas que explicabamos mediante Dios, ahora ya no son Dios",
+    "Y me hace pensar, ¿Por qué iba a ser nada Dios?", "¿No será simplemente la dulce las mentiras?",
+    "Contada desde el albor de los tiempos, para que no le tengamos miedo a la vida",
+    "Hijo mío, no puedo dejar que mis feligreses se enteren",
+    "No quiero que pasen por la misma agonía que yo", "La agonía de saber que nada importa", "Que todos estamos condenados a lo mismo",
+    "Pues mi sentido común me dice que después de esto solo hay oscuridad y polvo", "Ya no entiendo nada hijo mío",
+    "Ahora por favor déjame solo, con mi angustia", "Mi angustia y mi deber de cuidar de mi pueblo."])
+  }
+
+  PlayDialogoIntermedio(){
+    this.dialogoIntermedio.onDialogue = true;
+  }
+
+  PlayDialogoFinal(){
+    this.dialogoFinal.onDialogue = true;
   }
 }
