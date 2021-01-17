@@ -107,11 +107,17 @@ export default class Word extends Letter{
 
     removeLetter(letrita)
     {
+        //Posicionamiento de las letras al destruir la excluida
+        let index = this.container.getIndex(letrita);
+        this.container.iterate(child =>{
+            if(this.container.getIndex(child)>index){
+                child.x = child.x - this.offSetLetter;
+            }
+        });
+        //Destroy de la letra excluida
         this.container.bringToTop(letrita);
-     
         this.container.remove(this.container.last);
         this.i--;
-
         this.letter_selected = null;
     }
 

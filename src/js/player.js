@@ -10,8 +10,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 50,
-        jump: 30
+        run: 8,
+        jump: 12 //STANDARDS: RUN=>8, JUMP=>12
       },
       canMove: true,
       onFloor: false,
@@ -245,6 +245,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         let n = this.playerController.letter_Selected.frame.name + 97;
         this.invent.AddLetter(String.fromCharCode(n));
         this.invent.puzzleToInteract.objectWord.removeLetter(this.playerController.letter_Selected);
+        this.playerController.letter_Selected = null;
       }
 
 
