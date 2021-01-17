@@ -31,12 +31,12 @@ export default class Word extends Letter{
                 y: 0,
                 key: letterKey,
                 frame: l.charCodeAt()-97,
-                interactive: interactive
+                interactive: interactive,
+                tint: false
             });
             this.container.add(this.let);
             if(letter === l){this.container.sendToBack(this.let);}
             this.i++;
-
         });
         
         this.container.setDepth(20);
@@ -107,6 +107,17 @@ export default class Word extends Letter{
 
     //Cambiar la posicion de las letras
     swapLetters(gameObject){
+        if(gameObject.tinte)
+        {
+            gameObject.ClearTint();
+            this.letter_selected.SetTint();
+        }
+        else if(this.letter_selected.tinte)
+        {
+            gameObject.SetTint();
+            this.letter_selected.ClearTint();
+        }
+        
         let temp = [this.letter_selected.texture,this.letter_selected.frame.name];
         this.letter_selected.setTexture(gameObject.texture,gameObject.frame.name);
         gameObject.setTexture(temp[0], temp[1]);
@@ -147,10 +158,17 @@ export default class Word extends Letter{
             key: 'letters',
             frame: l.charCodeAt()-97,
             interactive: interactivo,
+            tint:true
         });
-        this.container.add(letter);
-        this.i++;
 
+        this.container.add(letter);
+
+        this.i++;
+    }
+
+    returnLetter()
+    {
+        
     }
 
 }

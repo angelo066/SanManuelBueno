@@ -9,7 +9,7 @@ export default class Dialogue extends Phaser.GameObjects.Container{
         this.bg.setScrollFactor(0);
         this.i = 0;
         //Dialogo
-        this.dialogue = this.scene.add.bitmapText((this.bg.x - this.bg.width/2) - 120,(this.bg.y-this.bg.height/2)+60,'dialogue_font',message[this.i],80,0).setDepth(30);
+        this.dialogue = this.scene.add.bitmapText((this.bg.x - this.bg.width/2) - 120,(this.bg.y-this.bg.height/2)+60,'dialogue_font',message[this.i],60,0).setDepth(30);
         this.dialogue.setScrollFactor(0);
         this.counter = 0;
         this.endMessage = message.length;

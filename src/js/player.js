@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 50,
+        run: 8,
         jump: 12
       },
       canMove: true,
