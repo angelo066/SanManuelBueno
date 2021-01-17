@@ -39,7 +39,7 @@ export default class Word extends Letter{
 
         });
         
-        this.container.setDepth(10);
+        this.container.setDepth(20);
         //Modo quitar letra = true y modo intercambiar letras = false
         this.strikeMode = false;
         //Input de raton

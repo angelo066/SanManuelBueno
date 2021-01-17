@@ -1,7 +1,6 @@
 import Player from './player.js';
-import Dialogue from './dialogue.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
-import PuzzleObjectLetter from './puzzleObjectLetter.js';
+import Dialogue from './dialogue.js';
 
 export default class level1 extends Phaser.Scene {
   constructor() {
@@ -10,7 +9,7 @@ export default class level1 extends Phaser.Scene {
   //para cargar los recursos
   preload() 
   {
-    //filtro Gris camara y bitmap
+    //filtro Gris camara
     this.LoadEssentialAssets();
     //Arbol
     this.load.spritesheet({
@@ -43,6 +42,7 @@ export default class level1 extends Phaser.Scene {
     //Cargamos imagenes
     this.load.image('sky', 'src/assets/bg/sky.png');
     this.load.image('bg1', 'src/assets/bg/lake.png');
+    this.load.image('text_bg','src/assets/bg/text_bg.png');
     this.load.image('cow', 'src/assets/props/vacas/cow.png',);
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.image('ground', 'src/assets/platforms/grass.png');
@@ -51,12 +51,15 @@ export default class level1 extends Phaser.Scene {
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
     this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
+    this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml');
   }
   
 
 //coloca objetos apartir de los assets dentro de la escena
   create()
   {
+    this.setDialogues();
+
     //Arbol Talado
     this.anims.create({
       key:'talado',
@@ -80,6 +83,7 @@ export default class level1 extends Phaser.Scene {
       repeat: -1
     });
 
+
     //Musica
     this.InitSounds();
     
@@ -88,13 +92,9 @@ export default class level1 extends Phaser.Scene {
 
     //TileMap
     this.SetTileMap(); 
-
-    //Dialogo
-    this.dialogo = new Dialogue(this,["Ah si, Valverde de Lucerna"/*,"Tengo unos maravillosos recuerdos de este lugar"*/]);
-    this.dialogo.onDialogue = true; //flag de activar dialogo
     
     //Player
-    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height, 'player_run', 0,this.dialogo).setDepth(2);
+    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height, 'player_run', 0, this.dialogoInicio).setDepth(2);
 
     //Crea los puzzles
     this.SetPuzzles();
@@ -110,7 +110,7 @@ export default class level1 extends Phaser.Scene {
       this.vaquitas[i].anims.play('idlee', true);
     }
     //Animación de las velas
-    // this.velas.sprite.anims.play('velasMuevan', true);
+    this.velas.sprite.anims.play('velasMuevan', true);
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
@@ -123,26 +123,19 @@ export default class level1 extends Phaser.Scene {
     {
       this.arbol.anims.play('talado',true);     
       this.altar.complete=true;
+      
     }
-
-    //Animación de las vacas
-    // for(let i = 0; i < 4; i++)
-    //   this.vaquitas[i].anims.play('idlee', true);
-
-    //   //Animación de las velas
-    //   this.velaAnima.anims.play('velasMuevan',true);
     
     //Comprobación de la solución de las vacas
-    // if(this.vacas.objectSolved() && !this.vacas.complete){
-      // this.suelo.destroy();
-    // }
-
-    // //COmprobación de la solución de las velas
-    // if(this.velas.objectSolved() && !this.velas.complete){
-    //   this.cascade.destroy();
-    //   this.waterfall.destroy(true);
-    //   this.waterfall2.destroy(true);
-    // }
+    if(this.vacas.objectSolved() && !this.vacas.complete){
+      this.suelo.destroy();
+    }
+    //COmprobación de la solución de las velas
+    if(this.velas.objectSolved() && !this.velas.complete){
+      this.cascade.destroy();
+      this.waterfall.destroy(true);
+      this.waterfall2.destroy(true);
+    }
     
   }
 
@@ -150,10 +143,6 @@ export default class level1 extends Phaser.Scene {
   {
     //Filtro Gris
     this.load.plugin('rexgrayscalepipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgrayscalepipelineplugin.min.js', true);
-    //BitMap de dialogos
-    this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml');
-    //Fondo de dialogos
-    this.load.image('text_bg','src/assets/bg/text_bg.png');
     //Player Idle
     this.load.spritesheet({
       key: 'player_idle',
@@ -235,7 +224,7 @@ export default class level1 extends Phaser.Scene {
   SetPuzzles() {
 
     //#region Puzzle 1
-    this.altar = new PuzzleObjectWord(this, this.game.config.width / 3, this.game.config.height * 1.37, 'altar', false, 2000, 'Altar', 'talar',this.player);
+    this.altar = new PuzzleObjectWord(this, this.game.config.width / 3, this.game.config.height * 1.37, 'altar', false, 3000, 'Altar', 'talar',this.player);
     this.altar.sprite.setDepth(1);
     this.scaleThis(this.altar.sprite, 0.10, 0.10);
 
@@ -254,9 +243,9 @@ export default class level1 extends Phaser.Scene {
     //#endregion
 
     //#region Puzzle 2
-    // this.vacas = new PuzzleObjectWord(this, this.game.config.width * 2.8, this.game.config.height / 1.05, 'cow', false, 190, 'vacas', 'cavas',this.player);
-    // this.vacas.sprite.setDepth(1);
-    // this.scaleThis(this.vacas.sprite, 4, 4);
+    this.vacas = new PuzzleObjectWord(this, this.game.config.width * 2.8, this.game.config.height / 1.05, 'cow', false, 190, 'vacas', 'cavas',this.player);
+    this.vacas.sprite.setDepth(1);
+    this.scaleThis(this.vacas.sprite, 4, 4);
 
     this.vaquitas = {};
     this.vaquitas[0] = this.add.sprite(this.game.config.width * 2.75, this.game.config.height / 1.05, 'vacaCome', 0).setDepth(2);
@@ -278,9 +267,9 @@ export default class level1 extends Phaser.Scene {
     //#endregion
 
     //#region Puzzle 3
-    // this.velas = new PuzzleObjectWord(this, this.game.config.width * 2.9, this.game.config.height / 0.53, undefined, false, 4000, 'ceras', 'secar',this.player);
-    // this.velas.sprite.setDepth(1);
-    // this.scaleThis(this.velas.sprite, 0.1, 0.1);
+    this.velas = new PuzzleObjectWord(this, this.game.config.width * 2.9, this.game.config.height / 0.53, undefined, false, 4000, 'ceras', 'secar',this.player);
+    this.velas.sprite.setDepth(1);
+    this.scaleThis(this.velas.sprite, 0.1, 0.1);
 
     this.velaAnima = this.add.sprite(this.game.config.width * 2.9, this.game.config.height / 0.53, 'vela', 0).setDepth(1);
     this.scaleThis(this.velaAnima, 0.1, 0.1);
@@ -392,5 +381,27 @@ export default class level1 extends Phaser.Scene {
     let h = image.height;
     let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true});
     image.setExistingBody(newBody);
+  }
+
+  setDialogues(){
+        //Dialogo
+        this.dialogoInicio = new Dialogue(this,["Recuerdo aquel campo camino a la iglesia", "Con ese resplandeciente lago al fondo y el sonido de los animales en la lejanía",
+        "Aquel altar a la vigen María, siempre me produjo alivio"]);
+        this.dialogoInicio.onDialogue = true;
+    
+        this.dialogoVacas = new Dialogue(this, ["Ah si, recuerdo aquellas vacas que hacían contraste con el cielo pristino"]);
+        this.senSorVacas = Phaser.Physics.Matter.Matter.Bodies.circle(this.game.config.width * 2.75 - 50, this.game.config.height / 1.05, 500,{isSensor:true,isStatic:true});
+        this.senSorVacas.label = 'DialogoVacas';
+        this.triggerDialogo = this.matter.add.sprite(this.game.config.width * 2.75 - 50, this.game.config.height / 1.05);
+    
+        this.triggerDialogo.setExistingBody(this.senSorVacas);
+    
+        this.matter.world.on('collisionstart',
+        (event,BodyA, BodyB)=>{
+          if(BodyA.label === 'DialogoVacas'  && BodyB.label === 'player' || BodyB.label === 'DialogoVacas' && BodyA.label === 'player' ){
+            this.dialogoVacas.onDialogue = true;
+            this.triggerDialogo.destroy(true);
+          }
+        });
   }
 }

@@ -48,8 +48,9 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         this.keycodeF = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     }
 
-    preUpdate()
+    preUpdate(time, delta)
     {
+        super.preUpdate(time,delta);
         //Moverse a la izquierda en el inventario
         if (Phaser.Input.Keyboard.JustDown(this.keycodeV)){
             
@@ -115,5 +116,9 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
     moveSelection(x)
     {
         this.selection.setX(x);
+    }
+
+    changeDialogue(nuevoDialogo){
+        this.dialogue = nuevoDialogo; //Joseda puto come pollas de mierda ojalá te mueras y se te pudra el pito puto tonto
     }
 }

@@ -67,7 +67,7 @@ export default class Level2 extends  Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    
+
     this.InitSounds();
     
     this.SetTileMap(); 
@@ -118,13 +118,12 @@ export default class Level2 extends  Phaser.Scene {
       frameRate: 8,
     })
     //Dialogo de prueba
-    this.dialogo = new Dialogue(this,["dawedwadawda\nwdwaddawd", "awsfdawedawda\nfweofiewufhseuohfuwehf"]);
-    this.dialogo.onDialogue = false; //flag de activar dialogo
-    //Player
-    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0, this.dialogo).setDepth(15);
-    
     this.SetImages();
-
+    this.setDialogues();
+    
+    //Player
+    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0, this.dialogoInicio).setDepth(15);
+    
     this.SetPuzzles();
 
     this.FadeIn();
@@ -132,13 +131,13 @@ export default class Level2 extends  Phaser.Scene {
     this.caldera.sprite.anims.play('calderaAnim',true);
     this.rain.anims.play('rainanim', true);
     this.guadalupe.anims.play('guadalupeanim', true);
+
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
     //La lluvia siga al player
     this.rain.setPosition(this.player.x, this.player.y-280);
-
     if(this.brote.objectSolved() && !this.brote.complete){
       this.brote.changeImage('nogal');
       //Sombra
@@ -151,11 +150,13 @@ export default class Level2 extends  Phaser.Scene {
     if(this.nuez.solved){
        this.player.addLetter(this.nuez.getLetter());
      }
-    if(this.sombra!== undefined && this.sombra.objectSolved() && !this.sombra.complete){
-      console.log("facilito estoy en level2 linea 155");
-      this.anims.play('puertaAnim',true);
+    if(this.sombra !== undefined && this.sombra.objectSolved() && !this.sombra.complete){
+      console.log(this.anims);
+      this.puerta.anims.play('puertaAnim',true);
       this.puerta.body.destroy();
       this.sombra.complete = true;
+      this.guadalupe.anims.stop();
+      this.guadalupe.setTexture(this.guadalupe.texture);
     }
     if(this.caldera.solved){
       
@@ -170,16 +171,15 @@ export default class Level2 extends  Phaser.Scene {
     this.brote = new PuzzleObjectWord(this, this.mapWidth / 2, this.mapHeight - 940, 'brote', false, 400, 'lago', 'nogal',this.player);
 
     //Caldera 
-    this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3100, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central',this.player);
+    this.caldera = new PuzzleObjectWord(this,this.mapWidth / 2 + 3300, this.mapHeight - 1050, 'caldera', false, 1000, 'calentar', 'central',this.player);
     this.caldera.setScaleSprite(0.3,0.3);
     this.caldera.sprite.setDepth(3);
   }
 
   SetImages() {
-    this.puerta = this.matter.add.sprite(this.mapWidth / 2 + 2850, this.mapHeight - 1050, 'puerta', 0).setDepth(14);
+    this.puerta = this.matter.add.sprite(this.mapWidth / 2 + 2850, this.mapHeight - 1030, 'puerta', 0).setDepth(14);
     let puertaBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.puerta.x,this.puerta.y,500,500,{isStatic:true});
     this.puerta.setExistingBody(puertaBody);
-    //this.puerta.setMass(8000000);              //Porque matter es to divertido
     this.scaleThis(this.puerta, 0.27, 0.27);
 
     //Tumba
@@ -193,7 +193,7 @@ export default class Level2 extends  Phaser.Scene {
     this.marchita3 = this.add.sprite(this.mapWidth / 2 + 440, this.mapHeight - 850, 'marchita', 0).setDepth(2);
     this.scaleThis(this.marchita3, 2, 2);
     //SEÑORAGUADALUPESACAMEDEAQUI
-    this.guadalupe = this.add.sprite(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 'guadalupe', 0);
+    this.guadalupe = this.matter.add.sprite(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 'guadalupe', 0);
     this.scaleThis(this.guadalupe, 1.2, 1.2);
     this.guadalupe.flipX = true;
 
@@ -373,4 +373,25 @@ export default class Level2 extends  Phaser.Scene {
     let newBody = M.Bodies.rectangle(image.x, image.y, w-offsetX, h-offsetY, {isStatic: true});
     image.setExistingBody(newBody);
   }
+  
+  setDialogues(){ 
+  //Dialogo
+  this.dialogoInicio = new Dialogue(this,["Aquella iglesia, en aquel templo a la fe ciega conocí a Manuel", "Santo por su devoción y sacrificio a su rebaño"]);
+  this.dialogoInicio.onDialogue = true;
+
+  this.dialogoGuadalupe = new Dialogue(this, ["Señora Guadalupe: ¡Ay de mi, Mi marido falleció hace 3 días!", "Señora Guadalupe: ¡Y no tengo ni una triste flor que dejarle en su lecho"]);
+  this.senSorGuadalupe = Phaser.Physics.Matter.Matter.Bodies.circle(this.mapWidth / 2 + 2000, this.mapHeight - 1000, 500,{isSensor:true,isStatic:true});
+  this.senSorGuadalupe.label = 'DialogoGuadalupe';
+
+  this.guadalupe.setExistingBody(this.senSorGuadalupe);
+
+  this.matter.world.on('collisionstart',
+  (event,BodyA, BodyB)=>{
+    if(BodyA.label === 'DialogoGuadalupe'  && BodyB.label === 'player' || BodyB.label === 'DialogoGuadalupe' && BodyA.label === 'player' ){
+      this.dialogoGuadalupe.onDialogue = true;
+      this.player.invent.changeDialogue(this.dialogoGuadalupe);
+      this.guadalupe.body.destroy(true);
+    }
+  });
+}
 }
