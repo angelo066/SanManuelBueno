@@ -56,13 +56,14 @@ export default class Level2 extends  Phaser.Scene {
     this.load.image('rosa', 'src/assets/puzzle_objects/rosa.png');
     this.load.image('nuez', 'src/assets/puzzle_objects/nuez.png');
     this.load.image('nogal', 'src/assets/puzzle_objects/nogal.png');
+    this.load.image('llaves','src/assets/sprites/keys/fullkeys.png');
     this.load.image('sombra', 'src/assets/puzzle_objects/sombra.png');
+    this.load.image('menosllaves','src/assets/sprites/keys/emptykeys.png')
     this.load.image('brote', 'src/assets/puzzle_objects/brote_nogal.png');
     this.load.image('tumba', 'src/assets/sprites/game_objects/tumba.png');
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
     this.load.image('marchita', 'src/assets/puzzle_objects/rosa_marchita.png');
     this.load.tilemapTiledJSON('tilemap_level2', 'src/assets/tiles/level2.json');
-    this.load.image('llaves','src/assets/sprites/game_objects/tumba.png');
   }
 //coloca objetos apartir de los assets dentro de la escena
   create() 
@@ -161,8 +162,14 @@ export default class Level2 extends  Phaser.Scene {
       this.GuadalupeNuevoDialogo();
 
     }
-    if(this.caldera.solved){
-      
+    if(this.caldera.objectSolved() && !this.caldera.complete){
+      let menosllaves = this.add.image(this.llaves.x, this.llaves.y,'menosllaves').setDepth(15);
+      menosllaves.setScale(0.05, 0.05);
+      this.llaves.destroy();
+
+      this.puertaFinal.anims.play('puertaAnim',true);
+      this.puertaFinal.body.destroy();
+      this.caldera.complete=true;
     }
   }
 
@@ -180,10 +187,17 @@ export default class Level2 extends  Phaser.Scene {
   }
 
   SetImages() {
+    //Primera puerta
     this.puerta = this.matter.add.sprite(this.mapWidth / 2 + 2850, this.mapHeight - 1030, 'puerta', 0).setDepth(14);
     let puertaBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.puerta.x,this.puerta.y,500,500,{isStatic:true});
     this.puerta.setExistingBody(puertaBody);
     this.scaleThis(this.puerta, 0.27, 0.27);
+
+    //SegundaPuerta
+    this.puertaFinal = this.matter.add.sprite(this.mapWidth - 750, this.mapHeight - 1030, 'puerta', 0).setDepth(14);
+    let puertaFinalBody = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.puertaFinal.x,this.puertaFinal.y,500,500,{isStatic:true});
+    this.puertaFinal.setExistingBody(puertaFinalBody);
+    this.scaleThis(this.puertaFinal, 0.27, 0.27);
 
     //Tumba
     this.tumba = this.add.sprite(this.mapWidth / 2 + 470, this.mapHeight - 900, 'tumba', 0).setDepth(2);
@@ -200,8 +214,8 @@ export default class Level2 extends  Phaser.Scene {
     this.scaleThis(this.guadalupe, 1.2, 1.2);
     this.guadalupe.flipX = true;
 
-    //this.llaver = this.add.sprite(this.mapWidth / 2 + 2950, this.mapHeight - 1200, 'puerta', 0);
-
+    this.llaves = this.add.sprite(this.mapWidth / 2 + 3600, this.mapHeight - 1200, 'llaves', 0).setDepth(15);
+    this.llaves.setScale(0.05,0.05);
   }
 
   SetTileMap() {

@@ -53,7 +53,6 @@ export default class Intro extends  Phaser.Scene {
     this.cameras.main.setBounds(0,0,7680, 2560);  
     
     this.cameras.main.zoomTo(0.8, 4000);
-
   }
 
   update(){
@@ -61,6 +60,6 @@ export default class Intro extends  Phaser.Scene {
     {
       this.cameras.main.fadeOut(1000, 0, 0, 0);
       this.finished = true;
-      }
+    }
   }
 }

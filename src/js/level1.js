@@ -111,6 +111,12 @@ export default class level1 extends Phaser.Scene {
     }
     //Animación de las velas
     this.velas.sprite.anims.play('velasMuevan', true);
+
+    
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+      this.scene.start('level2');
+    });
+    this.setEnd();
   }
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
@@ -403,5 +409,20 @@ export default class level1 extends Phaser.Scene {
             this.triggerDialogo.destroy(true);
           }
         });
+  }
+
+  setEnd(){
+    this.final=this.matter.add.image(this.game.config.width * 2.9 + 2000, this.game.config.height / 0.53);
+    this.senSorFinal = Phaser.Physics.Matter.Matter.Bodies.circle(this.game.config.width * 2.9 + 2000, this.game.config.height / 0.53, 500,{isSensor:true,isStatic:true});
+    this.senSorFinal.label = 'Final';
+
+    this.final.setExistingBody(this.senSorFinal);
+
+    this.matter.world.on('collisionstart',
+    (event,BodyA, BodyB)=>{
+      if(BodyA.label === 'Final'  && BodyB.label === 'player' || BodyB.label === 'Final' && BodyA.label === 'player' ){
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+      }
+    });
   }
 }
