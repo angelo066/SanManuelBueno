@@ -90,7 +90,7 @@ export default class Word extends Letter{
         this.newWord();
     }
     //Quitar una letra de la palabra
-    removeLetter(selection, i)
+    removeLetterByIndex(selection, i)
     {
         let letra = this.container.getAt(selection).frame.name;
         this.container.bringToTop(this.container.getAt(selection));
@@ -105,19 +105,27 @@ export default class Word extends Letter{
         return letra + 97;
     }
 
+    removeLetter(letrita)
+    {
+        this.container.bringToTop(letrita);
+     
+        this.container.remove(this.container.last);
+        this.i--;
+
+        this.letter_selected = null;
+    }
+
     //Cambiar la posicion de las letras
     swapLetters(gameObject){
         if(gameObject.tinte)
         {
             gameObject.ClearTint();
             this.letter_selected.SetTint();
-        }
-        else if(this.letter_selected.tinte)
-        {
+        }else if(this.letter_selected.tinte){
             gameObject.SetTint();
             this.letter_selected.ClearTint();
         }
-        
+
         let temp = [this.letter_selected.texture,this.letter_selected.frame.name];
         this.letter_selected.setTexture(gameObject.texture,gameObject.frame.name);
         gameObject.setTexture(temp[0], temp[1]);
@@ -150,6 +158,7 @@ export default class Word extends Letter{
     //Añadir una letra a la palabra
     AddLetter(l, offset, interactivo )
     {
+        console.log(l);
         l = l.toLowerCase();
         let letter = new Letter({
             scene: this.scene,
@@ -165,10 +174,4 @@ export default class Word extends Letter{
 
         this.i++;
     }
-
-    returnLetter()
-    {
-        
-    }
-
 }

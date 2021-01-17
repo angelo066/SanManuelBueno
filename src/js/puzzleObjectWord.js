@@ -68,6 +68,34 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             }
         });
 
+        this.scene.matter.world.on('collisionactive', (event)=>{
+
+            let wordBody = this.sprite.body;
+
+            for (let i = 0; i < event.pairs.length; i++)
+            {
+                let bodyA = event.pairs[i].bodyA;
+                let bodyB = event.pairs[i].bodyB;
+
+                if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))   
+                {
+                    console.log("miguel nazi");
+
+                    if(bodyA.label === 'player' && this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
+                    {
+                        bodyA.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
+                        console.log(bodyA.gameObject.playerController.letter_Selected);
+                    }
+                    
+                    if(bodyB.label === 'player' && this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
+                    {
+                        bodyB.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
+                        console.log(bodyB.gameObject.playerController.letter_Selected);
+                    }
+                }
+            }
+        });
+
         //Para que cuando se salga del campo de colisión con la palabra esta desaparezca y ya no se pueda editar
         this.scene.matter.world.on('collisionend', (event)=>{
             let wordBody = this.sprite.body;
@@ -85,10 +113,12 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                         
                         if(bodyB.label === 'player')
                         {
+                            bodyB.gameObject.playerController.letter_Selected = null;
                             bodyB.gameObject.invent.canAdd = false;
                         }
                         else if(bodyB.label === 'player')
                         {
+                            bodyA.gameObject.playerController.letter_Selected = null;
                             bodyA.gameObject.invent.canAdd = false;
                         } 
                     }

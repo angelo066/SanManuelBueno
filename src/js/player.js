@@ -17,6 +17,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       onFloor: false,
       onAttack:false,
       isStriking:false,
+      letter_Selected:null,
       onDialogue:dialogue
     };
 
@@ -114,7 +115,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       },
       loop: true
     });
-    }
+  }
 
   preUpdate(time,delta)
   {
@@ -131,7 +132,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       }
     }
     //Si esta en dialogo no se puede mover
-    if(this.playerController.onDialogue.onDialogue)
+    if(this.playerController.onDialogue !== undefined && this.playerController.onDialogue.onDialogue)
       this.playerController.canMove = false;
     else
       this.playerController.canMove = true;
@@ -238,6 +239,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         this.attack.anims.play('attack', true);
         this.playerController.onAttack = true;
       }
+
+      if(Phaser.Input.Keyboard.JustDown(this.recoverLetter) && this.playerController.letter_Selected !== null && this.playerController.letter_Selected !== undefined)
+      {
+        let n = this.playerController.letter_Selected.frame.name + 97;
+        this.invent.AddLetter(String.fromCharCode(n));
+        this.invent.puzzleToInteract.objectWord.removeLetter(this.playerController.letter_Selected);
+      }
+
+
       if (this.playerController.onAttack) {
         this.attack.setExistingBody(this.bodyAttack);
       }
@@ -347,7 +357,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 //Detiene el input del jugador y reinicia el nivel
  death()
  {
-
    this.anims.play('death', false);
    //No usamos el this.input.keyboard.shutdown();ya que  no nos ejecuta las animaciones de muerte.
    this.playerController.canMove = false;
@@ -373,6 +382,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.keycodeSpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.damage = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
     this.keycodeShift = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+    this.recoverLetter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
   }
 
 }

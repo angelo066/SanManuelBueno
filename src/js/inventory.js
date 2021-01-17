@@ -75,7 +75,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
             if(!(this.selector + 1 > this.NumElems))
             {
-                let letraEliminada = this.word.removeLetter(this.selector, this.Letteroffset*2);
+                let letraEliminada = this.word.removeLetterByIndex(this.selector, this.Letteroffset*2);
 
                 this.NumElems--;
                 let n = String.fromCharCode(letraEliminada); 
