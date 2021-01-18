@@ -137,7 +137,11 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
         if(this.sol === this.objectWord.word){
 
             if(this.sprite !== undefined)
-                 this.scene.matter.world.remove(this.sprite.body);
+            {
+                this.scene.matter.world.remove(this.sprite.body);
+                //esto es por si en algun momento se soluciona el puzzle añadiendo una letra y ya está.
+                if(this.objectWord.selector!== undefined) this.objectWord.selector.destroy();
+            }
 
             this.objectWord.destroy();
             return true;

@@ -85,8 +85,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
       const posY = (this.y + this.player.y) / 2;
 
-      let palabra = new Proyectil(this.scene.matter.world,this.x + 50, posY ,this.lettersK[letter], -4*dir, 0, this, this.player);
-      palabra.LanzaProyectil();
+      // let palabra = new Proyectil(this.scene.matter.world,this.x + 50, posY ,this.lettersK[letter], -4*dir, 0, this, this.player);
+      // palabra.LanzaProyectil();
   }
 
 }
