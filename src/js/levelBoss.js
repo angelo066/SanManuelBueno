@@ -318,7 +318,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.dialogoInicial = new Dialogue(this, ["Don Manuel: Buenas, hijo mio,¿Qué te trae por nuestra iglesia?","He oido Padre, que es usted especial",
     "Don Manuel:Pues has debido oir mal hijo mio", "Don Manuel:Pues no soy más que un hombre de Dios", "He oido que ha perdido usted la fe Padre",
     "Don Manuel:¡No digas sandeces... Yo no... Yo nunca..."]);
-    this.sensorInicial = Phaser.Physics.Matter.Matter.Bodies.circle(bossPosX , bossPosY, 500,{isSensor:true,isStatic:true});
+    this.sensorInicial = Phaser.Physics.Matter.Matter.Bodies.circle(bossPosX , bossPosY, 1000,{isSensor:true,isStatic:true});
     this.sensorInicial.label = "inicial";
 
     this.trigger.setExistingBody(this.sensorInicial);
