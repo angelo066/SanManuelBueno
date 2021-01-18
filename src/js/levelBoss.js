@@ -361,11 +361,5 @@ export default class LevelBoss extends  Phaser.Scene {
     this.player.invent.changeDialogue(this.dialogoFinal);
   }
 
-  FinDeJuego(){
-    if(this.dialogoFinal.endMessage === this.dialogoFinal.i + 1 && !this.finished)
-    {
-      this.cameras.main.fadeOut(1000, 0, 0, 0);
-      this.finished = true;
-    }
-  }
+
 }

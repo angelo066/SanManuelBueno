@@ -79,6 +79,12 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       this.finalPuzzle.complete = true;
     }
 
+    if(this.scene.dialogoFinal.endMessage === this.scene.dialogoFinal.i + 1 && !this.finished)
+    {
+      this.scene.cameras.main.fadeOut(1000, 0, 0, 0);
+      this.finished = true;
+    }
+
     this.ManejaEstados();
   }
 

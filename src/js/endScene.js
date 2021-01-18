@@ -31,7 +31,8 @@ export default class Intro extends  Phaser.Scene {
     this.bg.setScale(1.5,1.5);
     this.bg.anims.play('opening', true);
     
-    this.dialogo = new Dialogue(this,["Puto cerdo de mierda"]);
+    this.dialogo = new Dialogue(this,["Que no te quieres enterar", "Yeye", "Que te quiero de verdad", "Yeye", "Y vendrás a pedirme de rodillas",
+    "Un poquiiiito de amor"]);
     this.dialogo.onDialogue = true; //flag de activar dialogo
 
     this.FadeIn();

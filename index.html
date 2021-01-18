@@ -31,6 +31,7 @@
           import Level2 from "./src/js/level2.js";
           import LevelBoss from "./src/js/levelBoss.js";
           import Intro from "./src/js/introScene.js";
+          import End from "./src/js/endScene.js";
           const myCustomCanvas = document.createElement('canvas');
 
           myCustomCanvas.id = 'myCustomCanvas';
@@ -66,7 +67,7 @@
               mode: Phaser.Scale.FIT,
               autoCenter: Phaser.Scale.CENTER_BOTH,
             },
-            scene: [Level1 ,Intro, Level2,  LevelBoss, DeathBox, GameScene , MenuScene],
+            scene: [LevelBoss,Intro, Level1, Level2, DeathBox, GameScene , MenuScene, End],
             physics: {
               default: "matter",
               matter: { gravity: { y: 1 },

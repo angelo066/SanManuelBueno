@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 8,
+        run: 60,
         jump: 12 //STANDARDS: RUN=>8, JUMP=>12
       },
       canMove: true,
@@ -331,7 +331,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       camera.fadeIn(150, 100);
     }, this);
 
-    this.scene.cameras.main.fadeOut(150, 100);
+    //this.scene.cameras.main.fadeOut(150, 100);
  }
   //Crea los eventos y el texto de la muerte del jugador
  CreateTextDeath() {
