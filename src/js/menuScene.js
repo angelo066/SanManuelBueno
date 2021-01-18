@@ -23,6 +23,7 @@ export default class MenuScene extends  Phaser.Scene {
         this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
         this.load.image('title', 'src/assets/main_menu/title.png');
         this.load.image('press','src/assets/main_menu/press.png');
+        this.load.image('selection', 'src/assets/inventory/selector.png');
     }
     create(){  
     this.sky = this.add.tileSprite(this.game.config.width/2,this.game.config.height/2, 0, 0, 'sky').setScale(0.75,0.75);
@@ -31,7 +32,7 @@ export default class MenuScene extends  Phaser.Scene {
     video.play(false);  //No loop
     
     //Puzzle de inicio
-    this.playGame = new PuzzleObjectWord(this,this.game.config.width/2,this.game.config.height*0.9,null, false, 2000, 'jugra', 'jugar').setScale(1.3).setAlpha(0);
+    this.playGame = new PuzzleObjectWord(this,this.game.config.width/2,this.game.config.height*0.9,null, false, 2000, 'jagru', 'jugar',undefined).setScale(1.3).setAlpha(0);
     //Video inicial
     video.on('complete', (video)=>{
             video.destroy();

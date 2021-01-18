@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 60,
+        run: 8,
         jump: 12 //STANDARDS: RUN=>8, JUMP=>12
       },
       canMove: true,
@@ -212,7 +212,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         this.playerController.onFloor = false;
       }
 
-      console.log("feo");
       //Attack
       this.attack.setX(this.x + this.width * 0.5);
       this.attack.setY(this.y);
@@ -363,7 +362,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   //Añade una letra al inventario
   addLetter(letrita)
   {
-    console.log(letrita);
     this.invent.AddLetter(letrita);
   }
   //Detiene al jugador y le impide moverse

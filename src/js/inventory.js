@@ -109,7 +109,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         
             this.NumElems++;
         }
-        else console.log("Cant add more letters");
+        else console.log("");
 
     }
 

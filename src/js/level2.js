@@ -158,7 +158,6 @@ export default class Level2 extends  Phaser.Scene {
        this.player.addLetter(this.nuez.getLetter());
      }
     if(this.sombra !== undefined && this.sombra.objectSolved() && !this.sombra.complete){
-      console.log(this.anims);
       this.puerta.anims.play('puertaAnim',true);
       this.puerta.body.destroy();
       this.sombra.complete = true;
