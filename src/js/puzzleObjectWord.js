@@ -79,8 +79,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
 
                 if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))   
                 {
-                    console.log("miguel nazi");
-
                     if(bodyA.label === 'player' && this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
                     {
                         bodyA.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
@@ -130,6 +128,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
 
     preUpdate()
     {
+        console.log(this.objectWord.word);
         this.objectWord.activateStrikeMode(this.player.playerController.isStriking);
     }
 

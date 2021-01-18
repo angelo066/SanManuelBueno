@@ -1,5 +1,6 @@
 import Word from'./word.js';
 import Proyectil from './Proyectil.js';
+import PuzzleObjectWord from './puzzleObjectWord.js';
 export default class Enemigo extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, key, player, deadWord)
   {
@@ -13,31 +14,25 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
   
     this.player = player;     //Para comprobar su posicion
 
-    this.deadWord = deadWord;   //Palabra para derrotarlo
+    this.Word = new PuzzleObjectWord(this.scene, this.x-500, this.y, 'wordBg', false, 900, '', deadWord, this.player);
+    this.Word.setScaleSprite(0.5,0.5);
 
-    this.ActualWord = new Word({      //Palabra formada actualmente
-      scene: this.scene,
-      x:this.x,
-      y:this.y,
-      word: '',
-      interactive: true,
-      letter:null
-    });
 
     this.fase=false; //False cuando está en primera y true cuando está en segunda
-
-    //his.SetAnims();
 
 
     //Timer de phaser
     var timer = scene.time.addEvent({
       delay: this.time,                // ms
       callback: () => {
-        // if(this.player.x < this.x)
-        //     this.Creapalabra(1);
-        // else this.Creapalabra(-1);
-        this.states.atacando = true;
-        this.states.idle=false;
+          if(this.agresivo){
+          if(this.player.x < this.x)
+            this.Creapalabra(1);
+          else this.Creapalabra(-1);
+          this.states.atacando = true;
+          this.states.idle=false;
+        }
+
       },
       loop: true
     });
@@ -49,15 +44,20 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       muriendo: false
     };
 
+    this.agresivo = false;
   }
 
   preUpdate(time, delta){
     super.preUpdate(time,delta);
-
+  
     //Compruebo si se muere
-    if(this.ActualWord.word === this.deadWord){
+    if(this.Word.objectSolved() && !this.Word.complete){
       //Animación y cambio de fase
-      if(!this.fase)this.fase = true;
+      if(!this.fase)
+      {
+        this.fase = true;
+        this.scene.PlayDialogoIntermedio();
+      }
       else this.states.muriendo=true;
     }
 

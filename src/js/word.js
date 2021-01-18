@@ -167,7 +167,6 @@ export default class Word extends Letter{
     //Añadir una letra a la palabra
     AddLetter(l, offset, interactivo )
     {
-        console.log(l);
         l = l.toLowerCase();
         let letter = new Letter({
             scene: this.scene,

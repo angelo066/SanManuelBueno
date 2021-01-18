@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         right: null
       },
       speed: {
-        run: 8,
+        run: 50,
         jump: 12 //STANDARDS: RUN=>8, JUMP=>12
       },
       canMove: true,
@@ -174,11 +174,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       dialogue:dialogue
     });
 
-    this.invent.AddLetter("W");
-    this.invent.AddLetter("A");
-    this.invent.AddLetter("R");
-    this.invent.AddLetter("N");
-    this.invent.AddLetter("T");
+    this.invent.AddLetter("V");
+    this.invent.AddLetter("O");
+    this.invent.AddLetter("Z");
 
     this.invent.setScrollFactor(0);
     this.invent.setDepth(20);

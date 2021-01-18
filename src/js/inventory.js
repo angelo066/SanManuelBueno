@@ -79,7 +79,7 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
 
                 this.NumElems--;
                 let n = String.fromCharCode(letraEliminada); 
-                console.log(n);
+               
 
                 if(this.puzzleToInteract !== null)
                     this.puzzleToInteract.objectWord.AddLetter(n, this.puzzleToInteract.objectWord.offSetLetter, true);

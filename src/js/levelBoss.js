@@ -17,6 +17,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.load.image('text_bg','src/assets/bg/text_bg.png');
     this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml')
 
+    this.load.image('wordBg', 'src/assets/sprites/Boss/wordbg.png');
     this.load.image('boss_bg', 'src/assets/iglesia/church.png');
     this.load.image('tileset','src/assets/tiles/tileset.png');
     this.load.image('benches', 'src/assets/iglesia/church_bench.png')
@@ -26,7 +27,6 @@ export default class LevelBoss extends  Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
-    
     this.InitSound();
     
     //TileMap
@@ -52,14 +52,14 @@ export default class LevelBoss extends  Phaser.Scene {
     
     //convertir colisiones a matter
     this.matter.world.convertTilemapLayer(colliders);
-    this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss',this.player, "voz");
-    this.boss.setScale(0.15);
-    this.boss.flipX = true;
-    
     this.SetDialogues();
     //Player
     this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0,this.dialogoInicial);
     this.player.setDepth(1);
+    
+    this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss',this.player, "voz");
+    this.boss.setScale(0.15);
+    this.boss.flipX = true;
     
     
     this.FadeIn();
@@ -84,6 +84,11 @@ export default class LevelBoss extends  Phaser.Scene {
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
+    if(this.dialogoInicial.endMessage === this.dialogoInicial.i + 1 && !this.dialogoInicialFinished)
+    {
+      this.boss.agresivo = true;
+      this.dialogoInicialFinished = true;
+    }
   }
 
   LoadEssentialAssets() 
@@ -304,12 +309,16 @@ export default class LevelBoss extends  Phaser.Scene {
   }
 
   SetDialogues(){
+    const bossPosX = this.mapWidth*0.9;
+    const bossPosY = this.mapHeight*0.65;
 
-    this.trigger = this.matter.add.sprite(this.boss.x , this.boss.y);
+    this.dialogoInicialFinished =false;
+
+    this.trigger = this.matter.add.sprite(bossPosX , bossPosY);
     this.dialogoInicial = new Dialogue(this, ["Don Manuel: Buenas, hijo mio,¿Qué te trae por nuestra iglesia?","He oido Padre, que es usted especial",
     "Don Manuel:Pues has debido oir mal hijo mio", "Don Manuel:Pues no soy más que un hombre de Dios", "He oido que ha perdido usted la fe Padre",
     "Don Manuel:¡No digas sandeces... Yo no... Yo nunca..."]);
-    this.sensorInicial = Phaser.Physics.Matter.Matter.Bodies.circle(this.boss.x , this.boss.y, 900,{isSensor:true,isStatic:true});
+    this.sensorInicial = Phaser.Physics.Matter.Matter.Bodies.circle(bossPosX , bossPosY, 500,{isSensor:true,isStatic:true});
     this.sensorInicial.label = "inicial";
 
     this.trigger.setExistingBody(this.sensorInicial);
@@ -318,7 +327,8 @@ export default class LevelBoss extends  Phaser.Scene {
     (event,BodyA, BodyB)=>{
       if(BodyA.label === 'inicial'  && BodyB.label === 'player' || BodyB.label === 'inicial' && BodyA.label === 'player' ){
         this.dialogoInicial.onDialogue = true;
-        //this.inicial.body.destroy(true);
+        this.trigger.body.destroy(true);
+        
       }
     });
   
@@ -337,9 +347,11 @@ export default class LevelBoss extends  Phaser.Scene {
 
   PlayDialogoIntermedio(){
     this.dialogoIntermedio.onDialogue = true;
+    this.player.invent.changeDialogue(this.dialogoIntermedio);
   }
 
   PlayDialogoFinal(){
     this.dialogoFinal.onDialogue = true;
+    this.player.invent.changeDialogue(this.dialogoFinal);
   }
 }
