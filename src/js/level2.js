@@ -413,7 +413,17 @@ export default class Level2 extends  Phaser.Scene {
     if(BodyA.label === 'DialogoGuadalupe'  && BodyB.label === 'player' || BodyB.label === 'DialogoGuadalupe' && BodyA.label === 'player' ){
       this.dialogoGuadalupe.onDialogue = true;
       this.player.invent.changeDialogue(this.dialogoGuadalupe);
+      this.player.stopAndStay();
       this.guadalupe.body.destroy(true);
+    }
+  });
+
+  this.matter.world.on('collisionactive',
+  (event,BodyA, BodyB)=>{
+    if(BodyA.label === 'DialogoGuadalupe'  && BodyB.label === 'player' || BodyB.label === 'DialogoGuadalupe' && BodyA.label === 'player' ){
+
+      if(!this.dialogoGuadalupe.onDialogue)
+        this.player.freeMovement();
     }
   });
   }

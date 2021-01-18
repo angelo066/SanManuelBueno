@@ -406,7 +406,17 @@ export default class level1 extends Phaser.Scene {
         (event,BodyA, BodyB)=>{
           if(BodyA.label === 'DialogoVacas'  && BodyB.label === 'player' || BodyB.label === 'DialogoVacas' && BodyA.label === 'player' ){
             this.dialogoVacas.onDialogue = true;
+            this.player.invent.changeDialogue(this.dialogoVacas);
+            this.player.stopAndStay();
             this.triggerDialogo.destroy(true);
+          }
+        });
+
+        this.matter.world.on('collisionactive',
+        (event,BodyA, BodyB)=>{
+          if(BodyA.label === 'DialogoVacas'  && BodyB.label === 'player' || BodyB.label === 'DialogoVacas' && BodyA.label === 'player' ){
+            if(!this.dialogoVacas.onDialogue)
+              this.player.freeMovement();
           }
         });
   }

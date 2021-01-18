@@ -209,19 +209,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
         this.playerController.onFloor = false;
       }
-      //Idle
-      if (this.body.velocity.x === 0 && this.playerController.onFloor) {
-        this.anims.play('idle', true);
-      }
-      //Animación de salto
-      else if (this.body.velocity.x === 0) {
-        this.anims.play('jump', true);
-      }
-      //Para depurar el daño(Borrar)
-      if (this.damage.isDown) {
-        this.takeDamage(0.5, 0.1, this.x - 3000);
-      }
 
+      console.log("feo");
       //Attack
       this.attack.setX(this.x + this.width * 0.5);
       this.attack.setY(this.y);
@@ -246,13 +235,21 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         this.playerController.letter_Selected = null;
       }
 
-
       if (this.playerController.onAttack) {
         this.attack.setExistingBody(this.bodyAttack);
       }
       else {
         this.scene.matter.world.remove(this.attack.body);
       }
+    }
+
+    //Idle
+    if (this.body.velocity.x === 0 && this.playerController.onFloor) {
+      this.anims.play('idle', true);
+    }
+    //Animación de salto
+    else if (this.body.velocity.x === 0) {
+      this.anims.play('jump', true);
     }
   }
 
@@ -366,6 +363,18 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     console.log(letrita);
     this.invent.AddLetter(letrita);
   }
+  //Detiene al jugador y le impide moverse
+  stopAndStay()
+  {
+    // this.playerController.onDialogue.onDialogue = true;
+    this.body.velocity.x = 0;
+  }
+  //Libera al jugador, permitiendole input
+  freeMovement()
+  {
+    this.playerController.onDialogue.onDialogue = false;
+  }
+
 //cambia la pos de jugador dada  las coordenadas
   restorePos(_x, _y)
   {

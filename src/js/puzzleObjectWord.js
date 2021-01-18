@@ -188,6 +188,11 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
             duration: 1000
         });
         timeline.play();
+
+        if(this.objectWord.selector!==undefined)
+            this.objectWord.selector.destroy();
+
+        this.objectWord.letter_selected = null;
         // this.objectWord.container.setVisible(false);
     }
 
