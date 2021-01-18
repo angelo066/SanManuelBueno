@@ -2,7 +2,7 @@ import Word from'./word.js';
 import Proyectil from './Proyectil.js';
 import PuzzleObjectWord from './puzzleObjectWord.js';
 export default class Enemigo extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, key, player, deadWord)
+  constructor(scene, x, y, key, player, deadWord, finalDeadWord)
   {
     super(scene, x, y, key);
 
@@ -13,6 +13,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     this.lettersK = ["A" , "M", "I", "P", "Y"];   //Para las letras
   
     this.player = player;     //Para comprobar su posicion
+
+    this.finalDeadWord = finalDeadWord; // Palabra para dejar de morir
 
     this.Word = new PuzzleObjectWord(this.scene, this.x-500, this.y, 'wordBg', false, 900, '', deadWord, this.player);
     this.Word.setScaleSprite(0.5,0.5);
@@ -45,6 +47,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     };
 
     this.agresivo = false;
+    
+    this.muerto = false; 
   }
 
   preUpdate(time, delta){
@@ -53,13 +57,26 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
     //Compruebo si se muere
     if(this.Word.objectSolved() && !this.Word.complete){
       //Animación y cambio de fase
-      if(!this.fase)
-      {
-        this.fase = true;
-        this.scene.PlayDialogoIntermedio();
-        
-      }
-      else this.states.muriendo=true;
+
+      this.fase = true;
+      this.scene.PlayDialogoIntermedio();
+      this.fase = true;
+      this.scene.PlayDialogoIntermedio();
+      this.fase = true;
+      this.scene.PlayDialogoIntermedio();
+      this.finalPuzzle = new PuzzleObjectWord(this.scene, this.x-500, this.y, 'wordBg', false, 900, '', this.finalDeadWord, this.player);
+      this.finalPuzzle.setScaleSprite(0.5,0.5);
+      this.Word.complete=true;
+
+    }
+
+    if(this.finalPuzzle != undefined && this.finalPuzzle.objectSolved() && !this.finalPuzzle.complete){
+      this.agresivo = false;
+      this.scene.PlayDialogoFinal();
+      this.states.muriendo = true;
+      this.states.atacando = false;
+      this.states.idle = false;
+      this.finalPuzzle.complete = true;
     }
 
     this.ManejaEstados();
@@ -70,13 +87,16 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     if(this.states.idle){
       if(!this.fase)this.anims.play('Boss_idle1', true);
-      else this.anims.play('Boss_Idle2', true);
+      else this.anims.play('Boss_idle2', true);
     }
     else if(this.states.atacando){
       if(!this.fase)this.anims.play('Boss_attk1',true);
       else this.anims.play('Boss_attk2',true);
     }
-    else this.anims.play('Boss_Death',true);
+    else if(!this.muerto){
+      this.anims.play('Boss_Death',true);
+      this.muerto = true;
+    } 
   }
   //Dir: Para saber si es izq o derecha
   Creapalabra(dir)
@@ -85,8 +105,8 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
       const posY = (this.y + this.player.y) / 2;
 
-      // let palabra = new Proyectil(this.scene.matter.world,this.x + 50, posY ,this.lettersK[letter], -4*dir, 0, this, this.player);
-      // palabra.LanzaProyectil();
+      let palabra = new Proyectil(this.scene.matter.world,this.x + 50, posY ,this.lettersK[letter], -4*dir, 0, this, this.player);
+      palabra.LanzaProyectil();
   }
 
 }

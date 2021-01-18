@@ -27,6 +27,8 @@ export default class LevelBoss extends  Phaser.Scene {
 //coloca objetos apartir de los assets dentro de la escena
   create() 
   {
+    this.finished=false;
+
     this.InitSound();
     
     //TileMap
@@ -57,7 +59,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.player = new Player(this, this.mapWidth*0.1, this.cameras.main.height, 'player_run', 0,this.dialogoInicial);
     this.player.setDepth(1);
     
-    this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss',this.player, "voz");
+    this.boss= new Enemigo(this, this.mapWidth*0.9 , this.mapHeight*0.65,'Boss',this.player, "voz", "fe");
     this.boss.setScale(0.15);
     this.boss.flipX = true;
     
@@ -65,6 +67,10 @@ export default class LevelBoss extends  Phaser.Scene {
     this.FadeIn();
     
     this.SetAnims();
+
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+      this.scene.start('End');
+    });
   }
   //Inicia la banda sonora
   InitSound() {
@@ -353,5 +359,13 @@ export default class LevelBoss extends  Phaser.Scene {
   PlayDialogoFinal(){
     this.dialogoFinal.onDialogue = true;
     this.player.invent.changeDialogue(this.dialogoFinal);
+  }
+
+  FinDeJuego(){
+    if(this.dialogoFinal.endMessage === this.dialogoFinal.i + 1 && !this.finished)
+    {
+      this.cameras.main.fadeOut(1000, 0, 0, 0);
+      this.finished = true;
+    }
   }
 }

@@ -83,9 +83,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                     {
                         if(this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
                         {
-                            console.log("se la lleva");
                             bodyA.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
-                            console.log(bodyA.gameObject.playerController.letter_Selected);
                         }
                         if(this.objectWord.letter_selected === null) bodyA.gameObject.playerController.letter_Selected = null;
                     } 
@@ -94,9 +92,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                     {
                         if(this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
                         {
-                            console.log("se la lleva");
                             bodyB.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
-                            console.log(bodyB.gameObject.playerController.letter_Selected);
                         }
 
                         if(this.objectWord.letter_selected === null) bodyB.gameObject.playerController.letter_Selected = null;
