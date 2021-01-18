@@ -232,6 +232,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
         let n = this.playerController.letter_Selected.frame.name + 97;
         this.invent.AddLetter(String.fromCharCode(n));
         this.invent.puzzleToInteract.objectWord.removeLetter(this.playerController.letter_Selected);
+        if(this.invent.puzzleToInteract.objectWord.selector !== undefined) this.invent.puzzleToInteract.objectWord.selector.destroy();
         this.playerController.letter_Selected = null;
       }
 

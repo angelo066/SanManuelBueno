@@ -79,17 +79,28 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
 
                 if ((bodyA === wordBody && bodyB.label === 'player')|| (bodyB === wordBody && bodyA.label === 'player'))   
                 {
-                    if(bodyA.label === 'player' && this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
+                    if(bodyA.label === 'player')
                     {
-                        bodyA.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
-                        console.log(bodyA.gameObject.playerController.letter_Selected);
-                    }
+                        if(this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
+                        {
+                            console.log("se la lleva");
+                            bodyA.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
+                            console.log(bodyA.gameObject.playerController.letter_Selected);
+                        }
+                        if(this.objectWord.letter_selected === null) bodyA.gameObject.playerController.letter_Selected = null;
+                    } 
                     
-                    if(bodyB.label === 'player' && this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
+                    if(bodyB.label === 'player')
                     {
-                        bodyB.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
-                        console.log(bodyB.gameObject.playerController.letter_Selected);
-                    }
+                        if(this.objectWord.letter_selected !== null && this.objectWord.letter_selected.tinte)
+                        {
+                            console.log("se la lleva");
+                            bodyB.gameObject.playerController.letter_Selected = this.objectWord.letter_selected;
+                            console.log(bodyB.gameObject.playerController.letter_Selected);
+                        }
+
+                        if(this.objectWord.letter_selected === null) bodyB.gameObject.playerController.letter_Selected = null;
+                    } 
                 }
             }
         });
@@ -128,7 +139,6 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
 
     preUpdate()
     {
-        console.log(this.objectWord.word);
         this.objectWord.activateStrikeMode(this.player.playerController.isStriking);
     }
 
