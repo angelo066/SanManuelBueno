@@ -35,11 +35,15 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
         //this.compundBody = Phaser.Physics.Matter.Matter.Body.create(ProyectilBody);
         this.setBody({
             type:'circle',
-            width:64,
-            height:64,
+            width:128,
+            height:128,
+            label:'Proyetil'
         });
 
+        this,this.body.label='Proyectil';
+
         this.body.isSensor = true;
+        
 
         this.objectWord = new Word({
             scene: this.scene,
@@ -52,11 +56,11 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
 
         this.scene.matter.world.on('collisionstart',
         (event,BodyA, BodyB)=>{
-            if(BodyA.label === 'Circle Body'  && BodyB.label === 'player' || BodyB.label === 'Circle Body' && BodyA.label === 'player' ){
+            if(BodyA.label === 'Proyectil'  && BodyB.label === 'player' || BodyB.label === 'Proyectil' && BodyA.label === 'player' ){
 
                 if(BodyA.label == "player")
                 {
-                    if(BodyB.label === 'Circle Body' && this.body !== undefined && BodyB.id === this.body.id)
+                    if(BodyB.label === 'Proyectil' && this.body !== undefined && BodyB.id === this.body.id)
                     {
                          BodyA.gameObject.takeDamage(0.4)
                          BodyB.gameObject.objectWord.container.destroy(true);
@@ -65,9 +69,35 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
                 }
                 else
                 {
-                    if(BodyA.label === 'Circle Body' && BodyA.id === this.body.id)
+                    if(BodyA.label === 'Proyectil' && BodyA.id === this.body.id)
                     {
                          BodyB.gameObject.takeDamage(0.4)
+                         BodyA.gameObject.objectWord.container.destroy(true);
+                         BodyA.destroy(true);
+                    }
+                }
+            }
+
+            //Para que se destruyan con el ataque del jugador
+            if(BodyA.label === 'Proyectil'  && BodyB.label ===  'player_attack' || BodyB.label === 'Proyectil' && BodyA.label ===  'player_attack' )
+            {
+                console.log(this.body.id);
+                console.log(BodyB.id);
+                console.log(BodyA.id);
+                if(BodyA.label == 'player_attack')
+                {
+                    if(BodyB.label === 'Proyectil' && this.body !== undefined && BodyB.id === this.body.id)
+                    {
+                        this.player.addLetter(this.objectWord.word[0]);
+                         BodyB.gameObject.objectWord.container.destroy(true);
+                         BodyB.destroy(true);
+                    }
+                }
+                else
+                {
+                    if(BodyA.label === 'player_attack' && BodyA.id === this.body.id)
+                    {
+                         this.player.addLetter(this.objectWord.word[0]);
                          BodyA.gameObject.objectWord.container.destroy(true);
                          BodyA.destroy(true);
                     }
