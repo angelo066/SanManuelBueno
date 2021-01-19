@@ -8,9 +8,9 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.scene.add.existing(this); //Para que se renderice
 
-    this.time = 5000;      //Timepo que tarda en crear un proyectil
+    this.time = 10000;      //Timepo que tarda en crear un proyectil
 
-    this.lettersK = ["A" , "M", "I", "P", "Y"];   //Para las letras
+    this.lettersK = ["Vida" , "Oracion", "Zanjar", "Falso", "Eternidad"];   //Para las letras
   
     this.player = player;     //Para comprobar su posicion
 
