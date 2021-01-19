@@ -81,9 +81,6 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
             //Para que se destruyan con el ataque del jugador
             if(BodyA.label === 'Proyectil'  && BodyB.label ===  'player_attack' || BodyB.label === 'Proyectil' && BodyA.label ===  'player_attack' )
             {
-                console.log(this.body.id);
-                console.log(BodyB.id);
-                console.log(BodyA.id);
                 if(BodyA.label == 'player_attack')
                 {
                     if(BodyB.label === 'Proyectil' && this.body !== undefined && BodyB.id === this.body.id)
@@ -95,7 +92,7 @@ export default class Proyectil extends Phaser.Physics.Matter.Sprite{
                 }
                 else
                 {
-                    if(BodyA.label === 'player_attack' && BodyA.id === this.body.id)
+                    if(BodyA.label === 'Proyectil' && BodyA.id === this.body.id)
                     {
                          this.player.addLetter(this.objectWord.word[0]);
                          BodyA.gameObject.objectWord.container.destroy(true);

@@ -69,7 +69,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.SetAnims();
 
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-      this.scene.start('End');
+      this.scene.start('Outro');
     });
   }
   //Inicia la banda sonora
