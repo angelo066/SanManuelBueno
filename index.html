@@ -67,11 +67,11 @@
               mode: Phaser.Scale.FIT,
               autoCenter: Phaser.Scale.CENTER_BOTH,
             },
-            scene: [MenuScene,Intro, Level1, Level2, DeathBox, GameScene , LevelBoss,Outro],
+            scene: [MenuScene,Intro, Level1, Level2, DeathBox, GameScene , LevelBoss, Outro],
             physics: {
               default: "matter",
               matter: { gravity: { y: 1 },
-              debug: false,
+              debug: true,
               setBounds: {left:true, right: false, top: false, bottom: false}
               }
             },

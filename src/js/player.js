@@ -174,12 +174,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       dialogue:dialogue
     });
 
-    this.invent.AddLetter("V");
-    this.invent.AddLetter("O");
-    this.invent.AddLetter("Z");
-    this.invent.AddLetter("F");
-    this.invent.AddLetter("E");
-
     this.invent.setScrollFactor(0);
     this.invent.setDepth(20);
   }
