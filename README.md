@@ -21,7 +21,11 @@ mechanics introduced progressively and subtly, as well as the peculiar rules of 
 </div>
 
 ![GDD](./src/WebMedia/labels/en/gdd.png)
-[Game Design Document(WIP)](https://drive.google.com/file/d/1s9nX9cytcLNmPD6Ch-pfDBtSYY2wt9WI/view?usp=sharing)
+<div>
+	<object data="./src/WebMedia/GDD/GDD_ElBuenMartir.pdf" type="application/pdf" width="700px" height="700px">
+		<embed src="./src/WebMedia/GDD/GDD_ElBuenMartir.pdf"></embed>
+	</object>
+</div>
 
 ![Desarroladores](./src/WebMedia/labels/en/developer.png)
 ![logoStudio](./src/WebMedia/labels/studio.png)
@@ -31,7 +35,11 @@ mechanics introduced progressively and subtly, as well as the peculiar rules of 
 - Iván Prado Echegaray ([IvanPradoEchegaray](https://github.com/IvanPradoEchegaray))
 - José Daniel Rave Robayo ([JosedaMachine](https://github.com/JosedaMachine))
 
+![Pivotal](./src/WebMedia/labels/en/pivotal.png)
+> Check out our planning proyect here
+[El buen Martir Pivotal Tracker (permission required)](https://www.pivotaltracker.com/n/projects/2468478)
+
 ![Licencia](./src/WebMedia/labels/en/license.png)
 
-![Mit](./src/WebMedia/brands/license.png), Copyrigth(c) 2019 Carlos León
+![Mit](./src/WebMedia/brands/license.png), Copyrigth(c) 2019 Unamuno's Moustache
 
