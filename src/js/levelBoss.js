@@ -321,8 +321,8 @@ export default class LevelBoss extends  Phaser.Scene {
     this.dialogoInicialFinished =false;
 
     this.trigger = this.matter.add.sprite(bossPosX , bossPosY);
-    this.dialogoInicial = new Dialogue(this, ["Don Manuel: Buenas, hijo mio,¿Qué te trae por nuestra iglesia?","He oido Padre, que es usted especial",
-    "Don Manuel:Pues has debido oir mal hijo mio", "Don Manuel:Pues no soy más que un hombre de Dios", "He oido que ha perdido usted la fe Padre",
+    this.dialogoInicial = new Dialogue(this, ["Don Manuel: Buenas, hijo mío,¿Qué te trae por nuestra iglesia?","He oído Padre, que es usted especial",
+    "Don Manuel:Pues has debido oir mal hijo mío", "Don Manuel:Pues no soy más que un hombre de Dios", "He oído que ha perdido usted la fe Padre",
     "Don Manuel:¡No digas sandeces... Yo no... Yo nunca..."]);
     this.sensorInicial = Phaser.Physics.Matter.Matter.Bodies.circle(bossPosX , bossPosY, 1000,{isSensor:true,isStatic:true});
     this.sensorInicial.label = "inicial";
@@ -338,12 +338,12 @@ export default class LevelBoss extends  Phaser.Scene {
       }
     });
   
-    this.dialogoIntermedio = new Dialogue(this,["DOn Manuel: ¡Aléjate de mi templo y de mi rabaño!"]);
+    this.dialogoIntermedio = new Dialogue(this,["Don Manuel: ¡Aléjate de mi templo y de mi rabaño!"]);
 
     this.dialogoFinal = new Dialogue(this, ["...","...", "Así es hijo mío", "No creo más en Dios",
     "¿Has hablado con Lázaro? es un hombre de ciencia del pueblo", "Me ha hablado tanto de ciencia",
-    "Tantas cosas que explicabamos mediante Dios, ahora ya no son Dios",
-    "Y me hace pensar, ¿Por qué iba a ser nada Dios?", "¿No será simplemente la dulce las mentiras?",
+    "Tantas cosas que explicábamos mediante Dios, ahora ya no son Dios",
+    "Y me hace pensar, ¿Por qué iba a ser nada Dios?", "¿No será simplemente la dulce de las mentiras?",
     "Contada desde el albor de los tiempos, para que no le tengamos miedo a la vida",
     "Hijo mío, no puedo dejar que mis feligreses se enteren",
     "No quiero que pasen por la misma agonía que yo", "La agonía de saber que nada importa", "Que todos estamos condenados a lo mismo",

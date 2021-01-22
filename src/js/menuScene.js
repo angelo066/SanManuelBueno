@@ -47,7 +47,7 @@ export default class MenuScene extends  Phaser.Scene {
                 y: { min: 100, max: this.game.config.height*0.7},
                 speedX: { min: 100, max: 300 },
                 speedY: { min: -50, max: 50 },
-                lifespan: 7000, //lo que dira la particula
+                lifespan: 7000, //lo que dura la particula
                 scale: {start: 0.7, end: 0.1},
                 rotate: {start: 0, end: 360},
                 frequency: 400

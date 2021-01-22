@@ -13,6 +13,7 @@ export default class Dialogue extends Phaser.GameObjects.Container{
         this.dialogue.setScrollFactor(0);
         this.counter = 0;
         this.endMessage = message.length;
+
         //flag de dialogo activo
         this.onDialogue = false;
         this.scene.input.on('pointerdown', ()=> {

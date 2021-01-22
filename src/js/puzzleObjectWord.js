@@ -121,7 +121,7 @@ export default class PuzzleObjectWord extends Phaser.GameObjects.Container{
                             bodyB.gameObject.playerController.letter_Selected = null;
                             bodyB.gameObject.invent.canAdd = false;
                         }
-                        else if(bodyB.label === 'player')
+                        else if(bodyA.label === 'player')
                         {
                             bodyA.gameObject.playerController.letter_Selected = null;
                             bodyA.gameObject.invent.canAdd = false;

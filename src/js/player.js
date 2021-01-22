@@ -40,6 +40,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     });
     this.bodyAttack = M.Body.create({parts:[this.playerController.sensors.right],      friction: 0.01,      restitution: 0.05})
     this.setExistingBody(compoundBody).setFixedRotation() // Sets max inertia to prevent rotation
+    //El setExistingBody al parecer nos cambia la pos inicial del jugador
+    this.setPosition(x, y);
     //#endregion
     //Para detectar el filtro Gris
     let postFxPlugin = scene.plugins.get('rexgrayscalepipelineplugin');
@@ -59,6 +61,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     //timer de curación
     this.timer = 500;
     //Inventario
+
+    this.CreateParticles();
+
     this.SetInventory(scene,dialogue);
 
     //Colisiones    
@@ -136,7 +141,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       this.playerController.canMove = false;
     else
       this.playerController.canMove = true;
-    
+
     //Para que no se ejecute la muerte infinitamente
     if(this.lifeStat<=0 && this.playerController.canMove)
         this.death();
@@ -285,7 +290,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   }
 
   setEvents()
-{
+  { 
     //Control animaciones
     this.attack.on('animationcomplete', function (anim, frame) {
       this.emit('animationcomplete_' + anim.key, anim, frame);
@@ -338,13 +343,12 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 //Cura la vida del jugador cada lifeTime, constante inicializada en la constructora
  cureHealth()
  {
-   if(this.lifeStat >0 && this.lifeStat < 1)
-   {
-      this.lifeStat += 0.1;
 
-      if(this.cameraFilter.intensity > 0)
+  if(this.cameraFilter.intensity > 0)
         this.cameraFilter.intensity-=0.05;
-   }
+
+   if(this.lifeStat >0 && this.lifeStat < 1)
+      this.lifeStat += 0.1;
 }
 //Detiene el input del jugador y reinicia el nivel
  death()
@@ -376,6 +380,49 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.x = _x;
     this.y = _y;
   }
+  //Crea las particulas del juagador en el suelo
+  CreateParticles()
+  {
+    //Hojas
+    let leaves = this.scene.add.particles('leaves');
+    leaves.createEmitter({
+        frames: [{key: 'leaves', frame: 0}],
+        x: -50,
+        y: { min: 800, max: this.scene.game.config.height*0.7},
+        speedX: { min: 100, max: 300 },
+        speedY: { min: -50, max: 50 },
+        lifespan: 7000, //lo que dura la particula
+        scale: {start: 0.7, end: 0.1},
+        rotate: {start: 0, end: 360},
+        frequency: 400
+    });
+
+
+    this.particles = this.scene.add.particles('dust');
+
+    let cuerpo = this.body;
+    let emmiter = this.particles.createEmitter({
+        frames: [{key: 'dust', frame: 0}],
+        speed: {
+            onEmit: function ()
+            {
+                return cuerpo.speed;
+            }
+        },
+        lifespan: { min: 100, max: 800 },
+        alpha: {
+          onEmit: function (particle, key, t, value)
+          {
+              return Phaser.Math.Percent(cuerpo.speed, 0, 300) * 1000;
+          }
+        },
+        scale: { start: 0, end: 1 },
+        frequency: 30,
+        // blendMode: 'ADD'
+    });
+
+    emmiter.startFollow(this, 0, this.x*0.1);
+  }
 //inicializa el input del jugador
   InitInput()
   {
@@ -387,5 +434,5 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.keycodeShift = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     this.recoverLetter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
   }
-
+  //Se acerca la camara un poco al jugador
 }

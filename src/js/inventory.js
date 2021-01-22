@@ -106,11 +106,9 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
         if(this.NumElems< this.limit)
         {
             this.word.AddLetter(letrita, this.Letteroffset*2, false);
-        
             this.NumElems++;
         }
         else console.log("");
-
     }
 
     moveSelection(x)

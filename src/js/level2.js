@@ -398,7 +398,7 @@ export default class Level2 extends  Phaser.Scene {
   
   setDialogues(){ 
   //Dialogo
-  this.dialogoInicio = new Dialogue(this,["Aquella iglesia, en aquel templo a la fe ciega conocí a Manuel", "Santo por su devoción y sacrificio a su rebaño"]);
+  this.dialogoInicio = new Dialogue(this,["Aquella iglesia, en aquel templo a la fe ciega conocí a Manuel", "Santo por su devocióón y sacrificio a su rebaño"]);
   this.dialogoInicio.onDialogue = true;
 
   this.dialogoGuadalupe = new Dialogue(this, ["Señora Guadalupe: ¡Ay de mi, Mi marido falleció hace 3 días!", "Señora Guadalupe: ¡Y no tengo ni una triste flor que dejarle en su lecho"]);

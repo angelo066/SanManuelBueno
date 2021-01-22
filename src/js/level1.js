@@ -49,6 +49,7 @@ export default class level1 extends Phaser.Scene {
     this.load.image('altar', 'src/assets/props/altar/altar.png'); 
     this.load.image('vela', 'src/assets/sprites/game_objects/velas.png');
     this.load.image('leaves', 'src/assets/sprites/particles/leaves.png');
+   
     this.load.audio('bandaSonora','src/assets/sonido/bandasonoracompr.mp3');
     this.load.tilemapTiledJSON('tilemap_level1', 'src/assets/tiles/level1.json');
     this.load.bitmapFont('dialogue_font','src/assets/fonts/dialogue.png','src/assets/fonts/dialogue.xml');
@@ -94,7 +95,7 @@ export default class level1 extends Phaser.Scene {
     this.SetTileMap(); 
     
     //Player
-    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height, 'player_run', 0, this.dialogoInicio).setDepth(2);
+    this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height*1.2, 'player_run', 0, this.dialogoInicio).setDepth(2);
 
     //Crea los puzzles
     this.SetPuzzles();
@@ -142,7 +143,6 @@ export default class level1 extends Phaser.Scene {
       this.waterfall.destroy(true);
       this.waterfall2.destroy(true);
     }
-    
   }
 
   LoadEssentialAssets() 
@@ -225,10 +225,10 @@ export default class level1 extends Phaser.Scene {
     this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
+    this.load.image('dust', 'src/assets/sprites/particles/dust.png');
   }
 
   SetPuzzles() {
-
     //#region Puzzle 1
     this.altar = new PuzzleObjectWord(this, this.game.config.width / 3, this.game.config.height * 1.37, 'altar', false, 3000, 'Altar', 'talar',this.player);
     this.altar.sprite.setDepth(1);
@@ -237,6 +237,11 @@ export default class level1 extends Phaser.Scene {
     this.arbol = this.add.sprite(this.game.config.width * 0.7, this.game.config.height * 1.05, 'arbol', 0).setDepth(1);
     this.arbol.flipX = true;
     this.arbol.setDepth(1); //habria que hacer otras cosas pero luego Juan lo hace porque es nuestro padre
+
+    let muro = this.matter.add.image(this.arbol.x,this.arbol.y);
+    let mPart = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.arbol.x+ this.arbol.width*0.186,this.arbol.y+this.arbol.height*0.2,32, 64*6,{isStatic:true});
+    muro.setExistingBody(mPart).setFixedRotation();
+
     //cuando termine la animacion del arbol se crea el collide
     this.arbol.on('animationcomplete',(anim)=>{
       if(anim.key === 'talado'){
@@ -244,6 +249,8 @@ export default class level1 extends Phaser.Scene {
         let puente = this.matter.add.image(this.arbol.x,this.arbol.y);
         let rectangle = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.arbol.x,this.arbol.y+this.arbol.height*0.45,64*6,32,{isStatic:true});
         puente.setExistingBody(rectangle).setFixedRotation();
+
+        muro.destroy(true);
       }
     },this.arbol)
     //#endregion
@@ -356,7 +363,6 @@ export default class level1 extends Phaser.Scene {
     //Offeset para seguir al jugador
     this.cameras.main.followOffset.set(0,125);
     this.cameras.main.zoomTo(0.8, 4000);
-
   }
 
   createParticles(particleSprite)
