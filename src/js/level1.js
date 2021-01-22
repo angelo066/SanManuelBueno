@@ -94,6 +94,9 @@ export default class level1 extends Phaser.Scene {
     //TileMap
     this.SetTileMap(); 
     
+    //Particulas
+    this.CreateDetailParticles();
+
     //Player
     this.player = new Player(this, this.cameras.main.width*0.125 , this.cameras.main.height*1.2, 'player_run', 0, this.dialogoInicio).setDepth(2);
 
@@ -119,6 +122,21 @@ export default class level1 extends Phaser.Scene {
     });
     this.setEnd();
   }
+  CreateDetailParticles() {
+    let leaves = this.add.particles('leaves');
+    leaves.createEmitter({
+      frames: [{ key: 'leaves', frame: 0 }],
+      x: -50,
+      y: { min: 0, max: this.cameras.main.height * 0.9 },
+      speedX: { min: 100, max: 300 },
+      speedY: { min: -50, max: 50 },
+      lifespan: { min: 7000, max: 14000 },
+      scale: { start: 0.7, end: 0.1 },
+      rotate: { start: 0, end: 360 },
+      frequency: 200
+    });
+  }
+
 //actualiza los eventos. El delta es para calcular las fisicas
   update(time, delta)
   {
@@ -287,11 +305,29 @@ export default class level1 extends Phaser.Scene {
     this.velaAnima = this.add.sprite(this.game.config.width * 2.9, this.game.config.height / 0.53, 'vela', 0).setDepth(1);
     this.scaleThis(this.velaAnima, 0.1, 0.1);
 
-    let cascadebody = Phaser.Physics.Matter.Matter.Bodies.rectangle(101 * 64 + 32, 30 * 64 + 30, 64, 64 * 9, { isStatic: true});
     this.cascade = this.matter.add.image(74 * 64, 17 * 64, undefined);
+    let cascadebody = Phaser.Physics.Matter.Matter.Bodies.rectangle(101 * 64 + 32, 30 * 64 + 30, 64, 64 * 9, { isStatic: true});
     this.cascade.setExistingBody(cascadebody);
-    //#endregion
 
+
+    this.pozo = this.matter.add.image(74 * 64, 17 * 64, undefined);
+    this.senSorFinal = Phaser.Physics.Matter.Matter.Bodies.rectangle(this.game.config.width * 3.42, this.game.config.height / 0.43, 64*3, 32,{isSensor:true,isStatic:true});
+    this.senSorFinal.label = 'Cascada';
+    this.pozo.setExistingBody(this.senSorFinal);
+
+    this.matter.world.on('collisionstart',
+    (event,BodyA, BodyB)=>{
+      if(BodyA.label === 'Cascada'  && BodyB.label === 'player' || BodyB.label === 'Cascada' && BodyA.label === 'player' )
+      {
+        if(BodyA.label== 'player')
+          BodyA.gameObject.restorePos(this.game.config.width * 2.9, this.game.config.height / 0.53);
+
+        if(BodyB.label== 'player')
+          BodyB.gameObject.restorePos(this.game.config.width * 2.9, this.game.config.height / 0.53);
+      }
+    });
+
+    //#endregion
   }
 
   SetTileMap() {
@@ -337,6 +373,7 @@ export default class level1 extends Phaser.Scene {
 
     this.bg = this.add.image(3840, this.cameras.main.centerY, 'bg1');
     this.scaleThis(this.bg, 3, 3);
+
   }
 
   InitSounds() {
@@ -357,7 +394,7 @@ export default class level1 extends Phaser.Scene {
   {
     //Camara
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    this.cameras.main.setBounds(0,0,7680, 2560);  
+    this.cameras.main.setBounds(0,0,this.bg.height*5.3, this.bg.width);  
     
     this.cameras.main.startFollow(this.player, false, 0.03, 0.03);
     //Offeset para seguir al jugador

@@ -18,7 +18,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       onAttack:false,
       isStriking:false,
       letter_Selected:null,
-      onDialogue:dialogue
+      onDialogue:dialogue,
     };
 
     //#region Physics Stats
@@ -60,10 +60,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     this.attack.setExistingBody(this.bodyAttack);
     //timer de curación
     this.timer = 500;
-    //Inventario
-
+    
+    //Crea las particulas de polvo
     this.CreateParticles();
-
+    
+    //Inventario
     this.SetInventory(scene,dialogue);
 
     //Colisiones    
@@ -105,8 +106,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
 
     //Input
     this.InitInput();
-
-
     //animaciones
     this.InitAnims();
 
@@ -139,7 +138,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     //Si esta en dialogo no se puede mover
     if(this.playerController.onDialogue !== undefined && this.playerController.onDialogue.onDialogue)
       this.playerController.canMove = false;
-    else
+    else if(this.lifeStat > 0)
       this.playerController.canMove = true;
 
     //Para que no se ejecute la muerte infinitamente
@@ -245,11 +244,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
     }
 
     //Idle
-    if (this.body.velocity.x === 0 && this.playerController.onFloor) {
+    if (this.body.velocity.x === 0 && this.playerController.onFloor && this.lifeStat > 0) {
       this.anims.play('idle', true);
     }
     //Animación de salto
-    else if (this.body.velocity.x === 0) {
+    else if (this.body.velocity.x === 0 && this.lifeStat > 0) {
       this.anims.play('jump', true);
     }
   }
@@ -323,7 +322,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
       ease: 'Expo'
      });
 
-    this.scene.cameras.main.shake(300, 0.005);
+    this.scene.cameras.main.shake(500, 0.005);
 
     this.scene.cameras.main.once('camerafadeoutcomplete', function (camera) {
       camera.fadeIn(150, 100);
@@ -383,20 +382,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
   //Crea las particulas del juagador en el suelo
   CreateParticles()
   {
-    //Hojas
-    let leaves = this.scene.add.particles('leaves');
-    leaves.createEmitter({
-        frames: [{key: 'leaves', frame: 0}],
-        x: -50,
-        y: { min: 800, max: this.scene.game.config.height*0.7},
-        speedX: { min: 100, max: 300 },
-        speedY: { min: -50, max: 50 },
-        lifespan: 7000, //lo que dura la particula
-        scale: {start: 0.7, end: 0.1},
-        rotate: {start: 0, end: 360},
-        frequency: 400
-    });
-
+    
 
     this.particles = this.scene.add.particles('dust');
 
@@ -409,19 +395,19 @@ export default class Player extends Phaser.Physics.Matter.Sprite{
                 return cuerpo.speed;
             }
         },
-        lifespan: { min: 100, max: 800 },
+        lifespan: { min: 100, max: 1000 },
         alpha: {
           onEmit: function (particle, key, t, value)
           {
-              return Phaser.Math.Percent(cuerpo.speed, 0, 300) * 1000;
+              return Phaser.Math.Percent(cuerpo.speed, 0, 300) * 1300;
           }
         },
-        scale: { start: 0, end: 1 },
-        frequency: 30,
+        scale: { start: 0, end: 1.0 },
+        rotate: {start: 0, end: 60},
+        frequency: 40,
         // blendMode: 'ADD'
     });
-
-    emmiter.startFollow(this, 0, this.x*0.1);
+    emmiter.startFollow(this, 0, this.y*0.04);
   }
 //inicializa el input del jugador
   InitInput()

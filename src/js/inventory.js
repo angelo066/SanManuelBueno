@@ -34,7 +34,8 @@ export default class Inventory extends Phaser.GameObjects.Sprite{
             y: this.y,
             word: '',
             interactive: false,
-            letter: null
+            letter: null,
+            titada: false
           });
         //Tamaño de las letras
         this.word.container.setScrollFactor(0);

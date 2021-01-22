@@ -8,7 +8,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.scene.add.existing(this); //Para que se renderice
 
-    this.time = 1000;      //Timepo que tarda en crear un proyectil
+    this.time = 2500;      //Timepo que tarda en crear un proyectil
 
     this.lettersK = ["Vida" , "Oracion", "Zanjar", "Falso", "Eternidad"];   //Para las letras
   
@@ -16,14 +16,14 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
 
     this.finalDeadWord = finalDeadWord; // Palabra para dejar de morir
 
-    this.Word = new PuzzleObjectWord(this.scene, this.x-500, this.y, 'wordBg', false, 900, '', deadWord, this.player);
+    this.Word = new PuzzleObjectWord(this.scene,scene.mapWidth*0.7, scene.mapHeight*0.5, 'wordBg', false, 1200, '', deadWord, this.player);
     this.Word.setScaleSprite(0.5,0.5);
 
 
     this.fase=false; //False cuando está en primera y true cuando está en segunda
 
 
-    //Timer de phaser
+    //Timer para lanzar palabras
     var timer = scene.time.addEvent({
       delay: this.time,                // ms
       callback: () => {
@@ -67,7 +67,6 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       this.finalPuzzle = new PuzzleObjectWord(this.scene, this.x-500, this.y, 'wordBg', false, 900, '', this.finalDeadWord, this.player);
       this.finalPuzzle.setScaleSprite(0.5,0.5);
       this.Word.complete=true;
-
     }
 
     if(this.finalPuzzle != undefined && this.finalPuzzle.objectSolved() && !this.finalPuzzle.complete){
@@ -112,6 +111,7 @@ export default class Enemigo extends Phaser.GameObjects.Sprite{
       const posY = (this.y + this.player.y) / 2;
 
       let palabra = new Proyectil(this.scene.matter.world,this.x + 50, posY ,this.lettersK[letter], -4*dir, 0, this, this.player);
+
       palabra.LanzaProyectil();
   }
 

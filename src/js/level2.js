@@ -123,7 +123,7 @@ export default class Level2 extends  Phaser.Scene {
     this.setDialogues();
     
     //Player
-    this.player = new Player(this, /*this.cameras.main.width*0.125 */3000 , this.cameras.main.height, 'player_run', 0, this.dialogoInicio).setDepth(15);
+    this.player = new Player(this,this.cameras.main.width*0.08, this.cameras.main.height*1.4, 'player_run', 0, this.dialogoInicio).setDepth(15);
     
     this.SetPuzzles();
 
@@ -349,6 +349,7 @@ export default class Level2 extends  Phaser.Scene {
     this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
+    this.load.image('dust', 'src/assets/sprites/particles/dust.png');
   }
 
   FadeIn()

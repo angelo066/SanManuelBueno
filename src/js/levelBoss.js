@@ -177,6 +177,7 @@ export default class LevelBoss extends  Phaser.Scene {
     this.load.image('feather', 'src/assets/sprites/unamuno/feather.png');
     this.load.image('inventory', 'src/assets/inventory/pergamino.png');
     this.load.image('selection', 'src/assets/inventory/selector.png');
+    this.load.image('dust', 'src/assets/sprites/particles/dust.png');
   }
 
   loadBossAssets()
@@ -200,7 +201,7 @@ export default class LevelBoss extends  Phaser.Scene {
     })
     this.load.spritesheet({
       key:'Boss_Death',
-      url:'src/assets/sprites/Boss/donManuelDeathSS.png',
+      url:'src/assets/sprites/Boss/donManuelDeathSST.png',
       frameConfig:{
         frameWidth:1082,
         frameHeight:1922
@@ -216,10 +217,10 @@ export default class LevelBoss extends  Phaser.Scene {
     })
     this.load.spritesheet({
       key:'Boss_attck2',
-      url:'src/assets/sprites/Boss/attck2ndSS.png',
+      url:'src/assets/sprites/Boss/attck2ndSST.png',
       frameConfig:{
-        frameWidth:1082,
-        frameHeight:1922
+        frameWidth:1248,
+        frameHeight:1848
       }
     })
   }
